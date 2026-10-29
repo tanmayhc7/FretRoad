@@ -91,6 +91,8 @@ The full list, including what is planned, is in [PRACTICE_IDEAS.md](PRACTICE_IDE
 
 ## Pick your story
 
+Progress is stored in your browser. Use **Save progress to file** and **Load progress from file** at the bottom of the map to move it to another browser or device.
+
 The same lessons, puzzles and quizzes sit under three storylines. Choose on first launch, or switch any time from the **Story** button without losing progress. Each story changes the narrator, the place names, the dialogue and the map scenery.
 
 <div align="center">
@@ -150,6 +152,7 @@ index.html            page shell, loads the files below in order
 css/style.css         all styling
 js/
   core.js             constants, helpers, saved progress
+  backup.js           save/load progress to a file (move it between browsers)
   audio.js            plucked-string synthesiser (Karplus-Strong)
   fretboard.js        the SVG fretboard
   story-core.js       storyline engine and the story picker
