@@ -159,7 +159,7 @@ Ideas, bug reports and especially **real-guitar test recordings** are welcome. O
 
 ## License
 
-Not yet chosen. A permissive open-source license will be added before the first release.
+[MIT](LICENSE). Free to use, change and share.
 
 <div align="center">
 <br>
