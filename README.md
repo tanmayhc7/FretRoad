@@ -73,12 +73,12 @@ Each ends in a five-question quiz. Four right on the first try opens the next ro
 </td>
 <td width="50%" valign="top">
 
-### 27 practice drills
+### 34 practice drills
 Three tiers, each unlocked by the stop that teaches it.
 
-- **Beginner:** note hunting, open strings, intervals, open chords, triads, time signatures, tuner
-- **Intermediate:** scale spelling and degrees, chord qualities, chord families, barre shapes, chord and scale ear training
-- **Advanced:** the seven modes, 19 scales, extended chords, minor-key and seventh-chord families
+- **Beginner:** note hunting, open strings, intervals, open chords, triads, time signatures, tempo and note values, strumming patterns, tuner
+- **Intermediate:** scale spelling and degrees, chord qualities, chord families, barre shapes, circle of fifths, capo and shapes, triad inversions, arpeggios, chord and scale ear training
+- **Advanced:** the seven modes, 19 scales, extended chords, chord-scale matching, minor-key and seventh-chord families
 
 The full list, including what is planned, is in [PRACTICE_IDEAS.md](PRACTICE_IDEAS.md).
 
