@@ -9,3 +9,6 @@ archive/
 archive.local/
 NAMES.md
 NAMES.local.md
+
+# Build output
+dist/

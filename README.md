@@ -46,7 +46,7 @@ The quickest way is the [live version](https://tanmayhc7.github.io/FretRoad/). T
 ```bash
 git clone https://github.com/tanmayhc7/FretRoad.git
 cd FretRoad
-open prototype/index.html        # macOS. On Linux: xdg-open. On Windows: start
+open index.html        # macOS. On Linux: xdg-open. On Windows: start
 ```
 
 Use Chrome or Edge for the best sound and microphone support. Click anywhere on the page once so the browser allows audio.
