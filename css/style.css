@@ -312,3 +312,15 @@ body.has-world .node .name{paint-order:stroke;stroke:#02030a;stroke-width:6px;st
 body.has-world .node.locked .name{fill:#e6e8f6;opacity:1}
 body.has-world{--panel:rgba(3,6,24,.88);--haze:#d2d6f0}
 body[data-world="jungle"]{--panel:rgba(2,20,12,.88);--haze:#cfe8d6}
+
+/* map characters */
+.mbob{animation:mbob 1.1s ease-in-out infinite}
+@keyframes mbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+.mwob{transform-box:fill-box;transform-origin:50% 100%;animation:mwob 1.2s ease-in-out infinite}
+@keyframes mwob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.mballoon{animation:mbal 2.4s ease-in-out infinite}
+@keyframes mbal{0%,100%{transform:translate(0,0)}50%{transform:translate(3px,-4px)}}
+.mglow{animation:lamp 2.2s ease-in-out infinite}
+.mwave{transform-box:fill-box;transform-origin:100% 100%;animation:mwave 1.6s ease-in-out infinite}
+@keyframes mwave{0%,100%{transform:rotate(0)}50%{transform:rotate(-24deg)}}
+@media (prefers-reduced-motion:reduce){.mbob,.mwob,.mballoon,.mglow,.mwave{animation:none}}
