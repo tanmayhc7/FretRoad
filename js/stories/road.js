@@ -1,6 +1,6 @@
 /* Storyline: The Night Road (the original story). Narrator: Marlow, an old session player. */
 registerStory({
-  id:'road', name:'The Night Road', swatch:'linear-gradient(135deg,#251d57,#c9607e)',
+  id:'road', world:'road', name:'The Night Road', swatch:'linear-gradient(135deg,#251d57,#c9607e)',
   blurb:'A broken-down van, a silent amp and a tour to finish. Calm, a little wry.',
   mentor:'Marlow', mentorLong:'Marlow, an old session player', meter:'Amp', mapLabel:'Night road map with glowing lamp posts',
   avatar:'<circle cx="32" cy="32" r="31" fill="#1b2358" stroke="rgba(230,185,95,.5)"/><path d="M10 56 Q32 40 54 56 V64 H10Z" fill="#c9607e"/><circle cx="32" cy="32" r="11.5" fill="#e3b58f"/><path d="M21 38 Q32 52 43 38 Q32 43 21 38Z" fill="#d9d5ea"/><ellipse cx="32" cy="25" rx="19" ry="4.2" fill="#2a2152"/><path d="M22 25 Q23 11 32 11 Q41 11 42 25Z" fill="#3a2f70"/><rect x="22" y="21" width="20" height="3" fill="#e6b95f"/><circle cx="28" cy="32" r="1.3" fill="#2a1a06"/><circle cx="36" cy="32" r="1.3" fill="#2a1a06"/>',

@@ -253,7 +253,7 @@ body[data-story="jungle"] .node .name,body[data-story="city"] .node .name{paint-
 /* ===== full-page worlds (3D parallax backdrops) ===== */
 #world{position:fixed;inset:0;z-index:0;overflow:hidden;perspective:800px;perspective-origin:50% 50%;pointer-events:none}
 #wcam{position:absolute;inset:0;transform-style:preserve-3d}
-.wl{position:absolute;inset:0;will-change:transform;transform-origin:50% 100%}
+.wl{position:absolute;inset:0;will-change:transform;transform-origin:50% 50%}
 .wl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .wl-screen{mix-blend-mode:screen}
 body.has-world #skybg{display:none}
@@ -293,3 +293,22 @@ body.has-world .panel,body.has-world .mapcard,body.has-world .map-wrap{backdrop-
 body.has-world .map-frame{background:transparent!important;box-shadow:none;border-color:rgba(255,255,255,.12)}
 body.has-world #mapsvg>rect:first-of-type,body.has-world #mapsvg #artBack,body.has-world #mapsvg #artFront,body.has-world #mapsvg #silo,body.has-world #mapsvg #mstars,body.has-world #mapsvg #moon,body.has-world #mapsvg #h1,body.has-world #mapsvg #h2,body.has-world #mapsvg #h3{display:none}
 body.has-world #mapsvg use:nth-of-type(1){filter:drop-shadow(0 6px 10px rgba(0,0,0,.55))}
+
+body[data-world="road"]{background:#05061c}
+body[data-world="road"] #world{background:linear-gradient(180deg,#05061a 0%,#131a52 45%,#3a2a78 75%,#a0507a 100%)}
+.lbeam{animation:lbeam 12s ease-in-out infinite alternate;opacity:.55}
+@keyframes lbeam{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
+.car{animation:car 28s linear infinite}
+@keyframes car{0%{transform:translateX(-60px)}100%{transform:translateX(1700px)}}
+.lamp{animation:lamp 5s ease-in-out infinite}
+@keyframes lamp{0%,100%{opacity:.75}50%{opacity:1}}
+.moth{animation:moth 3.5s linear infinite}
+@keyframes moth{from{transform:rotate(0deg) translateX(24px)}to{transform:rotate(360deg) translateX(24px)}}
+@media (prefers-reduced-motion:reduce){.lbeam,.car,.lamp,.moth{animation:none}}
+
+/* readability on the busy worlds: darker halo behind text, brighter locked labels */
+body.has-world .shell{text-shadow:0 0 3px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.8)}
+body.has-world .node .name{paint-order:stroke;stroke:#02030a;stroke-width:6px;stroke-linejoin:round;font-weight:700;fill:#fff}
+body.has-world .node.locked .name{fill:#e6e8f6;opacity:1}
+body.has-world{--panel:rgba(3,6,24,.88);--haze:#d2d6f0}
+body[data-world="jungle"]{--panel:rgba(2,20,12,.88);--haze:#cfe8d6}
