@@ -5,3 +5,5 @@ node_modules/
 # Local-only planning
 PLAN.md
 PLAN.local.md
+archive/
+archive.local/
