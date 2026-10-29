@@ -7,7 +7,7 @@ registerStory({
   avatar:'<circle cx="32" cy="32" r="31" fill="#1f2b6b" stroke="rgba(242,166,90,.6)"/><path d="M10 56 Q32 42 54 56 V64 H10Z" fill="#f2708f"/><circle cx="32" cy="32" r="11.5" fill="#d9a27a"/><path d="M19 28 Q32 6 45 28 Q32 22 19 28Z" fill="#f2a65a"/><rect x="17" y="26" width="30" height="4" rx="2" fill="#f2a65a"/><circle cx="28" cy="33" r="1.4" fill="#2a1a06"/><circle cx="36" cy="33" r="1.4" fill="#2a1a06"/><path d="M28 38 Q32 41 36 38" stroke="#7a3a2a" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
   marker:'<polygon points="22,-26 84,-48 84,-4 22,-12" fill="url(#beam)"/><ellipse cx="0" cy="-1" rx="15" ry="3.5" fill="#06082a" opacity=".5"/><ellipse cx="2" cy="-10" rx="12" ry="8" fill="#9bd4f2"/><circle cx="-8" cy="-15" r="7" fill="#f3c9a0"/><path d="M-14 -17 Q-8 -26 -2 -17Z" fill="#f2a65a"/><circle cx="-10" cy="-16" r="1.1" fill="#2a1a06"/><circle cx="-6" cy="-16" r="1.1" fill="#2a1a06"/><rect x="8" y="-6" width="5" height="6" rx="2.5" fill="#f3c9a0"/><rect x="-2" y="-6" width="5" height="6" rx="2.5" fill="#f3c9a0"/>',
   scene:{sky:['#101746','#2d3a8c','#c9607e','#f2a65a'],h1:['#2b2f6b','#1c1f52'],h2:['#1c1f52','#13163f'],gr:['#13163f','#0a0c26'],
-    silo:'city',siloFill:'#0a0c26',road:['#4a4f86','#12143a','#9aa0d0']},
+    silo:'none',art:'city',hills:false,sunOpacity:0,stars:.6,road:['#4a4f86','#1b1d3a','#e8d27a']},
   places:{1:'The Park Gate',2:'Fountain Square',3:'Bus Depot',4:'Rooftop Garden',5:'The Long Avenue',
     6:'Corner Bakery',7:'Subway Steps',8:'Second Floor',9:'Blue Alley',10:'Sunrise Bridge',
     11:'Home Block',12:'Moonlit Plaza',13:'Rain and Taxis',14:'Skyline Deck',15:'Cold Tunnel',

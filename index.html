@@ -55,10 +55,11 @@
 <g id="moon"><circle cx="940" cy="108" r="110" fill="url(#mglow)"/>
 <circle id="moonDisc" cx="940" cy="108" r="36" fill="#f5eefc"/>
 <g id="craters"><circle cx="928" cy="98" r="7" fill="#d9cdea"/><circle cx="954" cy="120" r="5" fill="#d9cdea"/><circle cx="946" cy="92" r="3" fill="#d9cdea"/></g></g>
-<path d="M0 330 C120 270 230 300 350 318 S600 250 760 296 S1040 262 1200 300 V520 H0Z" fill="url(#mh1)"/>
-<path d="M0 378 C160 330 300 372 470 356 S760 318 930 352 S1110 340 1200 350 V520 H0Z" fill="url(#mh2)"/>
-<path d="M0 430 C200 395 360 440 560 420 S900 380 1200 410 V520 H0Z" fill="url(#mgr)"/>
+<path id="h1" d="M0 330 C120 270 230 300 350 318 S600 250 760 296 S1040 262 1200 300 V520 H0Z" fill="url(#mh1)"/>
+<path id="h2" d="M0 378 C160 330 300 372 470 356 S760 318 930 352 S1110 340 1200 350 V520 H0Z" fill="url(#mh2)"/>
+<path id="h3" d="M0 430 C200 395 360 440 560 420 S900 380 1200 410 V520 H0Z" fill="url(#mgr)"/>
 <g id="silo" fill="#0d0b28" opacity=".9"></g>
+<g id="artBack" style="pointer-events:none"></g>
 <path id="road" d="M-20 482 C 160 424, 270 500, 440 446 S 690 352, 850 412 S 1060 336, 1220 292" fill="none"/>
 <use href="#road" stroke="#3a2f70" stroke-width="34" fill="none" stroke-linecap="round"/>
 <use href="#road" stroke="#0d0a26" stroke-width="28" fill="none" stroke-linecap="round"/>
@@ -74,7 +75,8 @@
   <circle cx="-17" cy="-3" r="7" fill="#0d0a26" stroke="#bdb8d8" stroke-width="2"/><circle cx="20" cy="-3" r="7" fill="#0d0a26" stroke="#bdb8d8" stroke-width="2"/>
   <circle cx="38" cy="-10" r="3.4" fill="#ffe9a8"/>
 </g>
-</svg>
+
+<g id="artFront" style="pointer-events:none"></g></svg>
     </div></div>
 
     <div class="chapter">
@@ -220,6 +222,8 @@
 <script src="js/audio.js"></script>
 <script src="js/fretboard.js"></script>
 <script src="js/story-core.js"></script>
+<script src="js/scenes/jungle.js"></script>
+<script src="js/scenes/city.js"></script>
 <script src="js/stories/road.js"></script>
 <script src="js/stories/jungle.js"></script>
 <script src="js/stories/city.js"></script>

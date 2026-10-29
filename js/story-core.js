@@ -18,7 +18,9 @@ function captureScene(){
   if(SCENE_DEFAULT) return;
   SCENE_DEFAULT={sky:getStops('msky'),h1:getStops('mh1'),h2:getStops('mh2'),gr:getStops('mgr'),silo:'town'};
 }
+var SCENE_ART={};
 var SILO={
+  none:function(g){},
   town:function(g){[[240,404,44,26],[300,408,30,20],[560,398,52,30],[1010,380,40,24]].forEach(function(b){ mk('rect',{x:b[0],y:b[1]-b[3],width:b[2],height:b[3]},g); mk('polygon',{points:b[0]+','+(b[1]-b[3])+' '+(b[0]+b[2]/2)+','+(b[1]-b[3]-14)+' '+(b[0]+b[2])+','+(b[1]-b[3])},g)})},
   trees:function(g){[[120,420,30],[205,430,22],[330,412,34],[520,424,26],[700,404,36],[900,416,28],[1040,398,34],[1130,412,24]].forEach(function(t){
     mk('rect',{x:t[0]-3,y:t[1]-t[2]*.9,width:6,height:t[2]*.9},g);
@@ -31,6 +33,9 @@ function applyScene(sc){
   captureScene(); var D=SCENE_DEFAULT; sc=sc||{};
   setStops('msky',sc.sky||D.sky); setStops('mh1',sc.h1||D.h1); setStops('mh2',sc.h2||D.h2); setStops('mgr',sc.gr||D.gr);
   var silo=document.getElementById('silo'); silo.innerHTML=''; silo.setAttribute('fill',sc.siloFill||'#0d0b28'); (SILO[sc.silo||'town'])(silo);
+  ['h1','h2','h3'].forEach(function(id){var e=document.getElementById(id); if(e) e.style.display=sc.hills===false?'none':''});
+  var ab=document.getElementById('artBack'),af=document.getElementById('artFront'); ab.innerHTML=''; af.innerHTML='';
+  var A=sc.art&&SCENE_ART[sc.art]; if(A){ try{A.back(ab); A.front(af);}catch(e){ if(window.console) console.error('scene art',e); } }
   var sun=document.getElementById('moon'); sun.style.opacity=sc.sunOpacity===undefined?1:sc.sunOpacity;
   document.getElementById('moonDisc').setAttribute('fill',sc.sun||'#f5eefc'); document.getElementById('moonGlowStop').setAttribute('stop-color',sc.glow||'#f6e9ff');
   document.getElementById('craters').style.display=sc.craters===false?'none':'';

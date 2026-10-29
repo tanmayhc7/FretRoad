@@ -241,3 +241,11 @@ select option{background:#111945;color:var(--moon)}
 .storycard .who{color:var(--brass);font-size:.82rem}
 #storyOverlay{align-items:center;background:rgba(10,15,43,.9)}
 .overlay[hidden]{display:none}
+
+/* animated scene details */
+.ffly{animation:ffly 4s ease-in-out infinite}
+@keyframes ffly{0%,100%{opacity:.25;transform:translate(0,0)}50%{opacity:1;transform:translate(6px,-8px)}}
+.steam{animation:steam 4.5s ease-out infinite;opacity:0}
+@keyframes steam{0%{opacity:.0;transform:translate(0,0) scale(.6)}20%{opacity:.5}100%{opacity:0;transform:translate(10px,-70px) scale(2.2)}}
+@media (prefers-reduced-motion:reduce){.ffly,.steam{animation:none}.ffly{opacity:.8}}
+body[data-story="jungle"] .node .name,body[data-story="city"] .node .name{paint-order:stroke;stroke:#050816;stroke-width:5px;stroke-linejoin:round}
