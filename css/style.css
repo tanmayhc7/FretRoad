@@ -249,3 +249,47 @@ select option{background:#111945;color:var(--moon)}
 @keyframes steam{0%{opacity:.0;transform:translate(0,0) scale(.6)}20%{opacity:.5}100%{opacity:0;transform:translate(10px,-70px) scale(2.2)}}
 @media (prefers-reduced-motion:reduce){.ffly,.steam{animation:none}.ffly{opacity:.8}}
 body[data-story="jungle"] .node .name,body[data-story="city"] .node .name{paint-order:stroke;stroke:#050816;stroke-width:5px;stroke-linejoin:round}
+
+/* ===== full-page worlds (3D parallax backdrops) ===== */
+#world{position:fixed;inset:0;z-index:0;overflow:hidden;perspective:800px;perspective-origin:50% 50%;pointer-events:none}
+#wcam{position:absolute;inset:0;transform-style:preserve-3d}
+.wl{position:absolute;inset:0;will-change:transform;transform-origin:50% 100%}
+.wl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wl-screen{mix-blend-mode:screen}
+body.has-world #skybg{display:none}
+body[data-world="jungle"]{background:#04140c;--ink:#04140c;--night:#08281a;--dusk:#0f3d28;--horizon:#2f7a47;--brass:#e8c25a;--glass:#86e8a8;--rose:#e89a5a;--moon:#effbe6;--haze:#a8d4b4;--panel:rgba(5,32,20,.8);--line:rgba(200,255,214,.2)}
+body[data-world="jungle"] #world{background:radial-gradient(ellipse at 50% 0%,#2f8a52 0%,#0d4a2e 45%,#041a10 100%)}
+body[data-world="city"]{background:#03040f;--ink:#03040f;--night:#0a1040;--dusk:#1c1f62;--horizon:#e07a9a;--brass:#ffd27a;--glass:#7fd7ff;--rose:#ff7fa8;--moon:#f4f1ff;--haze:#aeb4e6;--panel:rgba(7,12,46,.8)}
+body[data-world="city"] #world{background:linear-gradient(180deg,#01020c 0%,#080e3a 42%,#2a2570 72%,#8a4a8c 100%)}
+body.has-world .shell{text-shadow:0 1px 3px rgba(0,0,0,.45)}
+body.has-world .panel,body.has-world .mapcard,body.has-world .map-wrap{backdrop-filter:blur(6px)}
+.sway{transform-box:fill-box;transform-origin:50% 0;animation:sway 6s ease-in-out infinite}
+.sway2{transform-box:fill-box;transform-origin:50% 100%;animation:sway2 7s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+@keyframes sway2{0%,100%{transform:rotate(-1.6deg) scale(1)}50%{transform:rotate(1.8deg) scale(1.02)}}
+.ray{animation:ray 9s ease-in-out infinite}
+@keyframes ray{0%,100%{opacity:.35}50%{opacity:.9}}
+.mist{animation:mistd 70s linear infinite alternate}.mist2{animation:mistd 90s linear infinite alternate-reverse}
+@keyframes mistd{from{transform:translateX(-160px)}to{transform:translateX(160px)}}
+.tw{animation:tw 3s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
+.shoot{opacity:0;animation:shoot 14s linear infinite}
+@keyframes shoot{0%{opacity:0;transform:translate(0,0)}2%{opacity:1}8%{opacity:0;transform:translate(-340px,150px)}100%{opacity:0;transform:translate(-340px,150px)}}
+.cloud{animation:cloud 120s linear infinite alternate}
+@keyframes cloud{from{transform:translateX(-120px)}to{transform:translateX(140px)}}
+.plane{animation:plane 46s linear infinite}
+@keyframes plane{0%{transform:translate(-100px,0)}100%{transform:translate(1800px,-60px)}}
+.blink{animation:blink 1.8s steps(1) infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+.beam{animation:beam 9s ease-in-out infinite alternate;opacity:.5}
+@keyframes beam{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
+.crownglow{animation:crown 18s linear infinite}
+@keyframes crown{0%,100%{opacity:.7;filter:hue-rotate(0deg)}33%{opacity:.9;filter:hue-rotate(-40deg)}66%{opacity:.8;filter:hue-rotate(160deg)}}
+.neon{animation:neon 3.4s steps(1) infinite}
+@keyframes neon{0%,100%{opacity:1}46%{opacity:1}48%{opacity:.25}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.sway,.sway2,.ray,.mist,.mist2,.tw,.shoot,.cloud,.plane,.blink,.beam,.crownglow,.neon{animation:none}}
+
+/* with a world behind it the map frame lets the scenery show through; only the road, stops and marker stay */
+body.has-world .map-frame{background:transparent!important;box-shadow:none;border-color:rgba(255,255,255,.12)}
+body.has-world #mapsvg>rect:first-of-type,body.has-world #mapsvg #artBack,body.has-world #mapsvg #artFront,body.has-world #mapsvg #silo,body.has-world #mapsvg #mstars,body.has-world #mapsvg #moon,body.has-world #mapsvg #h1,body.has-world #mapsvg #h2,body.has-world #mapsvg #h3{display:none}
+body.has-world #mapsvg use:nth-of-type(1){filter:drop-shadow(0 6px 10px rgba(0,0,0,.55))}

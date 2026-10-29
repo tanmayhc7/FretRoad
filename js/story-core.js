@@ -51,6 +51,7 @@ function applyStory(){
   var av=document.querySelectorAll('svg.avatar'); for(var j=0;j<av.length;j++) av[j].innerHTML=s.avatar;
   var mk2=document.getElementById('van'); if(mk2) mk2.innerHTML=s.marker;
   applyScene(s.scene);
+  if(window.setWorld) setWorld(s.world||'');
 }
 function storyIntro(){return S().intro}
 function storyPraise(){return S().praise}

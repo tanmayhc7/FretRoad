@@ -1,7 +1,7 @@
 /* Storyline: The Jungle Walk. Narrators: Baloo the bear and Bagheera the panther.
    Inspired by Rudyard Kipling's The Jungle Book (1894, public domain). Original text and original drawings only. */
 registerStory({
-  id:'jungle', name:'The Jungle Walk', swatch:'linear-gradient(135deg,#0f3a2a,#e0a63e)',
+  id:'jungle', world:'jungle', name:'The Jungle Walk', swatch:'linear-gradient(135deg,#0f3a2a,#e0a63e)',
   blurb:'A walk through the jungle with a teaching bear and a careful panther. Warm and a little silly.',
   mentor:'Baloo', mentorLong:'Baloo the bear and Bagheera the panther', meter:'Fireflies', mapLabel:'Jungle trail map with glowing lanterns',
   avatar:'<circle cx="32" cy="32" r="31" fill="#123a2a" stroke="rgba(224,166,62,.55)"/><circle cx="18" cy="17" r="8" fill="#6b4a2f"/><circle cx="46" cy="17" r="8" fill="#6b4a2f"/><circle cx="18" cy="17" r="4" fill="#c79a6b"/><circle cx="46" cy="17" r="4" fill="#c79a6b"/><ellipse cx="32" cy="34" rx="19" ry="18" fill="#7a5636"/><ellipse cx="32" cy="41" rx="10" ry="8" fill="#d9b88a"/><ellipse cx="32" cy="37" rx="4" ry="3" fill="#2a1a10"/><circle cx="24" cy="29" r="2" fill="#1d120a"/><circle cx="40" cy="29" r="2" fill="#1d120a"/><path d="M27 44 Q32 48 37 44" stroke="#2a1a10" stroke-width="1.6" fill="none" stroke-linecap="round"/>',

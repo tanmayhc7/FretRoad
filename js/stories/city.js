@@ -1,7 +1,7 @@
 /* Storyline: Pip's Big Day Out. You play Pip, a toddler who crawls out of the stroller and across the city.
    An original story: a friendly busker called Dot teaches the neck along the way. */
 registerStory({
-  id:'city', name:"Pip's Big Day Out", swatch:'linear-gradient(135deg,#1f2b6b,#f2a65a)',
+  id:'city', world:'city', name:"Pip's Big Day Out", swatch:'linear-gradient(135deg,#1f2b6b,#f2a65a)',
   blurb:'You are Pip, a toddler who slips out of the stroller and crawls across the city. A busker teaches you on the way.',
   mentor:'Dot', mentorLong:'Dot, a street busker with a lot of patience', meter:'Crowd', mapLabel:'City map with streetlights',
   avatar:'<circle cx="32" cy="32" r="31" fill="#1f2b6b" stroke="rgba(242,166,90,.6)"/><path d="M10 56 Q32 42 54 56 V64 H10Z" fill="#f2708f"/><circle cx="32" cy="32" r="11.5" fill="#d9a27a"/><path d="M19 28 Q32 6 45 28 Q32 22 19 28Z" fill="#f2a65a"/><rect x="17" y="26" width="30" height="4" rx="2" fill="#f2a65a"/><circle cx="28" cy="33" r="1.4" fill="#2a1a06"/><circle cx="36" cy="33" r="1.4" fill="#2a1a06"/><path d="M28 38 Q32 41 36 38" stroke="#7a3a2a" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
