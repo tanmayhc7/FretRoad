@@ -1799,9 +1799,10 @@ function showPlay(M0){
 }
 function renderPrimer(M0,mainEl,resEl,go){
   mainEl.hidden=true; resEl.hidden=false;
-  resEl.innerHTML='<h3>Before you start</h3>'+M0.primer.map(function(t){return '<p>'+t+'</p>'}).join('')+'<div class="acts" id="primAct"></div>';
-  mkBtn($('#primAct'),'Start','primary',function(){mainEl.hidden=false; resEl.hidden=true; go()});
-  mkBtn($('#primAct'),'Back to the map','',function(){location.hash='map'});
+  resEl.innerHTML='<h3>Before you start</h3>'+M0.primer.map(function(t){return '<p>'+t+'</p>'}).join('')+'<div class="acts"></div>';
+  var pa=resEl.querySelector('.acts');
+  mkBtn(pa,'Start','primary',function(){mainEl.hidden=false; resEl.hidden=true; go()});
+  mkBtn(pa,'Back to the map','',function(){location.hash='map'});
 }
 function leavePlay(){clearInterval(PL.timer); PL.timer=null; PL.state='idle'; if(Mic.on){micStop(); micUI(false);}}
 function scaleRun(root,k,dir){
