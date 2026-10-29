@@ -16,8 +16,8 @@ function showQuiz(id){
   if(Q.active&&Q.resume&&Q.mode==='stop'&&Q.level&&Q.level.id===id){Q.resume=false; renderQ(); return;}
   Q.mode='stop'; Q.level=L; Q.mod=null; Q.lv=id; Q.resume=false; Q.active=true; Q.streak=0;
   Q.queue=shuffle(L.quiz).map(build); Q.i=0; Q.first=0; Q.total=Q.queue.length; Q.marks=[];
-  $('#qWhere').textContent='Stop '+id+' · '+L.stop; $('#qTitle').textContent=L.title+': quiz';
-  typeInto($('#qBubble'),"Five questions to see if it stuck. Miss one and I will bring it back at the end. Four right on the first try opens the next road.");
+  $('#qWhere').textContent='Chapter '+CHAPTERS[chapterIxOf(id)].id+' · Stop '+(CHAPTERS[chapterIxOf(id)].levels.indexOf(id)+1)+' · '+placeName(id); $('#qTitle').textContent=L.title+': quiz';
+  typeInto($('#qBubble'),S().quizIntro);
   renderQ();
 }
 function practiceOpen(M){return !M.needs||isPassed(M.needs)}
@@ -98,7 +98,7 @@ function settle(ok){
   if(ok) strum([69,76],.07);
   drawDots();
   var fb=$('#qFb'); fb.className='fb '+(ok?'good':'bad'); fb.textContent=(ok?'Correct. ':'Not quite. ')+q.explain;
-  typeInto($('#qBubble'),ok?pick(PRAISE):(q.retry?'Still tricky. Take another look at the lesson.':pick(MISS)));
+  typeInto($('#qBubble'),ok?pick(storyPraise()):(q.retry?'Still tricky. Take another look at the lesson.':pick(storyMiss())));
   var acts=$('#qActs'); acts.innerHTML='';
   if(!ok&&q.lesson&&Q.mode==='stop'){
     mkBtn(acts,'Review this in the lesson','',function(){Q.resume=true; pendingLesson=q.lesson[1]; fromQuiz=true; location.hash='stop-'+q.lesson[0]});
@@ -121,9 +121,9 @@ function showResult(){
   }
   var L=Q.level,passed=Q.first>=4,nxt=LEVELS.filter(function(l){return l.id===L.id+1})[0];
   if(passed){
-    if(!isPassed(L.id)){save.passed.push(L.id); persist();}
+    if(!isPassed(L.id)){save.passed.push(L.id); viewCh=-1; persist();}
     updateStat(); strum(L.chime,.09);
-    rv.innerHTML='<h3>Stop cleared</h3><p>'+Q.first+' of '+Q.total+' right on the first try. '+L.clear+'</p><div class="acts" id="qra"></div>';
+    rv.innerHTML='<h3>Stop cleared</h3><p>'+Q.first+' of '+Q.total+' right on the first try. '+clearText(L.id)+'</p><div class="acts" id="qra"></div>';
     var ra2=$('#qra');
     if(nxt) mkBtn(ra2,'Next stop','primary',function(){location.hash='stop-'+nxt.id});
     else mkBtn(ra2,'Open the sandbox','primary',function(){location.hash='sandbox'});

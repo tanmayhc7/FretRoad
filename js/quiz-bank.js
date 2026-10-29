@@ -3,8 +3,6 @@
 var Q={mode:'stop',level:null,mod:null,lv:1,queue:[],i:0,first:0,total:0,marks:[],answered:false,active:false,resume:false,streak:0};
 if(window.__FRETROAD_TEST) window.__FRETROAD_TEST.Q=Q;
 var boardQ=null;
-var PRAISE=['That is it.','Right. Keep moving.','You are finding the road.','Clean.'];
-var MISS=['Close. Look at how it works.','Easy to mix up. This one comes back.','Happens to everyone on this road.'];
 function noteChoices(correct,suffix){
   var set=[correct];
   shuffle([1,11,2,10,7,5]).slice(0,3).forEach(function(d){set.push((correct+d)%12)});
@@ -165,11 +163,6 @@ LEVELS[1].quiz=['fifthOf','fifthFret','earInterval','semisFifth','noteAt'];
 LEVELS[2].quiz=['chordTones','thirdOf','shapeName','earInterval','findNote'];
 LEVELS[3].quiz=['minorTones','thirdMinor','earQuality','shapeNameMinor','earInterval'];
 LEVELS[4].quiz=['octaveFret','octaveFind','octaveGap','earOctave','semisOct'];
-LEVELS[0].clear='The amp lets out a low hum. It is the first sound it has made since Tucson, and the first light on the meter.';
-LEVELS[1].clear='The hum fills out. Marlow nods at the speaker like it said something.';
-LEVELS[2].clear='The second light comes on. A bright chord rings from the speaker with nobody touching a string.';
-LEVELS[3].clear='The amp growls back, darker this time.';
-LEVELS[4].clear='All three lights are on and the amp is at full volume. Chapter 1 is done. Chapter 2 will take the pentatonic box apart interval by interval.';
 var PRACTICE=[
  {id:'hunt',name:'Note Hunt',desc:'Click the note you are asked for.',needs:1,lv:1,rounds:10,pool:['findNote']},
  {id:'names',name:'Name That Fret',desc:'Name the note under the marker.',needs:1,lv:1,rounds:10,pool:['noteAt']},

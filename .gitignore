@@ -12,3 +12,6 @@ NAMES.local.md
 
 # Build output
 dist/
+
+# test output
+tests/out/

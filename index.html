@@ -19,6 +19,7 @@
     <div class="tools">
       <div class="stat" id="stat"></div>
       <button class="btn" id="metroBtn" aria-expanded="false" aria-controls="metro">Metronome</button>
+      <button class="btn" id="storyBtn">Story</button>
       <button class="btn" id="goSandbox">Sandbox</button>
       <button class="btn" id="snd" aria-pressed="true">Sound on</button>
       <div class="metro" id="metro" hidden role="group" aria-label="Metronome">
@@ -42,7 +43,7 @@
 <svg id="mapsvg" viewBox="0 0 1200 520" role="img" aria-label="Night road map with three lamp posts, one for each stop of chapter one">
 <defs>
   <linearGradient id="msky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1033"/><stop offset=".5" stop-color="#251d57"/><stop offset=".82" stop-color="#8a3f6f"/><stop offset="1" stop-color="#d4687f"/></linearGradient>
-  <radialGradient id="mglow"><stop offset="0" stop-color="#f6e9ff" stop-opacity=".55"/><stop offset="1" stop-color="#f6e9ff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop id="moonGlowStop" offset="0" stop-color="#f6e9ff" stop-opacity=".55"/><stop offset="1" stop-color="#f6e9ff" stop-opacity="0"/></radialGradient>
   <linearGradient id="mh1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2a6b"/><stop offset="1" stop-color="#241a4d"/></linearGradient>
   <linearGradient id="mh2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241a4f"/><stop offset="1" stop-color="#161238"/></linearGradient>
   <linearGradient id="mgr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#181340"/><stop offset="1" stop-color="#0c0a26"/></linearGradient>
@@ -51,9 +52,9 @@
 </defs>
 <rect width="1200" height="520" fill="url(#msky)"/>
 <g id="mstars"></g>
-<circle cx="940" cy="108" r="110" fill="url(#mglow)"/>
-<circle cx="940" cy="108" r="36" fill="#f5eefc"/>
-<circle cx="928" cy="98" r="7" fill="#d9cdea"/><circle cx="954" cy="120" r="5" fill="#d9cdea"/><circle cx="946" cy="92" r="3" fill="#d9cdea"/>
+<g id="moon"><circle cx="940" cy="108" r="110" fill="url(#mglow)"/>
+<circle id="moonDisc" cx="940" cy="108" r="36" fill="#f5eefc"/>
+<g id="craters"><circle cx="928" cy="98" r="7" fill="#d9cdea"/><circle cx="954" cy="120" r="5" fill="#d9cdea"/><circle cx="946" cy="92" r="3" fill="#d9cdea"/></g></g>
 <path d="M0 330 C120 270 230 300 350 318 S600 250 760 296 S1040 262 1200 300 V520 H0Z" fill="url(#mh1)"/>
 <path d="M0 378 C160 330 300 372 470 356 S760 318 930 352 S1110 340 1200 350 V520 H0Z" fill="url(#mh2)"/>
 <path d="M0 430 C200 395 360 440 560 420 S900 380 1200 410 V520 H0Z" fill="url(#mgr)"/>
@@ -78,8 +79,9 @@
 
     <div class="chapter">
       <div>
-        <h2>Chapter 1<br>The Quiet Road</h2>
-        <p class="sub">Five stops, five stretches of the neck. Clear each one with a quiz and the amp gets louder.</p>
+        <div class="chtabs" id="chTabs" role="group" aria-label="Chapters"></div>
+        <h2 id="chH"></h2>
+        <p class="sub" id="chSub"></p>
       </div>
       <ol class="stops" id="stoplist"></ol>
     </div>
@@ -89,7 +91,7 @@
       <div id="mods"></div>
     </div>
     <div class="foot">
-      <span>Prototype build. More chapters are planned. The mic is used only to listen live and never records.</span>
+      <span>Four chapters so far, with more planned. The mic is used only to listen live and never records.</span>
       <button class="btn quiet" id="replay">Replay intro</button>
       <button class="btn quiet" id="reset">Reset progress</button>
     </div>
@@ -105,7 +107,7 @@
     <div class="lv-top">
       <div class="talk">
         <svg class="avatar" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#1b2358" stroke="rgba(230,185,95,.5)"/><path d="M10 56 Q32 40 54 56 V64 H10Z" fill="#c9607e"/><circle cx="32" cy="32" r="11.5" fill="#e3b58f"/><path d="M21 38 Q32 52 43 38 Q32 43 21 38Z" fill="#d9d5ea"/><ellipse cx="32" cy="25" rx="19" ry="4.2" fill="#2a2152"/><path d="M22 25 Q23 11 32 11 Q41 11 42 25Z" fill="#3a2f70"/><rect x="22" y="21" width="20" height="3" fill="#e6b95f"/><circle cx="28" cy="32" r="1.3" fill="#2a1a06"/><circle cx="36" cy="32" r="1.3" fill="#2a1a06"/></svg>
-        <div class="bubble"><div class="who">Marlow</div><p id="bubble"></p></div>
+        <div class="bubble"><div class="who mentor">Marlow</div><p id="bubble"></p></div>
       </div>
       <div>
         <div id="goalbox" hidden>
@@ -136,7 +138,7 @@
     <h1 id="qTitle" style="margin-bottom:18px"></h1>
     <div id="qMain">
       <div class="lv-top">
-        <div class="talk" id="qTalk"><div class="bubble"><div class="who">Marlow</div><p id="qBubble"></p></div></div>
+        <div class="talk" id="qTalk"><div class="bubble"><div class="who mentor">Marlow</div><p id="qBubble"></p></div></div>
         <div>
           <div class="lesson-meta"><span id="qStep"></span><span class="dots" id="qDots"></span></div>
           <h2 class="ltitle" id="qPrompt"></h2>
@@ -157,7 +159,7 @@
     <h1 id="pTitle" style="margin-bottom:18px"></h1>
     <div id="pMain">
       <div class="lv-top">
-        <div class="talk"><div class="bubble"><div class="who">Marlow</div><p id="pBubble"></p></div></div>
+        <div class="talk"><div class="bubble"><div class="who mentor">Marlow</div><p id="pBubble"></p></div></div>
         <div>
           <div class="micbar"><button class="btn primary" id="micBtn">Turn on the mic</button><span id="micState"></span></div>
           <div class="meter" aria-hidden="true"><i id="micLevel"></i></div>
@@ -198,10 +200,18 @@
   <div class="talkbox">
     <svg class="avatar" id="talkAv" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#1b2358" stroke="rgba(230,185,95,.5)"/><path d="M10 56 Q32 40 54 56 V64 H10Z" fill="#c9607e"/><circle cx="32" cy="32" r="11.5" fill="#e3b58f"/><path d="M21 38 Q32 52 43 38 Q32 43 21 38Z" fill="#d9d5ea"/><ellipse cx="32" cy="25" rx="19" ry="4.2" fill="#2a2152"/><path d="M22 25 Q23 11 32 11 Q41 11 42 25Z" fill="#3a2f70"/><rect x="22" y="21" width="20" height="3" fill="#e6b95f"/><circle cx="28" cy="32" r="1.3" fill="#2a1a06"/><circle cx="36" cy="32" r="1.3" fill="#2a1a06"/></svg>
     <div class="col">
-      <div class="who" id="talkWho">Marlow</div>
+      <div class="who" id="talkWho">Narrator</div>
       <p id="talkText"></p>
       <div class="row"><button class="btn primary" id="talkNext">Continue</button></div>
     </div>
+  </div>
+</div>
+<div class="overlay" id="storyOverlay" hidden role="dialog" aria-label="Choose a storyline">
+  <div class="storybox">
+    <h2>Choose your story</h2>
+    <p class="sub">The lessons and quizzes are identical in every story. Only the narrator, the places and the scenery change. You can switch any time and keep your progress.</p>
+    <div class="storycards" id="storyCards"></div>
+    <div class="row"><button class="btn quiet" id="storyClose">Close</button></div>
   </div>
 </div>
 <div id="toastHost" aria-live="polite"></div>
@@ -209,8 +219,18 @@
 <script src="js/core.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/fretboard.js"></script>
+<script src="js/story-core.js"></script>
+<script src="js/stories/road.js"></script>
+<script src="js/stories/jungle.js"></script>
+<script src="js/stories/city.js"></script>
 <script src="js/levels-ch1.js"></script>
+<script src="js/level-tools.js"></script>
+<script src="js/levels-ch2.js"></script>
+<script src="js/levels-ch3.js"></script>
+<script src="js/levels-ch4.js"></script>
+<script src="js/chapters.js"></script>
 <script src="js/quiz-bank.js"></script>
+<script src="js/quiz-bank-2.js"></script>
 <script src="js/quiz-ui.js"></script>
 <script src="js/views.js"></script>
 <script src="js/theory.js"></script>

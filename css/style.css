@@ -221,3 +221,23 @@ select option{background:#111945;color:var(--moon)}
 .dots i.ok{background:var(--glass)}
 .tier{font-size:1.25rem;margin:24px 0 2px;color:var(--brass)}
 .mod .tag.mic{color:var(--brass)}
+
+/* chapter tabs and story picker */
+.chtabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.chtab{min-width:38px;height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:rgba(17,25,69,.5);color:var(--moon);font:inherit;font-weight:700;cursor:pointer}
+.chtab.on{background:var(--brass);color:#2a1a06;border-color:var(--brass)}
+.chtab.done:not(.on){border-color:var(--glass);color:var(--glass)}
+.chtab:disabled{opacity:.4;cursor:not-allowed}
+.chtab:focus-visible,.storycard:focus-visible{outline:3px solid var(--glass);outline-offset:2px}
+.storybox{background:var(--night);border:1px solid var(--line);border-radius:20px;padding:26px;max-width:880px;width:calc(100% - 32px);max-height:calc(100vh - 32px);overflow:auto}
+.storybox h2{margin:0 0 6px}
+.storycards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+.storycard{display:flex;flex-direction:column;gap:8px;text-align:left;padding:14px;border-radius:16px;border:2px solid var(--line);background:rgba(17,25,69,.6);color:var(--moon);font:inherit;cursor:pointer}
+.storycard:hover{border-color:var(--brass)}
+.storycard.on{border-color:var(--glass)}
+.storycard .sw{height:64px;border-radius:10px}
+.storycard strong{font-size:1.1rem}
+.storycard .bl{color:var(--haze);font-size:.92rem;line-height:1.4}
+.storycard .who{color:var(--brass);font-size:.82rem}
+#storyOverlay{align-items:center;background:rgba(10,15,43,.9)}
+.overlay[hidden]{display:none}

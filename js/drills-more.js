@@ -1,26 +1,26 @@
 /* Practice drills, second batch */
 /* ======== second batch of drills ======== */
 var FLATN=['C','D♭','D','E♭','E','F','G♭','G','A♭','A','B♭','B'];
-function nm(p){return NAMES[p]}
+function pcName(p){return NAMES[p]}
 function notIn(arr,x){return arr.filter(function(y){return y!==x})}
 /* triad inversions */
 QX.inversion=function(){
   var t=pick(['major','minor']),r=rnd(12),inv=1+rnd(2),pcs=cpcs(r,t),bass=pcs[inv];
-  var lab=inv===1?'first inversion':'second inversion',slash=csym(r,t)+'/'+nm(bass);
+  var lab=inv===1?'first inversion':'second inversion',slash=csym(r,t)+'/'+pcName(bass);
   if(rnd(2)){
     return {prompt:'In '+lab+', which note of '+csym(r,t)+' is in the bass?',
-      choices:mkChoices(nm(bass),notIn(pcs.map(nm),nm(bass)).concat([nm((r+2)%12),nm((r+9)%12)])),
-      explain:'Root position has the root in the bass. First inversion puts the 3rd there, second inversion puts the 5th. In '+lab+' the bass is '+nm(bass)+'.'};
+      choices:mkChoices(pcName(bass),notIn(pcs.map(nm),pcName(bass)).concat([pcName((r+2)%12),pcName((r+9)%12)])),
+      explain:'Root position has the root in the bass. First inversion puts the 3rd there, second inversion puts the 5th. In '+lab+' the bass is '+pcName(bass)+'.'};
   }
   return {prompt:'What is '+slash+' (a slash chord)?',choices:mkChoices(lab,['root position',inv===1?'second inversion':'first inversion','a seventh chord']),
-    explain:'The note after the slash is the bass note. '+nm(bass)+' is the '+(inv===1?'3rd':'5th')+' of '+csym(r,t)+', so this is '+lab+'.'};
+    explain:'The note after the slash is the bass note. '+pcName(bass)+' is the '+(inv===1?'3rd':'5th')+' of '+csym(r,t)+', so this is '+lab+'.'};
 };
 /* capo and open shapes */
 var CAPO_SH=['C','A','G','E','D','Am','Em','Dm'];
 QX.capo=function(){
-  var sh=shapeBy(pick(CAPO_SH)),n=1+rnd(7),r=(sh.r+n)%12,minor=sh.t==='minor',snd=nm(r)+(minor?'m':'');
+  var sh=shapeBy(pick(CAPO_SH)),n=1+rnd(7),r=(sh.r+n)%12,minor=sh.t==='minor',snd=pcName(r)+(minor?'m':'');
   if(rnd(2)){
-    var o=[-2,-1,1,2,5,7].map(function(d){return nm((r+d+12)%12)+(minor?'m':'')});
+    var o=[-2,-1,1,2,5,7].map(function(d){return pcName((r+d+12)%12)+(minor?'m':'')});
     return {prompt:'You put a capo on fret '+n+' and play the open '+sh.sym+' shape. Which chord actually sounds?',choices:mkChoices(snd,notIn(o,snd)),
       explain:'A capo raises every string by one semitone per fret. '+sh.sym+' moved up '+n+' fret'+(n>1?'s':'')+' becomes '+snd+'.'};
   }
@@ -91,8 +91,8 @@ QX.chordScale=function(){
   if(rnd(3)===0){
     var key=rnd(12),d=(key+2)%12,v=(key+7)%12,prog=[csym(d,'min7'),csym(v,'dom7'),csym(key,'maj7')];
     var w=rnd(3),ans=['Dorian','Mixolydian','Ionian (major)'][w];
-    return {prompt:'Over '+prog.join(' – ')+' (a ii–V–I in '+nm(key)+'), which mode fits the '+prog[w]+' chord?',choices:mkChoices(ans,notIn(ALLM,ans)),
-      explain:'In a major key the ii chord takes Dorian, the V takes Mixolydian and the I takes Ionian. All three use the same seven notes of '+nm(key)+' major.'};
+    return {prompt:'Over '+prog.join(' – ')+' (a ii–V–I in '+pcName(key)+'), which mode fits the '+prog[w]+' chord?',choices:mkChoices(ans,notIn(ALLM,ans)),
+      explain:'In a major key the ii chord takes Dorian, the V takes Mixolydian and the I takes Ionian. All three use the same seven notes of '+pcName(key)+' major.'};
   }
   var typ=pick(['maj7','min7','dom7','m7b5']),r=rnd(12),name=csym(r,typ),ans2=CS[typ][0];
   return {prompt:'Which mode is the classic choice to play over '+name+'?',choices:mkChoices(ans2,ALLM.filter(function(x){return CS[typ].indexOf(x)<0})),

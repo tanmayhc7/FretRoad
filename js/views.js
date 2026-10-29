@@ -3,8 +3,9 @@
 var views={map:$('#v-map'),level:$('#v-level'),quiz:$('#v-quiz'),sand:$('#v-sand'),play:$('#v-play')};
 function showView(n){clearLater(); if(n!=='play') leavePlay(); Object.keys(views).forEach(function(k){views[k].hidden=(k!==n)}); window.scrollTo(0,0);}
 function updateStat(){
-  var n=save.passed.length;
-  $('#stat').innerHTML='<span class="amp" role="img" aria-label="Amp level '+(n>4?3:(n>2?2:(n>0?1:0)))+' of 3"><i class="'+(n>0?'on':'')+'"></i><i class="'+(n>2?'on':'')+'"></i><i class="'+(n>4?'on':'')+'"></i></span><span>'+n+' of '+LEVELS.length+' stops cleared</span>';
+  var n=save.passed.length, ch=CHAPTERS[(typeof viewCh==='number'&&viewCh>=0)?viewCh:currentChapterIx()], m=ch.levels.length;
+  var k=ch.levels.filter(isPassed).length, t2=Math.max(2,Math.ceil(m*.6));
+  $('#stat').innerHTML='<span class="amp" role="img" aria-label="'+S().meter+' level '+(k>=m?3:(k>=t2?2:(k>0?1:0)))+' of 3"><i class="'+(k>0?'on':'')+'"></i><i class="'+(k>=t2?'on':'')+'"></i><i class="'+(k>=m?'on':'')+'"></i></span><span>'+n+' of '+LEVELS.length+' stops cleared</span>';
 }
 
 /* map */
@@ -13,53 +14,49 @@ function mk(name,attrs,parent){var e=document.createElementNS(NS,name); for(var 
 (function stars(){
   var g=$('#mstars'),seed=11; var r=function(){seed=(seed*9301+49297)%233280; return seed/233280;};
   for(var i=0;i<70;i++) mk('circle',{cx:r()*1200,cy:r()*250,r:r()*1.4+.3,fill:'#eeeaf8',opacity:(.3+r()*.6).toFixed(2)},g);
-  var s=$('#silo');
-  [[240,404,44,26],[300,408,30,20],[560,398,52,30],[1010,380,40,24]].forEach(function(b){ mk('rect',{x:b[0],y:b[1]-b[3],width:b[2],height:b[3]},s); mk('polygon',{points:b[0]+','+(b[1]-b[3])+' '+(b[0]+b[2]/2)+','+(b[1]-b[3]-14)+' '+(b[0]+b[2])+','+(b[1]-b[3])},s); });
 })();
 function drawMap(){
+  if(typeof viewCh!=='number'||viewCh<0||viewCh>=CHAPTERS.length) viewCh=currentChapterIx();
   var road=$('#road'),L=road.getTotalLength(),g=$('#stops'); g.innerHTML='';
-  var cur=currentId(), furthest=0;
-  STOPS.forEach(function(st){
-    var p=road.getPointAtLength(L*st.t), done=isPassed(st.id), open=(st.id===cur), locked=!st.soon&&!unlocked(st.id)&&!done;
+  var ch=CHAPTERS[viewCh], cur=currentId(), furthest=0;
+  drawChapterHead();
+  var stops=ch.levels.map(function(id,i){return {id:id,name:placeName(id),t:stopT(ch,i)}});
+  stops.forEach(function(st){
+    var p=road.getPointAtLength(L*st.t), done=isPassed(st.id), open=(st.id===cur), locked=!unlocked(st.id)&&!done;
     if(done) furthest=Math.max(furthest,st.t);
-    var cls='node'+(done?' done':'')+(open?' open':'')+(st.soon?' soon':'')+(locked?' locked':'');
-    var n=mk('g',{class:cls,transform:'translate('+p.x+','+p.y+')',role:'button',tabindex:st.soon?-1:0,'aria-label':st.name+(done?', cleared':st.soon?', coming later':locked?', locked':', open')},g);
+    var cls='node'+(done?' done':'')+(open?' open':'')+(locked?' locked':'');
+    var n=mk('g',{class:cls,transform:'translate('+p.x+','+p.y+')',role:'button',tabindex:0,'aria-label':st.name+(done?', cleared':locked?', locked':', open')},g);
     mk('circle',{class:'glow',cx:0,cy:-46,r:26,filter:'url(#soft)'},n);
     mk('line',{class:'pole',x1:0,y1:0,x2:0,y2:-40},n);
     mk('circle',{class:'ring',cx:0,cy:-46,r:10},n);
     mk('circle',{class:'lamp',cx:0,cy:-46,r:9},n);
     mk('circle',{cx:0,cy:-40,r:42,fill:'transparent'},n);
     var t=mk('text',{class:'name',x:0,y:-76},n); t.textContent=st.name;
-    if(!st.soon){
-      var go=function(){ if(locked){toast('Clear the previous stop first.');} else location.hash=dest(st.id); };
-      n.addEventListener('click',go); n.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
-    } else n.addEventListener('click',function(){toast('That stop opens in a later chapter.')});
+    var go=function(){ if(locked){toast('Clear the previous stop first.');} else location.hash=dest(st.id); };
+    n.addEventListener('click',go); n.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
   });
   var trail=$('#trail'); trail.style.strokeDasharray=(L*furthest)+' '+(L*2);
-  var vt=cur?(STOPS.filter(function(s){return s.id===cur})[0].t-.04):.9+.03;
-  var vp=road.getPointAtLength(L*Math.max(.01,vt));
+  var next=stops.filter(function(s){return !isPassed(s.id)&&unlocked(s.id)})[0];
+  var vt=next?Math.max(.02,next.t-.04):(stops.every(function(s){return isPassed(s.id)})?.93:.02);
+  var vp=road.getPointAtLength(L*vt);
   $('#van').style.transform='translate('+vp.x+'px,'+(vp.y+4)+'px)';
-  // stop list
   var ol=$('#stoplist'); ol.innerHTML='';
-  LEVELS.forEach(function(l){
+  ch.levels.forEach(function(id,i){
+    var l=LEVELS.filter(function(x){return x.id===id})[0];
     var d=isPassed(l.id),u=unlocked(l.id),li=document.createElement('li');
     var b=document.createElement('button'); b.className='stop'+(d?' done':'')+(l.id===cur?' open':''); b.disabled=!u;
-    b.innerHTML='<span class="n">'+(d?'✓':l.id)+'</span><span><strong>'+l.stop+'</strong><span class="d">'+l.title+'. '+l.desc+'</span></span><span class="tag">'+(d?'Cleared':u?(isDone(l.id)?'Take the quiz':'Play'):'Locked')+'</span>';
+    b.innerHTML='<span class="n">'+(d?'✓':(i+1))+'</span><span><strong>'+placeName(l.id)+'</strong><span class="d">'+l.title+'. '+l.desc+'</span></span><span class="tag">'+(d?'Cleared':u?(isDone(l.id)?'Take the quiz':'Play'):'Locked')+'</span>';
     b.addEventListener('click',function(){location.hash=dest(l.id)});
     li.appendChild(b); ol.appendChild(li);
   });
-  drawMods();
+  updateStat(); drawMods();
 }
 
 /* dialogue overlay */
 var talkQ=[],talkDone=null;
-var INTRO=[
- {who:'',text:"The van gives out a mile past the Lowtide sign. It is two in the morning. The amp in the back has not made a sound since Tucson."},
- {who:'Marlow',text:"Sit down. You know a lot of notes. You just do not know where the roads between them run, so you keep driving the same five frets."},
- {who:'Marlow',text:"We have a tour to finish. Every town on this map is a stretch of the neck. Learn the stretch and the amp wakes up a little more."},
- {who:'Marlow',text:"Start in Lowtide. Click the lamp."}
-];
-function startTalk(lines,done){talkQ=lines.slice(); talkDone=done||null; $('#talkOverlay').hidden=false; nextTalk();}
+
+var talkLast='';
+function startTalk(lines,done,last){talkQ=lines.slice(); talkDone=done||null; talkLast=last||''; $('#talkOverlay').hidden=false; nextTalk();}
 function nextTalk(){
   var tt=$('#talkText');
   if(finishType(tt)) return;
@@ -67,14 +64,17 @@ function nextTalk(){
   var l=talkQ.shift();
   $('#talkWho').textContent=l.who||'Narrator'; $('#talkAv').style.visibility=l.who?'visible':'hidden';
   typeInto(tt,l.text,l.who?'':'narr');
-  $('#talkNext').textContent=talkQ.length?'Continue':'Start the tour';
+  $('#talkNext').textContent=talkQ.length?'Continue':(talkLast||'Continue');
   $('#talkNext').focus();
 }
 $('#talkNext').addEventListener('click',nextTalk);
 function showMap(){
   Q.resume=false; fromQuiz=false; pendingLesson=null;
-  showView('map'); drawMap(); updateStat();
-  if(!save.intro){save.intro=true; persist(); startTalk(INTRO);}
+  showView('map'); applyStory(); if(typeof viewCh!=="number"||viewCh<0) viewCh=currentChapterIx();
+  drawMap(); updateStat();
+  if(!save.story){showStoryPicker(true); return;}
+  if(!save.intro){save.intro=true; persist(); startTalk(storyIntro(),null,S().startBtn); return;}
+  showChapterIntroOnce();
 }
 
 /* level */
@@ -89,7 +89,7 @@ function showLevel(id){
   cur=LEVELS.filter(function(l){return l.id===id})[0]; found={}; levelDone=false;
   total=targetsOf(cur).length;
   showView('level'); updateStat();
-  $('#lvWhere').textContent='Stop '+cur.id+' · '+cur.stop; $('#lvTitle').textContent=cur.title;
+  $('#lvWhere').textContent='Chapter '+CHAPTERS[chapterIxOf(cur.id)].id+' · Stop '+(CHAPTERS[chapterIxOf(cur.id)].levels.indexOf(cur.id)+1)+' · '+placeName(cur.id); $('#lvTitle').textContent=cur.title;
   $('#goalLbl').textContent=cur.unit; $('#reveal').hidden=true; $('#reveal').innerHTML='';
   setFb('');
   if(!boardL) boardL=createBoard($('#boardL'),onCellLevel);
@@ -162,7 +162,9 @@ function finishLevel(){
   var rv=$('#reveal'); rv.hidden=false;
   var nxt=LEVELS.filter(function(l){return l.id===cur.id+1})[0];
   var acts='<div class="acts" id="ra"></div>';
-  if(cur.id===1){
+  if(cur.reveal){
+    rv.innerHTML='<h3>'+cur.reveal.title+'</h3><p>'+cur.reveal.text+'</p>'+acts;
+  } else if(cur.id===1){
     rv.innerHTML='<h3>Stop cleared</h3><p>The A on the open A string, the A on fret 12 of that string, and five more. Notice how few of them share a fret.</p>'+acts;
   } else if(cur.id===2){
     rv.innerHTML='<h3>The shape behind the power chord</h3><p>From each gold A, the E is one string up and two frets over. Press the button to hear two of them.</p>'+acts;
@@ -184,6 +186,7 @@ function finishLevel(){
   if(cur.id===3) btn('Strum it','',function(){var f=+$('#slide').value; strum([OPEN[3]+f,OPEN[2]+f,OPEN[1]+f],.07)});
   if(cur.id===4){ btn('Hear major','',function(){drawQuality(false,true)}); btn('Hear minor','',function(){drawQuality(true,true)}); }
   if(cur.id===5) btn('Hear an octave','',function(){playTogether([[5,5],[3,7]])});
+  if(cur.reveal&&cur.reveal.hear) btn('Hear it','',function(){cur.reveal.hear()});
   btn('Take the quiz','primary',function(){location.hash='quiz-'+cur.id});
   btn('Back to the map','',function(){location.hash='map'});
   setTimeout(function(){rv.scrollIntoView({behavior:RM?'auto':'smooth',block:'nearest'})},500);

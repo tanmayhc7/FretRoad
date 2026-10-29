@@ -18,15 +18,8 @@ var LEVELS=[
   post:"All three sit on fret 2, in a straight line. Slide that shape along the neck and watch what happens to the chord.",
   chime:[52,57,61]}
 ];
-var STOPS=[
- {id:1,name:'Lowtide',t:.11},{id:2,name:'Saltmarsh Junction',t:.36},{id:3,name:'Harbor Light',t:.6},
- {id:4,name:'Switchback Pass',t:.78},{id:5,name:'The Long Straight',t:.9}
-];
 var isDone=function(id){return save.done.indexOf(id)>-1};
 var isPassed=function(id){return save.passed.indexOf(id)>-1};
-var unlocked=function(id){return id===1||isPassed(id-1)};
-var dest=function(id){return (isDone(id)&&!isPassed(id))?'quiz-'+id:'stop-'+id};
-var currentId=function(){for(var i=0;i<LEVELS.length;i++){if(!isPassed(LEVELS[i].id)) return LEVELS[i].id;} return null;};
 
 /* ---------- lessons (taught before each puzzle) ---------- */
 function nm(s,f){return NAMES[pcOf(s,f)]}
@@ -88,7 +81,7 @@ LEVELS.push(
   scope:function(s,f){return s>=1&&s<=3&&f<=3},
   out:function(s){return (s<1||s>3)?'Stay on the D, G and B strings.':'Stay inside the first three frets.'},
   pre:"Same three strings, one change. A minor is A, C and E. Find them on the D, G and B strings, inside the first three frets.",
-  post:"Put it next to Harbor Light. The A and the E stayed where they were. The middle note slid down one fret, and the whole chord went dark.",
+  post:"Put it next to the major chord from the last stop. The A and the E stayed where they were. The middle note slid down one fret, and the whole chord went dark.",
   chime:[52,57,60]},
  {id:5,stop:'The Long Straight',title:'Octave Shapes',desc:'Find every A above the two low As.',goal:[9],roots:null,ghosts:[[5,5],[4,0]],want:'We want an A.',unit:'A notes found',
   scope:function(s,f){return s<=3},
