@@ -7,7 +7,7 @@
 **Learn the guitar neck by driving down it.**
 A story-driven fretboard game for players who know a few chords and want to understand what they are playing.
 
-[**Play it**](prototype/index.html) · [Practice drills](PRACTICE_IDEAS.md) · [Roadmap](PLAN.md)
+[**Play it**](prototype/index.html) · [Practice drills](PRACTICE_IDEAS.md)
 
 ![runs in the browser](https://img.shields.io/badge/runs%20in-any%20browser-63d8c3?style=flat-square)
 ![no install](https://img.shields.io/badge/install-none-e6b95f?style=flat-square)
@@ -138,20 +138,6 @@ One self-contained HTML file: plain JavaScript, SVG and the Web Audio API. No fr
 Progress is saved in your browser's local storage and never leaves your device.
 
 > It has **not yet been tested with a real acoustic guitar**, so the detector's tolerances are tuned on synthetic tones. If it misreads your playing, that is exactly the feedback this project needs.
-
-## Roadmap
-
-- [x] Five-stop first chapter with lessons, puzzles and quizzes
-- [x] 27 drills from beginner to advanced
-- [x] Microphone checking for notes, chords and scales
-- [x] Metronome with time signatures
-- [ ] Split the prototype into modules (theory, audio, levels as data, interface)
-- [ ] Test and tune the mic on real acoustic recordings
-- [ ] Chapter 2: the pentatonic box as intervals, then the modes
-- [ ] Chord-change trainer, CAGED trainer, modal vamps, timing scores
-- [ ] Jam Gym: backing loops and chord-tone challenges
-
-See [PLAN.md](PLAN.md) for details.
 
 ## Contributing
 

@@ -1,3 +1,7 @@
 .DS_Store
 node_modules/
 *.log
+
+# Local-only planning
+PLAN.md
+PLAN.local.md
