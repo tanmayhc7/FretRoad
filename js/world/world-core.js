@@ -6,15 +6,16 @@ var WORLD_RT={raf:0,layers:[],mx:0,my:0,tx:0,ty:0,on:false};
 function wrng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 var SVGNS='http://www.w3.org/2000/svg';
 function se(name,attrs,parent){var e=document.createElementNS(SVGNS,name); for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e;}
-/* add a depth layer. z = distance behind the screen (px), amp = parallax strength (px at full pointer swing) */
+/* Layers are flat and only translated (never scaled), so Safari rasterises them at full resolution; depth order comes from z-index.
+   add a depth layer. z = distance behind the screen (px), amp = parallax strength (px at full pointer swing) */
 function wLayer(cam,z,amp,build,cls){
   var d=document.createElement('div'); d.className='wl '+(cls||'');
-  var s=(800+z)/800; d.dataset.z=z; d.dataset.s=s; d.dataset.amp=amp;
+  var s=1; d.dataset.z=z; d.dataset.s=s; d.dataset.amp=amp; d.style.zIndex=Math.round(2000-z);
   var svg=se('svg',{viewBox:'0 0 1600 900',preserveAspectRatio:'xMidYMax slice','aria-hidden':'true'}); d.appendChild(svg);
   var defs=se('defs',{},svg); var g=se('g',{},svg); build(g,defs,svg);
   cam.appendChild(d); WORLD_RT.layers.push(d); placeLayer(d,0,0); return d;
 }
-function placeLayer(d,x,y){var a=+d.dataset.amp; d.style.transform='translate3d('+(x*a).toFixed(1)+'px,'+(y*a*.6).toFixed(1)+'px,'+(-d.dataset.z)+'px) scale('+d.dataset.s+')';}
+function placeLayer(d,x,y){var a=+d.dataset.amp; d.style.transform='translate3d('+(x*a).toFixed(1)+'px,'+(y*a*.6).toFixed(1)+'px,0)';}
 function wTick(t){
   var R=WORLD_RT; if(!R.on||R.paused){R.raf=0; return;}
   R.mx+=(R.tx-R.mx)*.06; R.my+=(R.ty-R.my)*.06;
