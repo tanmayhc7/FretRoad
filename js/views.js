@@ -208,6 +208,9 @@ var SCALES={'Major':[0,2,4,5,7,9,11],'Natural minor':[0,2,3,5,7,8,10],'Minor pen
   Object.keys(SCALES).forEach(function(n,i){var o=document.createElement('option'); o.value=n; o.textContent=n; if(i===2) o.selected=true; s.appendChild(o);});
 })();
 function drawScale(){
+  var chordMode=$('#sMode').value==='chord';
+  document.querySelectorAll('#v-sand .forScale').forEach(function(e){e.hidden=chordMode; e.style.display=chordMode?'none':''}); document.querySelectorAll('#v-sand .forChord').forEach(function(e){e.hidden=!chordMode; e.style.display=chordMode?'':'none'});
+  if(chordMode) return drawChordShape();
   var root=+$('#sKey').value, sc=SCALES[$('#sScale').value], ints=$('#sShow').value==='ints', tri=$('#sTri').checked;
   var third=sc.indexOf(3)>-1?3:(sc.indexOf(4)>-1?4:-1), tones=[0]; if(third>-1) tones.push(third); if(sc.indexOf(7)>-1) tones.push(7);
   boardS.clearOrbs();
@@ -222,11 +225,26 @@ function showSandbox(){
   if(!boardS){
     boardS=createBoard($('#boardS'),function(s,f){
       pluck(OPEN[s]+f); boardS.vib(s);
+      if($('#sMode').value==='chord') return;
       var root=+$('#sKey').value, sc=SCALES[$('#sScale').value], iv=(pcOf(s,f)-root+12)%12;
       if(sc.indexOf(iv)<0) boardS.flash(s,f,NAMES[pcOf(s,f)],'miss',700);
     });
-    ['sKey','sScale','sShow','sTri'].forEach(function(id){$('#'+id).addEventListener('change',drawScale)});
+    ['sKey','sScale','sShow','sTri','sMode','sChordQ','sShape'].forEach(function(id){$('#'+id).addEventListener('change',function(){ if(id==='sKey'||id==='sChordQ'||id==='sMode') fillShapes(); drawScale(); })});
+    var qs=$('#sChordQ'); [['','major'],['m','minor'],['7','7'],['m7','minor 7'],['maj7','major 7'],['sus4','sus4'],['sus2','sus2'],['add9','add9'],['6','6'],['5','power chord (5)']].forEach(function(x){var o=document.createElement('option'); o.value=x[0]; o.textContent=x[1]; qs.appendChild(o)});
+    $('#sStrum').addEventListener('click',function(){ var sh=currentShape(); if(sh) strum(sh.frets.map(function(f,i){return f<0?null:LOW_OPEN[i]+f}).filter(function(x){return x!==null}),.05); });
+    fillShapes(); syncLefty();
   }
   drawScale();
 }
 
+
+/* sandbox: chord shapes (strings low to high in chords.js, high to low on the board) */
+function sandboxChordSym(){ return SHARP_NAMES[+$('#sKey').value]+$('#sChordQ').value; }
+function fillShapes(){ var sel=$('#sShape'), prev=sel.value, opts=chordShapeOptions(sandboxChordSym()); sel.innerHTML=''; opts.forEach(function(o,i){var e=document.createElement('option'); e.value=i; e.textContent=o.name; sel.appendChild(e)}); if(prev&&sel.querySelector('option[value="'+prev+'"]')) sel.value=prev; }
+function currentShape(){ var o=chordShapeOptions(sandboxChordSym()); return o[+$('#sShape').value]||o[0]||null; }
+function drawChordShape(){
+  boardS.clearOrbs(); var sh=currentShape(); if(!sh){ toast('No shape on file for that chord.'); return; }
+  var c=parseChord(sandboxChordSym()), ints=$('#sShow').value==='ints';
+  sh.frets.forEach(function(f,i){ if(f<0) return; var s=5-i, pc=pcOf(s,f), kind=pc===c.root?'root':'tone';
+    boardS.orb('s'+s+','+f,{s:s,f:f,label:NAMES[pc],kind:kind}); });
+}

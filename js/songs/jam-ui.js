@@ -19,7 +19,7 @@ function jamBuild(){
    '<label>Volume <input type="range" id="jVol" min="0" max="1" step=".05" value=".8"></label>'+
    '<label>Capo <select id="jCapo"></select></label>'+
    '<label>Key <span class="tr"><button class="btn" id="jTrM" aria-label="Down a semitone">&minus;</button><b id="jTrV">0</b><button class="btn" id="jTrP" aria-label="Up a semitone">+</button></span></label>'+
-   '<label class="chk"><input type="checkbox" id="jCount" checked> Count in</label>'+
+   '<label class="chk"><input type="checkbox" id="jCount" checked> Count in</label>'+'<label class="chk"><input type="checkbox" class="lefty-toggle"> Left-handed</label>'+
    '<button class="btn" id="jMic">Listen to me</button>'+
   '</div>'+
   '<div class="chartwrap" id="jChart"></div>'+
@@ -35,6 +35,7 @@ function jamBuild(){
   $('#jCapo').addEventListener('change',function(){J.capo=+this.value; jamRebuildSeq(); jamRestartIfRunning();});
   $('#jTrM').addEventListener('click',function(){jamTranspose(-1)}); $('#jTrP').addEventListener('click',function(){jamTranspose(1)});
   $('#jCount').addEventListener('change',function(){J.count=this.checked});
+  syncLefty();
   $('#jMic').addEventListener('click',function(){jamListen(!J.listening)});
 }
 function jamSetSong(title,seqArr,chart,opts){

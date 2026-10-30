@@ -16,7 +16,6 @@ function prefsBuild(){
     var b=document.createElement('button'); b.className='btn'; b.dataset.v=x[0]; b.textContent=x[1];
     b.addEventListener('click',function(){save.theme=x[0]; persist(); applyPrefs(); prefsSync()}); $('#prefTheme').appendChild(b);
   });
-  $('#prefLefty').addEventListener('change',function(){save.lefty=this.checked; persist(); applyPrefs(); if(typeof J!=='undefined'&&J.built&&!$('#v-jam').hidden) jamShow(J.idx);});
   $('#prefClose').addEventListener('click',function(){o.hidden=true});
   o.addEventListener('click',function(e){if(e.target===o) o.hidden=true});
 }
@@ -24,3 +23,9 @@ function prefsSync(){ var t=save.theme||'dark'; document.querySelectorAll('#pref
 function openPrefs(){ prefsBuild(); prefsSync(); $('#prefOverlay').hidden=false; }
 applyPrefs();
 if(window.matchMedia) try{ matchMedia('(prefers-color-scheme: light)').addEventListener('change',applyPrefs) }catch(e){}
+
+/* One setter for every left-handed switch on the page (settings, sandbox, songs, play-along). */
+function setLefty(v){ save.lefty=!!v; persist(); applyPrefs(); syncLefty(); if(typeof J!=='undefined'&&J.built&&!$('#v-jam').hidden) jamShow(J.idx); }
+function syncLefty(){ document.querySelectorAll('.lefty-toggle').forEach(function(c){c.checked=!!save.lefty}); var p=$('#prefLefty'); if(p) p.checked=!!save.lefty; }
+document.addEventListener('change',function(e){ var t=e.target; if(t&&(t.classList.contains('lefty-toggle')||t.id==='prefLefty')) setLefty(t.checked); });
+syncLefty();

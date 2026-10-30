@@ -152,10 +152,13 @@ Open **Songs** in the header.
 - **It listens**: turn on the mic and it tells you whether you are playing the chord on the chart, and how late your change was. Slow changes collect under "Your chord changes", each with a **Drill** button that loops just that pair, starting slow and speeding up after four clean changes.
 - **Jam tracks** in any key (12-bar blues, pop, folk, minor groove, Andalusian, ii-V-I) for when you just want to solo.
 
-## Daily warm-up, left-handed mode, light theme
+## Daily practice, left-handed mode, light theme, tour
 
-- **Warm-up**: five minutes, ten steps (six timed exercises, four quick questions), a different mix every day with a streak counter. "Another mix" reshuffles it.
-- **Settings** (bottom of the map): dark, light or match-the-device theme, and left-handed mode, which mirrors the fretboards and chord diagrams.
+- **Daily practice**: one exercise a day with a five-minute timer and click. The ten exercises rotate in a shuffled 10-day cycle, so none repeats within ten days. A calendar shows the days you practised and the ones you missed, plus your streak.
+- **Sandbox** shows scales or chord shapes (open and barre) in any key.
+- **Left-handed mode** mirrors the fretboards and chord diagrams. It is switchable in Settings, the Sandbox, Songs and the play-along.
+- **Theme**: dark, light or match the device (Settings, bottom of the map).
+- **Tour**: a short first-visit walkthrough with "Skip tour" and "Don't show this again" (remembered). Replay it from Settings.
 
 ## How it is built
 
@@ -183,7 +186,7 @@ js/
   metronome.js        metronome with time signatures
   mic.js, play.js     microphone pitch detection and play-along drills
   songs/              chord parsing, chart import, diagrams, backing band, chord listener, play-along
-  warmup.js, prefs.js daily warm-up; theme and left-handed settings
+  warmup.js, prefs.js, tour.js  daily practice and calendar; theme and left-handed settings; first-visit tour
   main.js             header controls and routing
 tools/build_standalone.py   bundle everything into one html file
 tests/                browser and quiz tests (see tests/README.md)

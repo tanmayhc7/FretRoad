@@ -77,3 +77,12 @@ function changeInfo(a,b){
   else tip='No shared finger. Lift everything and land all fingers together.';
   return {moves:moves,anchor:anchor,hard:moves>=3&&!anchor,tip:tip};
 }
+/* All shapes we know for a chord: its open shape (if any) plus movable E-shape and A-shape barres that fit on the first 12 frets. */
+function chordShapeOptions(sym){
+  var c=typeof sym==='string'?parseChord(sym):sym; if(!c) return []; var out=[], key=SHARP_NAMES[c.root]+c.q, fkey=FLAT_NAMES[c.root]+c.q, s=OPEN_SHAPES[key]||OPEN_SHAPES[fkey];
+  if(s) out.push({name:'Open',frets:s.split('').map(function(ch){return ch==='x'?-1:+ch})});
+  var re=(c.root-4+12)%12, ra=(c.root-9+12)%12, eo=E_SHAPES[c.q]||E_SHAPES_X[c.q], ao=A_SHAPES[c.q];
+  function add(name,off,r){ if(!off) return; var f=shapeFromOffsets(off,r); if(maxFret(f)>12) return; if(out.some(function(o){return o.frets.join()===f.join()})) return; out.push({name:name,frets:f}); }
+  add(re===0?'E-shape (open)':'E-shape barre',eo,re); add(ra===0?'A-shape (open)':'A-shape barre',ao,ra);
+  if(re>=0&&re+12<=12){} return out;
+}

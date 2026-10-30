@@ -22,7 +22,7 @@
       <div class="stat" id="stat"></div>
       <button class="btn" id="metroBtn" aria-expanded="false" aria-controls="metro">Metronome</button>
       <button class="btn" id="storyBtn">Story</button>
-      <button class="btn" id="warmBtn">Warm-up</button>
+      <button class="btn" id="warmBtn">Daily</button>
       <button class="btn" id="songsBtn">Songs</button>
       <button class="btn" id="goSandbox">Sandbox</button>
       <button class="btn" id="snd" aria-pressed="true">Sound on</button>
@@ -100,6 +100,7 @@
     <div class="foot">
       <span>Four chapters so far, with more planned. The mic is used only to listen live and never records.</span>
       <button class="btn quiet" id="prefBtn">Settings</button>
+      <button class="btn quiet" id="tourBtn">Take the tour</button>
       <button class="btn quiet" id="replay">Replay intro</button>
       <button class="btn quiet" id="reset">Reset progress</button>
     </div>
@@ -192,7 +193,7 @@
   <!-- SONGS -->
   <section id="v-songs" hidden>
     <div class="lv-head"><button class="btn" id="songsBack">Back to the map</button></div>
-    <h1>Songs</h1>
+    <div class="jam-head"><h1>Songs</h1><label class="chk"><input type="checkbox" class="lefty-toggle"> Left-handed chord diagrams</label></div>
     <p class="jsub">Bring your own chord charts and play along with a backing band that listens to you.</p>
     <div id="songList" class="songgrid"></div>
     <div class="row"><button class="btn primary" id="addSongBtn">Add a song</button></div>
@@ -215,12 +216,17 @@
   <section id="v-sand" hidden>
     <div class="lv-head"><button class="btn" id="back2">Back to the map</button></div>
     <h1 style="margin-bottom:8px">The Open Road</h1>
-    <p style="color:var(--haze);margin-bottom:18px;max-width:60ch">Pick a key and a scale, then click anywhere on the neck to hear it.</p>
+    <p style="color:var(--haze);margin-bottom:18px;max-width:60ch">Pick a key and a scale, or switch to chord shapes, then click anywhere on the neck to hear it.</p>
     <div class="ctl">
       <label>Key<select id="sKey"></select></label>
-      <label>Scale<select id="sScale"></select></label>
-      <label>Label notes as<select id="sShow"><option value="notes">Note names</option><option value="ints">Intervals</option></select></label>
-      <label class="chk"><input type="checkbox" id="sTri" checked> Mark the chord tones</label>
+      <label>Show<select id="sMode"><option value="scale">A scale</option><option value="chord">A chord shape</option></select></label>
+      <label class="forScale">Scale<select id="sScale"></select></label>
+      <label class="forChord" hidden>Chord type<select id="sChordQ"></select></label>
+      <label class="forChord" hidden>Shape<select id="sShape"></select></label>
+      <button class="btn forChord" id="sStrum" hidden>Strum it</button>
+      <label class="chk"><input type="checkbox" class="lefty-toggle" id="sLefty"> Left-handed</label>
+      <label class="forScale">Label notes as<select id="sShow"><option value="notes">Note names</option><option value="ints">Intervals</option></select></label>
+      <label class="chk forScale"><input type="checkbox" id="sTri" checked> Mark the chord tones</label>
     </div>
     <div class="board-wrap" id="boardS"></div>
   </section>
@@ -284,6 +290,7 @@
 <script src="js/songs/jam-ui.js"></script>
 <script src="js/play.js"></script>
 <script src="js/warmup.js"></script>
+<script src="js/tour.js"></script>
 <script src="js/backup.js"></script>
 <script src="js/main.js"></script>
 </body>

@@ -6,6 +6,7 @@ $('#back').addEventListener('click',function(){location.hash='map'});
 $('#back2').addEventListener('click',function(){location.hash='map'});
 $('#warmBtn').addEventListener('click',function(){location.hash='warmup'});
 $('#prefBtn').addEventListener('click',openPrefs);
+$('#tourBtn').addEventListener('click',function(){tourStart()});
 $('#goSandbox').addEventListener('click',function(){location.hash='sandbox'});
 $('#replay').addEventListener('click',function(){startTalk(storyIntro(),null,S().startBtn)});
 $('#storyBtn').addEventListener('click',function(){showStoryPicker(false)});
