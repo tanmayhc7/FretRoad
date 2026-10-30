@@ -25,7 +25,7 @@ function beginPractice(M){
   $('#qMain').hidden=false; $('#qResult').hidden=true;
   Q.mode='practice'; Q.mod=M; Q.level=null; Q.lv=M.lv; Q.resume=false; Q.active=true; Q.streak=0;
   var list=[]; for(var i=0;i<M.rounds;i++) list.push(pick(M.pool));
-  Q.queue=list.map(build); Q.i=0; Q.first=0; Q.total=Q.queue.length; Q.marks=[];
+  Q.queue=list.map(build); Q.i=0; Q.first=0; Q.total=Q.queue.length; Q.marks=[]; Q.t0=Date.now();
   typeInto($('#qBubble'),"Ten questions, no pressure. Your best score is saved on this device.");
   renderQ();
 }
@@ -113,7 +113,8 @@ function showResult(){
     var M=Q.mod; if(!save.best) save.best={};
     var prev=save.best[M.id],isBest=(prev===undefined||Q.first>prev);
     if(isBest){save.best[M.id]=Q.first; persist();}
-    rv.innerHTML='<h3>'+Q.first+' of '+Q.total+'</h3><p>'+(isBest?'New best score.':'Best so far: '+prev+' of '+Q.total+'.')+'</p><div class="acts" id="qra"></div>';
+    var tmsg=''; if(M.timed){ var sec=Math.round((Date.now()-Q.t0)/1000); tmsg='Time: '+sec+' seconds. '; if(!save.bestTime) save.bestTime={}; if(Q.first>=Math.ceil(Q.total*.8)){ var pt=save.bestTime[M.id]; if(pt===undefined||sec<pt){save.bestTime[M.id]=sec; persist(); tmsg+=(pt===undefined?'':'New fastest clean run. ');} else tmsg+='Fastest clean run: '+pt+' seconds. '; } else tmsg+='Get at least '+Math.ceil(Q.total*.8)+' right to set a fastest time. '; }
+    rv.innerHTML='<h3>'+Q.first+' of '+Q.total+'</h3><p>'+tmsg+(isBest?'New best score.':'Best so far: '+prev+' of '+Q.total+'.')+'</p><div class="acts" id="qra"></div>';
     var ra=$('#qra');
     mkBtn(ra,'Go again','primary',function(){showPractice(M.id)});
     mkBtn(ra,'Back to the map','',function(){location.hash='map'});

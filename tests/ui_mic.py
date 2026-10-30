@@ -38,8 +38,8 @@ with sync_playwright() as p:
     plain=p.chromium.launch(args=['--autoplay-policy=no-user-gesture-required'])
     pg=newpage(plain,mic=False)
     tiers=pg.locator('#mods h3.tier').all_inner_texts(); check('three tiers in order',tiers==['Beginner','Intermediate','Advanced'],tiers)
-    n=pg.locator('#mods .mod').count(); check('34 practice cards',n==34,n)
-    check('all unlocked with five stops cleared',pg.locator('#mods .mod:disabled').count()==0)
+    n=pg.locator('#mods .mod').count(); NP=pg.evaluate("window.__FRETROAD_TEST.PRACTICE.length"); check('%d practice cards'%NP,n==NP and NP>=42,n)
+    NH=pg.evaluate("window.__FRETROAD_TEST.PRACTICE.filter(m=>m.needs>5).length"); check('all stop 1-5 drills unlocked after five stops',pg.locator('#mods .mod:disabled').count()==NH)
     pg.screenshot(path=D+'shot_map_tiers.png',full_page=True)
     # metronome
     pg.locator('#metroBtn').click(); check('metronome panel opens',pg.locator('#metro:not([hidden])').count()==1)
@@ -59,18 +59,19 @@ with sync_playwright() as p:
     pg.screenshot(path=D+'shot_metronome.png')
     pg.locator('#mClose').click()
     # quiz practice modules (no mic)
-    PM=pg.evaluate("window.__FRETROAD_TEST.PRACTICE.filter(m=>m.type!=='play'&&!m.kind).map(m=>m.id)")
+    PM=pg.evaluate("window.__FRETROAD_TEST.PRACTICE.filter(m=>m.type!=='play'&&!m.kind&&!(m.needs>5)).map(m=>m.id+':'+m.rounds)")
     for mid in PM:
+        mid,nq=mid.split(':'); nq=int(nq)
         pg.evaluate("location.hash='practice-%s'"%mid)
         pg.wait_for_selector('#qMain:not([hidden]), #qResult:not([hidden])')
         has_primer=pg.locator('#qResult:not([hidden]) h3',has_text='Before you start').count()
         if has_primer: pg.locator('#qResult:not([hidden]) .acts .btn.primary').click()
         pg.wait_for_selector('#qMain:not([hidden])')
-        for k in range(10):
+        for k in range(nq):
             answer(pg)
             pg.locator('#qActs .btn.primary').click()
         pg.wait_for_selector('#qResult:not([hidden]) h3')
-        check('practice %s scores 10 of 10'%mid,pg.locator('#qResult h3').inner_text()=='10 of 10',pg.locator('#qResult h3').inner_text())
+        check('practice %s scores %d of %d'%(mid,nq,nq),pg.locator('#qResult h3').inner_text()=='%d of %d'%(nq,nq),pg.locator('#qResult h3').inner_text())
         if mid in ('open','modes','barre','rhythm'): pg.screenshot(path=D+'shot_pr_%s.png'%mid)
     # no mic available: fallback
     pg.evaluate("window.__FRETROAD_TEST.PRACTICE.find(m=>m.id==='playnote').rounds=2")

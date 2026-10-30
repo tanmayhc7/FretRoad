@@ -27,7 +27,7 @@ function renderPrimer(M0,mainEl,resEl,go){
   mkBtn(pa,'Start','primary',function(){mainEl.hidden=false; resEl.hidden=true; go()});
   mkBtn(pa,'Back to the map','',function(){location.hash='map'});
 }
-function leavePlay(){clearInterval(PL.timer); PL.timer=null; PL.state='idle'; if(Mic.on){micStop(); micUI(false);}}
+function leavePlay(){clearInterval(PL.timer); PL.timer=null; PL.state='idle'; if(window.clStop) clStop(); if(Mic.on){micStop(); micUI(false);}}
 function scaleRun(root,k,dir){
   var pcs=scpcs(root,k).concat([root]), up=pcs, down=pcs.slice(0,-1).reverse();
   if(dir==='down') return pcs.slice().reverse();
@@ -52,6 +52,13 @@ function startPlay(){
     for(var j=0;j<M0.rounds;j++){var sh=shapeBy(pick(M0.pool)), strs=[];
       sh.fr.forEach(function(f,ix){if(f>=0) strs.push({s:5-ix,f:f})});
       PL.items.push({type:'seq',title:'Build '+sh.sym+', one string at a time',shape:sh,notes:strs.map(function(x){return pcOf(x.s,x.f)}),labels:strs.map(function(x){return STR_LONG[x.s]+' · '+NAMES[pcOf(x.s,x.f)]}),midi:shapeMidi(sh),pos:strs});}
+  } else if(M0.kind==='strum'){
+    var lastS='';
+    for(var q=0;q<M0.rounds;q++){var nm; do{nm=pick(M0.pool)}while(nm===lastS); lastS=nm; var sh2=shapeBy(nm), st2=[];
+      sh2.fr.forEach(function(f,ix){if(f>=0) st2.push({s:5-ix,f:f})});
+      PL.items.push({type:'seq',strum:true,sym:sh2.sym,title:'Strum '+sh2.sym+', all strings at once',shape:sh2,notes:[0],labels:[sh2.sym],midi:shapeMidi(sh2),pos:st2});}
+  } else if(M0.kind==='spider'){
+    PL.items=spiderItems(M0.rounds);
   } else if(M0.kind==='arp'){
     var AT=['major','minor','dom7','maj7','min7'],lastA='';
     for(var a=0;a<M0.rounds;a++){var at,ar,key; do{at=pick(AT);ar=pick([0,2,4,5,7,9,11]);key=ar+at}while(key===lastA); lastA=key;
@@ -71,18 +78,20 @@ function renderPlay(){
   $('#pPrompt').textContent=it.title;
   drawSeq(); boardP.clearOrbs(); boardP.clearLinks();
   if(it.shape) shapeOrbs(it.shape).forEach(function(o,i){boardP.orb('sh'+i,{s:o.s,f:o.f,kind:o.kind,label:o.kind==='miss'?'×':''})});
+  if(it.cells) it.cells.forEach(function(c,i){boardP.orb('sp'+i,{s:c.s,f:c.f,kind:i%4===0?'root':'scale',label:NAMES[pcOf(c.s,c.f)]})});
   if(it.scale){for(var s=0;s<6;s++)for(var f=0;f<=FRETS;f++){var iv=(pcOf(s,f)-PL.cfg.root+12)%12; if(SCL[PL.cfg.scale].iv.indexOf(iv)>-1) boardP.orb('sc'+s+','+f,{s:s,f:f,kind:iv===0?'root':'scale',label:NAMES[pcOf(s,f)]});}}
   var acts=$('#pActs'); acts.innerHTML='';
   mkBtn(acts,'Hear it','',function(){playRef(it)});
-  if(!it.shape&&!it.scale) mkBtn(acts,'Show on the neck','',function(){showNeck(it.notes[0])});
+  if(!it.shape&&!it.scale&&!it.cells) mkBtn(acts,'Show on the neck','',function(){showNeck(it.notes[0])});
   mkBtn(acts,'Metronome','',function(){$('#metroBtn').click()});
   mkBtn(acts,'I played it','',function(){advanceSeq(true)});
   mkBtn(acts,'Skip','quiet',function(){PL.mistakes++; it.bad=true; nextItem()});
   playSetFb(Mic.on?'Listening…':'Turn on the mic to be checked, or tap "I played it".');
-  typeInto($('#pBubble'),it.shape?'Play each string in order, lowest first. Let each note ring until it turns green. Skip any string with a ×.':(it.scale?'Play the notes in order, one at a time, up the neck however you like. Use the metronome if you want a steady pulse.':'Any string, any octave. Let the note ring for a moment.'));
+  typeInto($('#pBubble'),it.strum?'Strum the whole chord once, let it ring, and keep still for a moment. I listen to the combined sound, so a muted or buzzing string shows up as a different chord.':it.shape?'Play each string in order, lowest first. Let each note ring until it turns green. Skip any string with a ×.':(it.scale?'Play the notes in order, one at a time, up the neck however you like. Use the metronome if you want a steady pulse.':'Any string, any octave. Let the note ring for a moment.'));
 }
 function showNeck(pc){boardP.clearOrbs(); for(var s=0;s<6;s++)for(var f=0;f<=FRETS;f++) if(pcOf(s,f)===pc) boardP.orb('n'+s+','+f,{s:s,f:f,kind:'found',label:NAMES[pc]});}
 function playRef(it){
+  if(it.strum){ PL.muteUntil=performance.now()+1800; strum(it.midi,.07); return; }
   PL.muteUntil=performance.now()+(it.midi.length*(it.shape?.55:.5)*1000+900);
   it.midi.forEach(function(m,i){pluck(m,i*(it.shape?.5:.45),.8)});
 }
@@ -133,6 +142,13 @@ function playTick(){
   }
   if(PL.state!=='listen'||now<PL.muteUntil) return;
   var it=PL.items[PL.i]; if(!it) return;
+  if(it.strum){
+    if(!CL.ready&&!clStart()) return;
+    var cr=clSample(it.sym); if(!cr||cr.quiet){PL.stable=0; PL.wrong=0; return;}
+    if(cr.ok){ PL.stable++; PL.wrong=0; if(PL.stable>=3) advanceSeq(false); }
+    else { PL.stable=0; PL.wrong++; if(PL.wrong===10){it.bad=true; PL.mistakes++; playSetFb('I hear '+(cr.heard||'something unclear')+'. Looking for '+it.sym+'. Check each string rings, or strum again.','bad');} }
+    return;
+  }
   if(PL.quiet){ if(r.rms<Mic.gate*1.4||now-PL.quietSince>1800) PL.quiet=false; else return; }
   if(!n){PL.stable=0; return;}
   var want=it.notes[it.k];
@@ -145,7 +161,7 @@ function playTick(){
   }
 }
 $('#micBtn').addEventListener('click',function(){
-  if(Mic.on){micStop(); micUI(false); return;}
+  if(Mic.on){if(window.clStop) clStop(); micStop(); micUI(false); return;}
   this.disabled=true; $('#micState').textContent='Asking for the microphone… stay quiet for a second.';
   micStart(function(ok,msg){ if(ok) micUI(true); else micUI(false,msg); });
 });

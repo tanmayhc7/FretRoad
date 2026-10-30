@@ -12,34 +12,34 @@ Status: ✅ built, 🎤 uses the mic, 🔜 planned.
 - ✅ Strumming Patterns (read a down/up pattern against the count)
 - ✅ Open Chord Shapes (name the fingering), Triad Spelling
 - ✅ Build the Chord 🎤 (one string at a time, each note verified)
-- 🔜 Chord change trainer: switch between two open chords against the metronome, count clean changes per minute
+- ✅ Chord change trainer 🎤 (Songs → play along: change drills with rising tempo, per-change timing stats)
 - 🔜 Strumming patterns, playing version: strum the pattern on muted strings against the click
-- 🔜 Fretboard memory: timed note finding with a streak
-- 🔜 Finger exercises: spider and chromatic walks with a rising tempo
+- ✅ Fretboard Sprint (15 notes against the clock, fastest clean run saved)
+- ✅ Finger Gym 🎤 (climb, spider and stretch walks on three strings, pattern drawn on the neck)
 
 ## Intermediate
 - ✅ Scale Spelling, Scale Degrees, Scale Ear
 - ✅ Scale Runner 🎤 (any key, any of 19 scales, up, down or both, with metronome)
 - ✅ Chord Qualities (sus, 7, maj7, m7, dim, aug), Chord Ear, Chord Families, Barre Chord Shapes
-- 🔜 Pentatonic box trainer: the five positions, linked by shared notes
+- ✅ Pentatonic Boxes (where each of the five boxes starts, relative major and minor)
 - ✅ Triad Inversions (root position, first, second, slash chords)
 - ✅ Arpeggio Runner 🎤 (chord tones up and back down, any octave)
 - ✅ Circle of Fifths (key signatures, relative minors)
 - ✅ Capo and Shapes (which chord sounds with a capo)
-- 🔜 Triads on string sets: find each inversion on the neck
+- ✅ Triads on String Sets (every inversion on four string sets, with the grip played back)
 - 🔜 Rhythm reading: clap back a rhythm, scored against the click
 - 🔜 Timing score for Scale Runner: how close each note lands to the beat
-- 🔜 Melody by ear: hear four notes, find them on the neck
+- ✅ Melody by Ear (four-note tune, name the scale degrees; finding it on the neck is still planned)
 
 ## Advanced
 - ✅ The Modes, Every Other Scale, Extended Chords, Minor Key Families (incl. seventh-chord families)
 - ✅ Colour Chords 🎤 (7th, sus, maj7 shapes string by string)
-- 🔜 CAGED system: see one chord shape, find its four siblings up the neck
-- 🔜 Modal vamps: backing loop in one chord, play the mode over it
+- ✅ The CAGED System (where each shape sits, the fixed order, barre-position chord names)
+- ✅ Modal vamps (Songs → jam tracks: Dorian, Mixolydian, Lydian, Phrygian with a solo hint)
 - ✅ Chord-Scale Matching (modes over maj7, m7, 7, m7♭5 and a ii–V–I)
 - 🔜 Transcribe by ear: short phrases, find them on the neck
-- 🔜 Polyrhythms and odd-meter comping with the metronome
-- 🔜 Strum-level chord check 🎤 (whole-chord detection; a working detector already exists in the prototype tests)
+- ✅ Polyrhythms (grids, meeting points, hemiola); 🔜 odd-meter comping against the click
+- ✅ Strum Check 🎤 (strum a whole chord, the app names what it hears)
 
 ## Mic and metronome notes
 - Pitch is found with the YIN algorithm on the live mic signal. Nothing is recorded or uploaded.

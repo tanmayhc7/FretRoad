@@ -71,7 +71,8 @@ with sync_playwright() as p:
         page.locator('#talkNext').click()
     check('intro overlay dismissed',page.locator('#talkOverlay[hidden]').count()==1)
     check('five stops on the map',page.locator('#stoplist .stop').count()==5)
-    check('34 practice cards, 30 locked at start',page.locator('#mods .mod').count()==34 and page.locator('#mods .mod:disabled').count()==30)
+    NP=page.evaluate("window.__FRETROAD_TEST.PRACTICE.length"); NL=page.evaluate("window.__FRETROAD_TEST.PRACTICE.filter(m=>m.needs>0).length")
+    check('%d practice cards, %d locked at start'%(NP,NL),NP>=42 and page.locator('#mods .mod').count()==NP and page.locator('#mods .mod:disabled').count()==NL)
     check('stop 2 locked at start',page.locator('#stoplist .stop').nth(1).is_disabled())
     page.screenshot(path='out/shot_map.png')
     # stop 1
@@ -128,7 +129,8 @@ with sync_playwright() as p:
     page.screenshot(path='out/shot_quiz_final.png')
     # map after clearing
     page.evaluate("location.hash='map'"); page.wait_for_selector('#v-map:not([hidden])')
-    check('all practice cards unlocked',page.locator('#mods .mod:disabled').count()==0)
+    NH=page.evaluate("window.__FRETROAD_TEST.PRACTICE.filter(m=>m.needs>5).length")
+    check('practice cards for stops 1-5 unlocked (%d wait for chapter 2)'%NH,page.locator('#mods .mod:disabled').count()==NH)
     for _ in range(8):
         if page.locator('#talkOverlay[hidden]').count(): break
         page.locator('#talkNext').click(); page.wait_for_timeout(150)

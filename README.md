@@ -72,12 +72,12 @@ Each stop has a lesson, a puzzle and a five-question quiz. Four right on the fir
 </td>
 <td width="50%" valign="top">
 
-### 34 practice drills
+### 42 practice drills
 Three tiers, each unlocked by the stop that teaches it.
 
-- **Beginner:** note hunting, open strings, intervals, open chords, triads, time signatures, tempo and note values, strumming patterns, tuner
-- **Intermediate:** scale spelling and degrees, chord qualities, chord families, barre shapes, circle of fifths, capo and shapes, triad inversions, arpeggios, chord and scale ear training
-- **Advanced:** the seven modes, 19 scales, extended chords, chord-scale matching, minor-key and seventh-chord families
+- **Beginner:** note hunting, open strings, intervals, open chords, triads, time signatures, tempo and note values, strumming patterns, tuner, a timed fretboard sprint, finger-gym walks
+- **Intermediate:** scale spelling and degrees, chord qualities, chord families, barre shapes, circle of fifths, capo and shapes, triad inversions, arpeggios, strum check, triads on string sets, pentatonic boxes, melody by ear, chord and scale ear training
+- **Advanced:** the seven modes, 19 scales, extended chords, chord-scale matching, minor-key and seventh-chord families, the CAGED system, polyrhythms
 
 The full list, including what is planned, is in [PRACTICE_IDEAS.md](PRACTICE_IDEAS.md).
 
@@ -150,7 +150,7 @@ Open **Songs** in the header.
 - **Import a chord chart**: paste text (chords above the words, `[C]` in brackets, or `| C | G |` bars), drop a `.txt` / `.cho` file, a PDF, or a photo. PDFs and photos are read in your browser (PDF.js and Tesseract, loaded only when you use them). Check the chords it found and fix any slip before saving. Links to Songsterr or Ultimate Guitar cannot be fetched, so copy the chart text instead.
 - **Play along**: a backing band (click, strummed guitar, or drums, bass and guitar) follows the chart. You see the chord now, the chord next, a diagram for each, how many fingers move, and a tip for the change. The tempo, beats per chord, capo and key are adjustable.
 - **It listens**: turn on the mic and it tells you whether you are playing the chord on the chart, and how late your change was. Slow changes collect under "Your chord changes", each with a **Drill** button that loops just that pair, starting slow and speeding up after four clean changes.
-- **Jam tracks** in any key (12-bar blues, pop, folk, minor groove, Andalusian, ii-V-I) for when you just want to solo.
+- **Jam tracks** in any key (12-bar blues, pop, folk, minor groove, Andalusian, ii-V-I, and Dorian, Mixolydian, Lydian and Phrygian vamps with a solo hint) for when you just want to solo.
 
 ## Daily practice, left-handed mode, light theme, tour
 
@@ -183,7 +183,7 @@ js/
   quiz-ui.js          quiz and practice screens
   views.js            map, lessons, puzzles, sandbox
   theory.js           chord and scale theory
-  drills*.js          the 34 practice drills
+  drills*.js          the 42 practice drills
   metronome.js        metronome with time signatures
   mic.js, play.js     microphone pitch detection and play-along drills
   songs/              chord parsing, chart import, diagrams, backing band, chord listener, play-along

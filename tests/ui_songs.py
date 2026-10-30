@@ -30,7 +30,7 @@ with sync_playwright() as p:
     pg.on('console',lambda m:errors.append(m.text) if m.type=='error' and 'ERR_' not in m.text and 'fonts' not in m.text.lower() else None)
     pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
     pg.locator('#songsBtn').click(); pg.wait_for_selector('#v-songs:not([hidden])')
-    check('jam tracks listed',pg.locator('#jamList .songcard').count()==6,pg.locator('#jamList .songcard').count())
+    check('jam tracks listed',pg.locator('#jamList .songcard').count()==pg.evaluate('JAMS.length'),pg.locator('#jamList .songcard').count())
     pg.locator('#addSongBtn').click(); pg.fill('#impText',CHART)
     pg.wait_for_timeout(200); st=pg.inner_text('#impStat'); check('import finds chords',('4 different' in st),st)
     pg.fill('#impTitle','Test Song'); pg.locator('#impSave').click()
