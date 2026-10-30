@@ -1,0 +1,47 @@
+"""Recording play-along: add an audio file to a song, mark the chord changes, follow them, and get them back after a reload."""
+import os, json, wave, numpy as np
+HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE); OUT=HERE+'/out/'; os.makedirs(OUT,exist_ok=True)
+from playwright.sync_api import sync_playwright
+URL='file://'+os.environ.get('FR_PAGE',ROOT+'/index.html')
+res=[]
+def check(n,c,x=''):
+    res.append(bool(c)); print(('PASS ' if c else 'FAIL ')+n+(' '+str(x) if (x and not c) else ''))
+sr=22050; t=np.arange(sr*12)/sr; w=wave.open(OUT+'rec.wav','wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
+w.writeframes((np.sin(2*np.pi*220*t)*0.3*32767).astype('<i2').tobytes()); w.close()
+CHART="Invented Tune\n\n[Verse]\nC          G\nWalking home slow\nAm         F\nSinging as I go\n"
+save={'done':[1,2,3,4,5],'passed':[1,2,3,4,5],'best':{},'intro':True,'story':'road','chSeen':[1,2,3,4],'tour':1,'songs':[{'id':'s1','title':'Invented Tune','text':CHART}]}
+def reach(pg):
+    pg.goto(URL+'#jam-s1'); pg.wait_for_timeout(500)
+with sync_playwright() as p:
+    b=p.chromium.launch(args=['--autoplay-policy=no-user-gesture-required']); ctx=b.new_context(viewport={'width':1200,'height':900})
+    ctx.add_init_script("window.__FRETROAD_TEST={}; try{ if(!localStorage.getItem('fretroad-v1')) localStorage.setItem('fretroad-v1',%s)}catch(e){}"%json.dumps(json.dumps(save)))
+    pg=ctx.new_page(); errs=[]; pg.on('pageerror',lambda e:errs.append(str(e)))
+    check('index lookup',True)
+    pg.goto(URL); pg.wait_for_timeout(300)
+    o=pg.evaluate("[recIndexAt([1,2,4],0.5),recIndexAt([1,2,4],1),recIndexAt([1,2,4],3.9),recIndexAt([1,2,4],9),recIndexAt([],3)]")
+    check('recIndexAt',o==[-1,0,1,2,-1],o)
+    reach(pg)
+    check('card shown for a song',pg.evaluate("!document.getElementById('jRec').hidden"))
+    pg.set_input_files('#jRecFile',OUT+'rec.wav'); pg.wait_for_timeout(600)
+    check('player appears',pg.evaluate("!document.getElementById('jRecPlayer').hidden"))
+    pg.evaluate("recBeginTap()"); pg.wait_for_timeout(200)
+    for tm in (1.0,3.0,5.0,7.0):
+        pg.evaluate("REC.audio.currentTime=%s"%(tm+0.15)); pg.wait_for_timeout(80); pg.evaluate("recTap()")
+    m=pg.evaluate("REC.marks"); check('four marks, lag removed',len(m)==4 and abs(m[1]-3.0)<.2,m)
+    check('tapping ended automatically',pg.evaluate("!REC.tapping"))
+    saved=pg.evaluate("JSON.parse(localStorage.getItem('fretroad-v1')).songs[0].marks")
+    check('marks saved with the song',saved and len(saved)==4,saved)
+    pg.evaluate("REC.audio.currentTime=4.0; recFrame(true)")
+    check('second chord is now',pg.evaluate("document.querySelector('#jChart .seg.now').dataset.i")=='1')
+    pg.evaluate("REC.audio.currentTime=4.7; recFrame(false)")
+    check('next one warns before the change',pg.evaluate("!!document.querySelector('#jChart .seg.soon')"))
+    p_=pg.evaluate("document.querySelector('#jChart .seg.now').style.getPropertyValue('--p')"); check('sweep progress set',0.5<float(p_)<0.95,p_)
+    check('countdown text',pg.evaluate("document.getElementById('jIn').textContent").startswith('in '))
+    pg.evaluate("recNudge(-0.05)"); m2=pg.evaluate("REC.marks"); check('nudge earlier',abs(m2[0]-(m[0]-.05))<.01,m2)
+    pg.reload(); pg.wait_for_timeout(700); reach(pg); pg.wait_for_timeout(700)
+    check('file and marks survive a reload',pg.evaluate("!!REC.audio && REC.marks.length===4"),pg.evaluate("[!!REC.audio,REC.marks.length]"))
+    pg.goto(URL+'#jam-j:blues:9'); pg.wait_for_timeout(400)
+    check('hidden on jam tracks',pg.evaluate("document.getElementById('jRec').hidden"))
+    check('no errors',not errs,errs)
+    b.close()
+print('ui_recording:',('ALL PASS' if all(res) else 'FAILURES'))
