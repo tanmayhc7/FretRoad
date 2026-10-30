@@ -7,6 +7,7 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/songs.css">
 </head>
 <body><div id="skybg"><canvas id="sky"></canvas></div>
 <div id="world" aria-hidden="true"></div>
@@ -21,6 +22,7 @@
       <div class="stat" id="stat"></div>
       <button class="btn" id="metroBtn" aria-expanded="false" aria-controls="metro">Metronome</button>
       <button class="btn" id="storyBtn">Story</button>
+      <button class="btn" id="songsBtn">Songs</button>
       <button class="btn" id="goSandbox">Sandbox</button>
       <button class="btn" id="snd" aria-pressed="true">Sound on</button>
       <div class="metro" id="metro" hidden role="group" aria-label="Metronome">
@@ -185,6 +187,27 @@
     <div class="reveal" id="pResult" hidden></div>
   </section>
 
+  <!-- SONGS -->
+  <section id="v-songs" hidden>
+    <div class="lv-head"><button class="btn" id="songsBack">Back to the map</button></div>
+    <h1>Songs</h1>
+    <p class="jsub">Bring your own chord charts and play along with a backing band that listens to you.</p>
+    <div id="songList" class="songgrid"></div>
+    <div class="row"><button class="btn primary" id="addSongBtn">Add a song</button></div>
+    <div class="gcard" id="songAdd" hidden>
+      <h3>Add a song</h3>
+      <div id="impDrop" class="drop"><p>Drop a PDF, a photo of a chart, or a .txt / .cho file here, or</p><label class="btn">Choose a file<input type="file" id="impFile" accept=".txt,.cho,.chordpro,.pdf,image/*,text/plain" hidden></label></div>
+      <label class="fld">Title<input type="text" id="impTitle" placeholder="Song title"></label>
+      <label class="fld">Chords and lyrics<textarea id="impText" rows="10" spellcheck="false" placeholder="Paste a chart. Chords above the words, or [C] in brackets, or | C | G | Am | F |"></textarea></label>
+      <p class="jsub" id="impStat"></p><div class="chips" id="impChips"></div><p class="jsub" id="impHint"></p>
+      <div class="row"><button class="btn primary" id="impSave">Save song</button><button class="btn quiet" id="impCancel">Cancel</button></div>
+    </div>
+    <h2>Jam tracks</h2>
+    <p class="jsub">Common progressions in any key, no chart needed.</p>
+    <div id="jamList" class="songgrid"></div>
+  </section>
+  <section id="v-jam" hidden><div id="jamRoot"></div></section>
+
   <!-- SANDBOX -->
   <section id="v-sand" hidden>
     <div class="lv-head"><button class="btn" id="back2">Back to the map</button></div>
@@ -248,6 +271,13 @@
 <script src="js/drills-more.js"></script>
 <script src="js/metronome.js"></script>
 <script src="js/mic.js"></script>
+<script src="js/songs/chords.js"></script>
+<script src="js/songs/chart.js"></script>
+<script src="js/songs/diagram.js"></script>
+<script src="js/songs/backing.js"></script>
+<script src="js/songs/listen.js"></script>
+<script src="js/songs/songs-ui.js"></script>
+<script src="js/songs/jam-ui.js"></script>
 <script src="js/play.js"></script>
 <script src="js/backup.js"></script>
 <script src="js/main.js"></script>

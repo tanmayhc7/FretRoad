@@ -21,7 +21,7 @@ function importProgress(file){
   var foot=document.querySelector('#v-map .foot'); if(!foot) return;
   var s=document.createElement('button'); s.className='btn quiet'; s.id='expBtn'; s.textContent='Save progress to file'; s.addEventListener('click',exportProgress);
   var l=document.createElement('button'); l.className='btn quiet'; l.id='impBtn'; l.textContent='Load progress from file';
-  var f=document.createElement('input'); f.type='file'; f.accept='.json,application/json'; f.id='impFile'; f.hidden=true;
+  var f=document.createElement('input'); f.type='file'; f.accept='.json,application/json'; f.id='bkFile'; f.hidden=true;
   l.addEventListener('click',function(){f.click()}); f.addEventListener('change',function(){if(f.files[0]) importProgress(f.files[0]); f.value=''});
   var rs=document.getElementById('reset'); foot.insertBefore(s,rs); foot.insertBefore(l,rs); foot.appendChild(f);
 })();

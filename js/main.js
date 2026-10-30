@@ -18,6 +18,8 @@ document.addEventListener('pointerdown',function(){initAudio()},{once:true});
 function route(){
   var h=location.hash.slice(1);
   if(h==='sandbox') return showSandbox();
+  if(h==='songs') return showSongs();
+  var mj=/^jam-(.+)$/.exec(h); if(mj) return showJam(mj[1]);
   var m=/^stop-(\d+)$/.exec(h);
   if(m&&unlocked(+m[1])&&LEVELS.some(function(l){return l.id===+m[1]})) return showLevel(+m[1]);
   var mq=/^quiz-(\d+)$/.exec(h);
