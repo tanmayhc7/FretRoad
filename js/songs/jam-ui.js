@@ -154,5 +154,5 @@ function showJam(id){
   if(m){ var j=JAMS.filter(function(x){return x.id===m[1]})[0]; if(!j){location.hash='songs';return;} var key=+m[2];
     jamSetSong(j.name+' in '+KEYN(key),jamSeq(j,key),null,{bpm:j.bpm,bpc:j.bpc,solo:j.solo(key),sub:j.desc}); recOnSong(null); return; }
   var s=songsList().filter(function(x){return x.id===id})[0]; if(!s){location.hash='songs';return;}
-  var ch=parseChart(s.text,s.title); jamSetSong(s.title,ch.seq,ch,{capo:ch.capo,sub:ch.keyGuess?'Key of '+ch.keyGuess:''}); recOnSong(s.id);
+  var ch=parseChart(s.text,s.title); var an=s.an||{}; REC.chartCapo=ch.capo; jamSetSong(s.title,ch.seq,ch,{capo:an.capo!==undefined?an.capo:ch.capo,bpm:an.bpm,bpc:an.bpc,bpb:an.bpb,sub:ch.keyGuess?'Key of '+ch.keyGuess:''}); recOnSong(s.id);
 }

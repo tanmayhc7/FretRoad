@@ -6,7 +6,8 @@ var TOUR_STEPS=[
  {sel:'#songsBtn',t:'Your songs',b:'Import a chord chart and play along with a backing band. The mic listens and tells you how your chord changes are going.'},
  {sel:'#goSandbox',t:'Sandbox',b:'Free play on the neck. Show any scale or chord shape in any key, and click to hear it.'},
  {sel:'#metroBtn',t:'Metronome',b:'A metronome with time signatures and tap tempo, on every screen.'},
- {sel:'#storyBtn',t:'Pick a story',b:'The road trip, the jungle or the city. The lessons are identical, only the scenery and narrator change.'},
+ {sel:'#aiBtn',t:'AI helper (beta)',b:'Optional. Plug in your own AI model to get explanations for riffs. fretRoad has no AI of its own and never sends your audio anywhere.'},
+ {sel:'#storyBtn',t:'Pick a story',b:'The round button at the bottom right. The road trip, the jungle or the city. The lessons are identical, only the scenery and narrator change.'},
  {sel:'#prefBtn',t:'Settings',b:'Dark or light theme, left-handed mode, and saving your progress to a file. You can replay this tour from here.'}
 ];
 var TR={i:0,on:false,el:null};

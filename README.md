@@ -41,6 +41,8 @@ It is built for intermediate players: you can already play, but the neck still f
 <img src="docs/lesson.png" alt="A lesson with Marlow explaining the shape on the fretboard" width="860">
 </div>
 
+- **Riff helper and your own AI model.** Work out a single-note riff from a recording, and optionally plug in your own model for an explanation. See [docs/BRING_YOUR_OWN_MODEL.md](docs/BRING_YOUR_OWN_MODEL.md).
+
 ## Try it
 
 The quickest way is the [live version](https://tanmayhc7.github.io/FretRoad/). To run it locally instead, there is no build and no dependencies:
