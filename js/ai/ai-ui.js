@@ -13,7 +13,7 @@ function riffBuild(card){
   $('#rfEnd').addEventListener('click',function(){ RF.t1=REC.audio?REC.audio.currentTime:0; $('#rfE').textContent=recFmt(RF.t1); });
   $('#rfHear').addEventListener('click',function(){ if(!REC.audio||RF.t1<=RF.t0) return; REC.audio.currentTime=RF.t0; recPlay(); var ms=(RF.t1-RF.t0)/REC.audio.playbackRate*1000; setTimeout(function(){ recPause(); },ms); });
   $('#rfRead').addEventListener('click',riffRead);
-  $('#rfAsk').addEventListener('click',riffAsk); $('#rfSet').addEventListener('click',function(){ riffSettings(!$('#rfSettings').hidden?false:true); });
+  $('#rfAsk').addEventListener('click',riffAsk); $('#rfSet').addEventListener('click',function(){ aiOpenDialog(); });
   riffRefreshAsk();
 }
 function riffRefreshAsk(){ var b=$('#rfAsk'); if(b) b.hidden=!(aiConfigured()&&RF.last); }
@@ -37,19 +37,27 @@ function riffAsk(){
   var req=riffPrompt(RF.last); out.hidden=false; out.textContent='Asking your model...'; $('#rfAsk').disabled=true;
   aiAsk(req).then(function(t){ out.textContent=t; }).catch(function(e){ out.textContent='Your model did not answer: '+((e&&e.message)||'error'); }).then(function(){ $('#rfAsk').disabled=false; });
 }
-function riffSettings(show){
-  var box=$('#rfSettings'); box.hidden=!show; if(!show) return; box.innerHTML='';
+/* the settings form lives in the AI dialog (header button) and is also reachable from the riff helper */
+function riffSettings(show){ if(show) aiOpenDialog(); else $('#aiOverlay').hidden=true; }
+function aiOpenDialog(){ $('#aiOverlay').hidden=false; aiSettingsInto($('#aiSettingsHost')); }
+function aiSettingsInto(box){
+  box.innerHTML='';
   var cfg=aiCfg(), cur=AI.providers[cfg.provider]?cfg.provider:AI.order[0];
-  var p1=document.createElement('p'); p1.className='jsub'; p1.textContent='FretRoad has no AI of its own. Plug in your own model: requests go straight from this browser to the address you give. What is sent is only the notes, tab, capo, tempo and chord (never the audio). Your key is stored only in this browser. Whether it works depends on your model.'; box.appendChild(p1);
-  var lab=document.createElement('label'); lab.textContent='Provider '; var sel=document.createElement('select'); sel.id='aiProv'; AI.order.forEach(function(id){ var o=document.createElement('option'); o.value=id; o.textContent=AI.providers[id].name; if(id===cur) o.selected=true; sel.appendChild(o); }); lab.appendChild(sel); box.appendChild(lab);
+  var p1=document.createElement('p'); p1.className='jsub'; p1.textContent='Requests go straight from this browser to the address you give. Only notes, tab, capo, tempo and chord are sent (never audio). Your key is stored only in this browser.'; box.appendChild(p1);
+  var lab=document.createElement('label'); lab.className='fld'; lab.textContent='Provider '; var sel=document.createElement('select'); sel.id='aiProv'; AI.order.forEach(function(id){ var o=document.createElement('option'); o.value=id; o.textContent=AI.providers[id].name; if(id===cur) o.selected=true; sel.appendChild(o); }); lab.appendChild(sel); box.appendChild(lab);
   var fields=document.createElement('div'); fields.id='aiFields'; box.appendChild(fields);
-  function draw(){ fields.innerHTML=''; var id=sel.value,v=aiValues(id); AI.providers[id].fields.forEach(function(f){ var l=document.createElement('label'); l.textContent=f.label+' '; var i=document.createElement('input'); i.type=f.secret?'password':'text'; i.value=v[f.key]||''; i.dataset.k=f.key; i.autocomplete='off'; i.spellcheck=false; l.appendChild(i); fields.appendChild(l); }); }
+  function draw(){ fields.innerHTML=''; var id=sel.value,v=aiValues(id); AI.providers[id].fields.forEach(function(f){ var l=document.createElement('label'); l.className='fld'; l.textContent=f.label+' '; var i=document.createElement('input'); i.type=f.secret?'password':'text'; i.value=v[f.key]||''; i.dataset.k=f.key; i.autocomplete='off'; i.spellcheck=false; l.appendChild(i); fields.appendChild(l); }); }
   sel.addEventListener('change',draw); draw();
-  var row=document.createElement('div'); row.className='recrow'; box.appendChild(row);
+  var row=document.createElement('div'); row.className='row'; box.appendChild(row);
   function collect(){ var c=aiCfg(); c.provider=sel.value; c.vals=c.vals||{}; var o={}; fields.querySelectorAll('input').forEach(function(i){ o[i.dataset.k]=i.value.trim(); }); c.vals[sel.value]=o; return c; }
-  var note=document.createElement('p'); note.className='jsub'; note.id='aiNote';
+  var note=document.createElement('p'); note.className='jsub'; note.id='aiNote'; note.textContent=aiConfigured()?'A model is set up on this device.':'No model set up yet.';
   mkBtn(row,'Save','primary',function(){ aiSaveCfg(collect()); note.textContent='Saved on this device.'; riffRefreshAsk(); });
   mkBtn(row,'Test','',function(){ aiSaveCfg(collect()); note.textContent='Asking...'; aiAsk({task:'test',system:'Reply with the single word: ready',user:'Are you there?'}).then(function(t){ note.textContent='It answered: '+t.slice(0,80); riffRefreshAsk(); }).catch(function(e){ note.textContent=(e&&e.message)||'Failed'; }); });
-  mkBtn(row,'Forget my settings','quiet',function(){ try{ localStorage.removeItem(AI.cfgKey); }catch(e){} note.textContent='Removed from this device.'; riffSettings(true); riffRefreshAsk(); });
+  mkBtn(row,'Forget my settings','quiet',function(){ try{ localStorage.removeItem(AI.cfgKey); }catch(e){} aiSettingsInto(box); riffRefreshAsk(); });
   box.appendChild(note);
 }
+(function(){
+  $('#aiBtn').addEventListener('click',aiOpenDialog); $('#aiClose').addEventListener('click',function(){ $('#aiOverlay').hidden=true; riffRefreshAsk(); });
+  $('#aiOverlay').addEventListener('click',function(e){ if(e.target===$('#aiOverlay')) $('#aiOverlay').hidden=true; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!$('#aiOverlay').hidden) $('#aiOverlay').hidden=true; });
+})();

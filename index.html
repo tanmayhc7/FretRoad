@@ -22,7 +22,7 @@
     <div class="tools">
       <div class="stat" id="stat"></div>
       <button class="btn" id="metroBtn" aria-expanded="false" aria-controls="metro">Metronome</button>
-      <button class="btn" id="storyBtn">Story</button>
+      <button class="btn" id="aiBtn" aria-haspopup="dialog">AI <span class="beta">beta</span></button>
       <button class="btn" id="warmBtn">Daily</button>
       <button class="btn" id="songsBtn">Songs</button>
       <button class="btn" id="goSandbox">Sandbox</button>
@@ -262,6 +262,16 @@
     <label class="chk"><input type="checkbox" id="fbInfo" checked> Include browser and page details (no progress, no personal data)</label>
     <pre class="fbprev" id="fbPrev"></pre>
     <div class="row"><button class="btn primary" id="fbSend">Open on GitHub</button><button class="btn" id="fbCopy">Copy text</button><button class="btn quiet" id="fbClose">Close</button></div>
+  </div>
+</div>
+<button class="storyfab" id="storyBtn" aria-label="Story: choose your storyline" title="Story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11c.6 0 1 .4 1 1v14c0-.6-.4-1-1-1H5.5C4.7 18 4 17.300 4 16.500zM20 5.5c0-.8-.7-1.500-1.500-1.500H13c-.6 0-1 .4-1 1v14c0-.6.4-1 1-1h5.500c.8 0 1.500-.700 1.500-1.500z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+<div class="overlay" id="aiOverlay" hidden role="dialog" aria-label="AI helper (beta)">
+  <div class="storybox fbbox">
+    <h2>AI helper <span class="beta">beta</span></h2>
+    <p class="sub">An optional extra. fretRoad has no AI of its own and never sends your audio anywhere. If you want explanations for riffs (open a song with a recording, then Riff helper), plug in your own model here. It works only as well as the model you connect.</p>
+    <div id="aiSettingsHost"></div>
+    <p class="sub"><a href="https://github.com/tanmayhc7/FretRoad/blob/main/docs/BRING_YOUR_OWN_MODEL.md" target="_blank" rel="noopener">How to connect a model, and how to add your own provider</a></p>
+    <div class="row"><button class="btn quiet" id="aiClose">Close</button></div>
   </div>
 </div>
 <div id="toastHost" aria-live="polite"></div>

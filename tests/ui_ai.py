@@ -35,13 +35,20 @@ with sync_playwright() as p:
     check('tab drawn with six lines',len(o['tab'].split('\n'))==6)
     # settings UI
     pg.evaluate("document.getElementById('jRiff').open=true"); pg.click('#rfSet')
+    check('AI dialog opens from the riff helper',pg.evaluate("!document.getElementById('aiOverlay').hidden"))
     check('settings show providers',pg.evaluate("document.querySelectorAll('#aiProv option').length")>=3)
     check('http to a remote host refused',pg.evaluate("[aiUrlOk('http://example.com/v1'),aiUrlOk('http://localhost:11434/v1'),aiUrlOk('https://x.test'),aiUrlOk('http://192.168.1.5:8080')]")==[False,True,True,True])
     pg.select_option('#aiProv','openai')
     pg.fill('#aiFields input[data-k=base]','https://models.example.test/v1'); pg.fill('#aiFields input[data-k=model]','my-model'); pg.fill('#aiFields input[data-k=key]','sk-secret-123')
-    pg.click('#rfSettings button.primary'); pg.wait_for_timeout(100)
+    pg.click('#aiOverlay button.primary'); pg.wait_for_timeout(100); pg.click('#aiClose')
     check('configured',pg.evaluate("aiConfigured()"))
     check('key stays out of the song save',pg.evaluate("localStorage.getItem('fretroad-v1').indexOf('sk-secret')<0"))
+    # header button, beta tag, floating story button
+    check('AI button in the header with beta tag',pg.evaluate("/AI/.test(document.getElementById('aiBtn').textContent)&&!!document.querySelector('#aiBtn .beta')&&!!document.querySelector('header.top #aiBtn')"))
+    pos=pg.evaluate("(function(){var r=document.getElementById('storyBtn').getBoundingClientRect();return {r:innerWidth-r.right,b:innerHeight-r.bottom,w:r.width,fixed:getComputedStyle(document.getElementById('storyBtn')).position}})()")
+    check('story button floats bottom right as a circle',pos['fixed']=='fixed' and pos['r']<40 and pos['b']<40 and abs(pos['w']-54)<2,pos)
+    pg.click('#aiBtn'); check('header AI button opens the dialog',pg.evaluate("!document.getElementById('aiOverlay').hidden")); pg.click('#aiClose')
+    pg.click('#storyBtn'); check('story picker still opens',pg.evaluate("!document.getElementById('storyOverlay').hidden")); pg.click('#storyClose')
     # read a riff, then ask
     pg.evaluate("RF.t0=0.8; RF.t1=3.2"); pg.click('#rfRead'); pg.wait_for_function("RF.last||/could not/.test(document.getElementById('rfMsg').textContent)",timeout=30000)
     check('riff read in the page',pg.evaluate("!!RF.last"),pg.evaluate("document.getElementById('rfMsg').textContent"))

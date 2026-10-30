@@ -203,3 +203,10 @@ body.w-pause .wl-screen{mix-blend-mode:normal}
 .riffbox{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}.riffbox summary{cursor:pointer;font-weight:600}
 .rftab{font:14px/1.35 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.28);border-radius:10px;padding:10px;overflow-x:auto;white-space:pre}
 .rfai{white-space:pre-wrap;background:rgba(0,0,0,.2);border-radius:10px;padding:12px;margin:8px 0}.rfset label{display:block;margin:8px 0}.rfset input,.rfset select{width:100%;max-width:520px}
+
+/* story picker is a floating circle; AI button carries a beta tag */
+.storyfab{position:fixed;right:18px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:18;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--moon);background:rgba(20,22,30,.78);border:1px solid rgba(255,255,255,.22);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.storyfab svg{width:26px;height:26px}.storyfab:hover{background:rgba(48,52,80,.92)}.storyfab:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+html.light .storyfab{background:rgba(255,255,255,.92);color:#1c2033;border-color:rgba(0,0,0,.18)}
+@media (max-width:600px){.storyfab{width:46px;height:46px;right:12px}.storyfab svg{width:22px;height:22px}}
+.beta{display:inline-block;margin-left:4px;padding:1px 6px;border:1px solid currentColor;border-radius:999px;font-size:.62em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle;line-height:1.35;opacity:.85}

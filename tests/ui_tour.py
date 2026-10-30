@@ -48,8 +48,13 @@ with sync_playwright() as p:
     check('tour waits while the story picker is open',pg.locator('#storyOverlay:not([hidden])').count()==1 and pg.locator('#tour:not([hidden])').count()==0)
     # phone width
     m=b.new_context(viewport={'width':390,'height':844}); m.add_init_script(INIT); mp=m.new_page(); mp.goto(URL); mp.wait_for_selector('#tour:not([hidden])',timeout=10000)
-    for i in range(7): mp.locator('#tNext').click(); mp.wait_for_timeout(120)
-    box=mp.evaluate("(()=>{var r=document.querySelector('#tCard').getBoundingClientRect();return [r.left,r.right,r.top,r.bottom,innerWidth,innerHeight]})()")
-    check('card fits on a phone',box[0]>=0 and box[1]<=box[4] and box[2]>=0 and box[3]<=box[5]+1,box); mp.screenshot(path=OUT+'shot_tour_phone.png')
+    bad=[]
+    for i in range(9):
+        mp.wait_for_timeout(600)
+        box=mp.evaluate("(()=>{var r=document.querySelector('#tCard').getBoundingClientRect();return [r.left,r.right,r.top,r.bottom,innerWidth,innerHeight]})()")
+        if not (box[0]>=0 and box[1]<=box[4] and box[2]>=0 and box[3]<=box[5]+1): bad.append((i,box))
+        if i==7: mp.screenshot(path=OUT+'shot_tour_phone.png')
+        if i<8: mp.locator('#tNext').click()
+    check('card fits on a phone at every step',not bad,bad)
     b.close()
 print('errors:',errors); ok=all(res) and not errors; print('ALL PASS' if ok else 'SOME FAILED'); sys.exit(0 if ok else 1)
