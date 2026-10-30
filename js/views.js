@@ -15,9 +15,13 @@ function mk(name,attrs,parent){var e=document.createElementNS(NS,name); for(var 
   var g=$('#mstars'),seed=11; var r=function(){seed=(seed*9301+49297)%233280; return seed/233280;};
   for(var i=0;i<70;i++) mk('circle',{cx:r()*1200,cy:r()*250,r:r()*1.4+.3,fill:'#eeeaf8',opacity:(.3+r()*.6).toFixed(2)},g);
 })();
-function drawMap(){
+/* place names are HTML laid over the map, not SVG text: Safari draws scaled SVG text soft and unevenly spaced */
+function sizeMapLabels(){ var b=document.getElementById('mapbox'); if(b) b.style.setProperty('--ms',(b.clientWidth/1200).toFixed(4)); }
+window.addEventListener('resize',sizeMapLabels);
+if(window.ResizeObserver){ document.addEventListener('DOMContentLoaded',function(){ var b=document.getElementById('mapbox'); if(b) new ResizeObserver(sizeMapLabels).observe(b); }); }
+function drawMap(){ sizeMapLabels();
   if(typeof viewCh!=='number'||viewCh<0||viewCh>=CHAPTERS.length) viewCh=currentChapterIx();
-  var road=$('#road'),L=road.getTotalLength(),g=$('#stops'); g.innerHTML='';
+  var road=$('#road'),L=road.getTotalLength(),g=$('#stops'); g.innerHTML=''; $('#maplabels').innerHTML='';
   var ch=CHAPTERS[viewCh], cur=currentId(), furthest=0;
   drawChapterHead();
   var stops=ch.levels.map(function(id,i){return {id:id,name:placeName(id),t:stopT(ch,i)}});
@@ -31,7 +35,7 @@ function drawMap(){
     mk('circle',{class:'ring',cx:0,cy:-46,r:10},n);
     mk('circle',{class:'lamp',cx:0,cy:-46,r:9},n);
     mk('circle',{cx:0,cy:-40,r:42,fill:'transparent'},n);
-    var t=mk('text',{class:'name',x:0,y:-76},n); t.textContent=st.name;
+    var lb=document.createElement('span'); lb.className='mlabel'+(done?' done':'')+(locked?' locked':''); lb.textContent=st.name; lb.style.left=(p.x/12).toFixed(3)+'%'; lb.style.top=((p.y-76)/5.2).toFixed(3)+'%'; $('#maplabels').appendChild(lb);
     var go=function(){ if(locked){toast('Clear the previous stop first.');} else location.hash=dest(st.id); };
     n.addEventListener('click',go); n.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
   });

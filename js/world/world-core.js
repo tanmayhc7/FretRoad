@@ -10,7 +10,7 @@ function se(name,attrs,parent){var e=document.createElementNS(SVGNS,name); for(v
    add a depth layer. z = distance behind the screen (px), amp = parallax strength (px at full pointer swing) */
 function wLayer(cam,z,amp,build,cls){
   var d=document.createElement('div'); d.className='wl '+(cls||'');
-  var s=1; d.dataset.z=z; d.dataset.s=s; d.dataset.amp=amp; d.style.zIndex=Math.round(2000-z);
+  var s=1; d.dataset.z=z; d.dataset.s=s; if(amp<9){ amp=0; d.classList.add('wl-flat'); } d.dataset.amp=amp; d.style.zIndex=Math.round(2000-z);
   var svg=se('svg',{viewBox:'0 0 1600 900',preserveAspectRatio:'xMidYMax slice','aria-hidden':'true'}); d.appendChild(svg);
   var defs=se('defs',{},svg); var g=se('g',{},svg); build(g,defs,svg);
   cam.appendChild(d); WORLD_RT.layers.push(d); placeLayer(d,0,0); return d;

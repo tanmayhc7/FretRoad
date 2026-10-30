@@ -142,3 +142,16 @@ html.motion-calm .wl{filter:none!important}
 #wcam{transform-style:flat}
 .wl{transform-origin:0 0}
 #mapsvg text,.node .name{letter-spacing:0;text-rendering:geometricPrecision;font-kerning:normal}
+.mapbox{position:relative;min-width:780px;--ms:1}
+.mapbox #mapsvg{min-width:0}
+#maplabels{position:absolute;inset:0;pointer-events:none}
+.mlabel{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-family:var(--f-display);font-size:calc(19px*var(--ms));line-height:1;color:var(--moon);
+  text-shadow:0 0 calc(4px*var(--ms)) rgba(10,15,43,.9),0 0 calc(2px*var(--ms)) rgba(10,15,43,.9),0 calc(1px*var(--ms)) calc(2px*var(--ms)) rgba(10,15,43,.8);-webkit-font-smoothing:antialiased}
+.mlabel.locked{color:var(--haze);opacity:.75}
+body[data-story="jungle"] .mlabel,body[data-story="city"] .mlabel{text-shadow:0 0 calc(5px*var(--ms)) #050816,0 0 calc(2px*var(--ms)) #050816}
+
+/* scrolling: once the scenery is paused it becomes one static picture; drop the extra GPU layers so content tiles paint at once */
+body.w-pause .wl{will-change:auto}
+body.w-pause #world::before{display:none}
+body.w-pause .wl-screen{mix-blend-mode:normal}
+.wl.wl-flat{will-change:auto}
