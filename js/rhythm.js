@@ -15,14 +15,14 @@ function onsPoll(){
 
 var RH={item:null,exp:[],onsets:[],timer:null,win:[0,0],tp:0,slotMs:0,running:false,res:null};
 /* ---- pattern makers ---- */
-function rhItem(title,slots,o){ /* slots: [{on,label,count}] */ return {title:title,slots:slots,slotMs:o.slotMs,bars:o.bars,click:o.click,beat:o.beat,tip:o.tip,fresh:true}; }
+function rhItem(title,slots,o){ /* slots: [{on,label,count}] */ return {title:title,slots:slots,slotMs:o.slotMs,bars:o.bars,click:o.click,beat:o.beat,tip:o.tip,bpm:o.bpm||0,arrows:!!o.arrows,fresh:true}; }
 function mkStrumItems(M0){
   var pats=shuffle(STRUM).slice(0,M0.rounds),items=[];
   for(var r=0;r<M0.rounds;r++){
     var p=pats[r%pats.length],bpm=(M0.bpm||60)+r*4;
     var slots=p.map(function(x,i){return {on:x!=='_',label:x==='_'?'–':x,count:COUNT8[i]}});
     items.push(rhItem('Strum this pattern in time at '+bpm+' bpm. Hit on the D and U, air-strum the –.',slots,{slotMs:30000/bpm,bars:M0.bars||2,
-      click:p.map(function(_,i){return i===0?2:(i%2===0?0:-9)}),beat:p.map(function(_,i){return i%2===0}),tip:'Mute the strings with your fretting hand and strum all six. The mic hears the rhythm, not the chord. Keep the hand moving on the – slots.'}));
+      click:p.map(function(_,i){return i===0?2:(i%2===0?0:-1)}),beat:p.map(function(_,i){return i%2===0}),bpm:bpm,arrows:true,tip:'Mute the strings with your fretting hand and strum all six. The mic hears the rhythm, not the chord. Keep the hand moving on the – slots.'}));
   }
   return items;
 }
@@ -33,7 +33,7 @@ function mkReadItems(M0){
     while(!ok){ sl=[]; for(var b=0;b<4;b++){ var c=(b===0)?pick(CELL.slice(0,6)):pick(CELL); sl.push(c[0],c[1]); } ok=sl.reduce(function(a,x){return a+x},0)>=4; }
     var slots=sl.map(function(x,i){return {on:!!x,label:x?'●':'–',count:COUNT8[i]}});
     items.push(rhItem('Read the bar, then play it back at '+bpm+' bpm: a ● is a hit, a – is silence.',slots,{slotMs:30000/bpm,bars:M0.bars||2,
-      click:sl.map(function(_,i){return i===0?2:(i%2===0?0:-9)}),beat:sl.map(function(_,i){return i%2===0}),tip:'Count out loud "1 & 2 & 3 & 4 &". Hit any open string, or clap close to the mic. Silent slots stay silent.'}));
+      click:sl.map(function(_,i){return i===0?2:(i%2===0?0:-1)}),beat:sl.map(function(_,i){return i%2===0}),bpm:bpm,tip:'Count out loud "1 & 2 & 3 & 4 &". Hit any open string, or clap close to the mic. Silent slots stay silent.'}));
   }
   return items;
 }
@@ -53,7 +53,8 @@ function rhythmStart(M0){
 }
 function rhythmStop(){ clearInterval(RH.timer); RH.timer=null; RH.running=false; onsStop(); }
 function rhSlotsHtml(it,cur,marks){
-  return it.slots.map(function(s,i){return '<span class="chip rh'+(s.on?' hit':' rest')+(i===cur?' on':'')+(marks&&marks[i]?' '+marks[i]:'')+'"><small>'+s.count+'</small>'+s.label+'</span>'}).join('');
+  var nx=cur<0?-1:(cur+1)%it.slots.length;
+  return it.slots.map(function(s,i){var g=it.arrows?(s.label==='D'?'↓':(s.label==='U'?'↑':'–')):s.label; return '<span class="chip rh'+(s.on?' hit':' rest')+(i===cur?' on':'')+(i===nx?' nx':'')+(marks&&marks[i]?' '+marks[i]:'')+'"><small>'+s.count+'</small>'+g+'</span>'}).join('');
 }
 function rhythmRender(){
   var it=PL.items[PL.i]; RH.item=it; RH.running=false; RH.res=null; PL.state='rhythm';
@@ -63,12 +64,18 @@ function rhythmRender(){
   boardP.clearOrbs(); boardP.clearLinks();
   var acts=$('#pActs'); acts.innerHTML='';
   mkBtn(acts,it.fresh?'Count me in':'Try again','primary',function(){rhythmGo()});
+  if(it.bpm){ mkBtn(acts,'Slower','',function(){rhythmTempo(-6)}); mkBtn(acts,'Faster','',function(){rhythmTempo(6)}); }
   mkBtn(acts,'Hear it','',function(){rhythmHear(it)});
   mkBtn(acts,'Tap','',function(){rhythmTap()}).id='rhTap';
   if(!it.fresh) mkBtn(acts,'Next','',function(){rhythmNext()});
   mkBtn(acts,'Skip','quiet',function(){PL.mistakes++; rhythmStop2(); rhythmNext()});
   playSetFb(Mic.on?'Press "Count me in". One bar of clicks, then it listens.':'Turn on the mic, or press the Tap button or the space bar in time.');
   typeInto($('#pBubble'),it.tip);
+}
+function rhythmTempo(d){
+  var it=RH.item; if(!it||!it.bpm||RH.running) return; var nb=Math.max(36,Math.min(120,it.bpm+d)); if(nb===it.bpm) return;
+  PL.items.forEach(function(x,i){ if(i>=PL.i&&x.bpm){ x.bpm=Math.max(36,Math.min(120,x.bpm+(nb-it.bpm))); x.slotMs=30000/x.bpm; x.title=x.title.replace(/at \d+ bpm/,'at '+x.bpm+' bpm'); } });
+  rhythmRender(); playSetFb('Tempo '+it.bpm+' bpm. Press "Count me in" when ready.');
 }
 function rhythmStop2(){ clearInterval(RH.timer); RH.timer=null; RH.running=false; }
 function rhythmHear(it){
@@ -82,6 +89,7 @@ function rhOnset(t){ if(RH.running&&t>=RH.win[0]&&t<=RH.win[1]) RH.onsets.push(t
 function rhythmGo(){
   var it=RH.item; initAudio(); if(!ac) return; if(ac.state==='suspended') ac.resume();
   it.fresh=false; var sd=it.slotMs/1000,n=it.slots.length,start=ac.currentTime+.45,tp=start+n*sd,off=performance.now()-ac.currentTime*1000;
+  RH.cin=[]; for(var ci=0;ci<n;ci++) if(it.beat[ci]) RH.cin.push((start+ci*sd)*1000+off);
   var lat=((ac.baseLatency||0)+(ac.outputLatency||0))*1000, V=MT.vol;
   /* clicks: a count-in bar on the beats, then the pattern's own click pattern */
   for(var k=0;k<n;k++) if(it.beat[k]) clickAt(start+k*sd,k===0?2:0);
@@ -93,7 +101,7 @@ function rhythmGo(){
 }
 function rhythmTick(){
   var it=RH.item; if(!it||!RH.running) return; var now=performance.now(),n=it.slots.length,rel=now-RH.tp;
-  if(rel<-it.slotMs*.5){ var left=Math.ceil((-rel-it.slotMs*.5)/(it.slotMs*n)*4); playSetFb('Count-in…'); return; }
+  if(rel<-it.slotMs*.5){ var cn=(RH.cin||[]).filter(function(t){return t<=now}).length; playSetFb('Count-in: '+(cn?Array.apply(null,Array(cn)).map(function(_,i){return i+1}).join('  '):'get ready')+(cn?'':'…')); $('#pSeq').innerHTML=rhSlotsHtml(it,-1); return; }
   if(now>RH.win[1]){ return rhythmFinish(); }
   var idx=Math.floor(rel/it.slotMs), bar=Math.floor(idx/n), cur=((idx%n)+n)%n, tol=Math.min(150,it.slotMs*.45), marks={};
   /* mark this bar's hits and misses once their window has closed */

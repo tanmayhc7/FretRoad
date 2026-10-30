@@ -250,6 +250,19 @@
     <div class="row"><button class="btn quiet" id="storyClose">Close</button></div>
   </div>
 </div>
+<footer class="fbfoot" id="fbFoot"><span>fretRoad is free and open source.</span> <a href="https://github.com/tanmayhc7/FretRoad" target="_blank" rel="noopener">Code on GitHub</a> <button class="btn quiet" id="fbOpen">Report a problem or share an idea</button></footer>
+<div class="overlay" id="fbOverlay" hidden role="dialog" aria-label="Send feedback">
+  <div class="storybox fbbox">
+    <h2>Report a problem or share an idea</h2>
+    <p class="sub">This opens a pre-filled issue on the project's GitHub page. Nothing is sent until you press Submit there. You need a free GitHub account; if you do not have one, copy the text and send it to whoever shared the game with you.</p>
+    <label class="fld">What is this about<select id="fbKind"><option value="bug">Something is broken</option><option value="idea">An idea or request</option><option value="question">A question</option></select></label>
+    <label class="fld">Title<input id="fbTitle" type="text" maxlength="100" placeholder="One line, for example: Strum in Time does not hear my strums"></label>
+    <label class="fld">Details<textarea id="fbBody" rows="6" placeholder="What did you do, what did you expect, what happened instead?"></textarea></label>
+    <label class="chk"><input type="checkbox" id="fbInfo" checked> Include browser and page details (no progress, no personal data)</label>
+    <pre class="fbprev" id="fbPrev"></pre>
+    <div class="row"><button class="btn primary" id="fbSend">Open on GitHub</button><button class="btn" id="fbCopy">Copy text</button><button class="btn quiet" id="fbClose">Close</button></div>
+  </div>
+</div>
 <div id="toastHost" aria-live="polite"></div>
 
 <script src="js/core.js"></script>
@@ -296,6 +309,7 @@
 <script src="js/warmup.js"></script>
 <script src="js/tour.js"></script>
 <script src="js/tester.js"></script>
+<script src="js/feedback.js"></script>
 <script src="js/backup.js"></script>
 <script src="js/main.js"></script>
 </body>

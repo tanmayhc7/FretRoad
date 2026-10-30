@@ -12,6 +12,7 @@ python3 ui_chapters.py      # every stop of chapters 2 to 4: puzzle, quiz, story
 python3 ui_songs.py         # import a chart, play along, backing band, chord listening on a synthetic strum
 python3 ui_drills3.py       # sprint, finger gym, triad grips, pentatonic boxes, CAGED, melody ear, locks
 python3 ui_rhythm.py        # strum in time, rhythm reading, odd meters (tap input), scale timing, melody on the neck
+python3 ui_feedback.py      # footer form builds a pre-filled GitHub issue link
 python3 ui_tester.py        # tester build: unlocked, separate save, checklist, mic lab
 python3 ui_strum.py         # strum check fed a C chord and a wrong chord
 python3 ui_prefs.py         # daily practice and calendar, sandbox chord shapes, theme, left-handed

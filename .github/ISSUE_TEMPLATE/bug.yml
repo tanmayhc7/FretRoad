@@ -1,0 +1,21 @@
+name: Something is broken
+description: A bug, a wrong answer, or a drill that misbehaves
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you do, what did you expect, what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where in the game
+      description: A stop, a drill, the songs page, and which story
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: iPhone, Safari 18 / MacBook, Brave

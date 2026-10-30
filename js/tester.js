@@ -57,7 +57,8 @@ if(TESTER){ (function(){
     var lab=el('div','tst-lab','<div class="lvl"><i id="tlLvl"></i></div><span class="hit" id="tlHit">hit</span><span id="tlNote">–</span><span id="tlChord">–</span><span id="tlCount">0 hits</span>'); p.appendChild(lab);
     var lr=el('div','tst-row'); var mb=el('button','btn',Mic.on?'Stop mic lab':'Start mic lab'); mb.addEventListener('click',function(){ labToggle(mb); }); lr.appendChild(mb); p.appendChild(lr);
     var acts=el('div','tst-row tst-acts'); p.appendChild(acts);
-    var cp=el('button','btn primary','Copy report'); cp.addEventListener('click',function(){copyReport(cp)}); acts.appendChild(cp);
+    var gh=el('button','btn primary','Send report as GitHub issue'); gh.addEventListener('click',function(){ov.hidden=true; labStop(); fbOpen({title:'Tester report',body:report(),kind:'bug'});}); acts.appendChild(gh);
+    var cp=el('button','btn','Copy report'); cp.addEventListener('click',function(){copyReport(cp)}); acts.appendChild(cp);
     var rs=el('button','btn quiet','Reset tester progress'); rs.addEventListener('click',function(){ try{localStorage.removeItem(KEY); localStorage.removeItem(NK);}catch(e){} location.reload(); }); acts.appendChild(rs);
     var cl=el('button','btn','Close'); cl.addEventListener('click',function(){ov.hidden=true; labStop();}); acts.appendChild(cl);
   }

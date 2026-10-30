@@ -1,15 +1,15 @@
 /* The SVG fretboard component */
 /* ---------- sky ---------- */
-var cv=$('#sky'),cx=cv.getContext('2d'),stars=[],W=0,H=0;
+var cv=$('#sky'),cx=cv.getContext('2d'),stars=[],SKW=0,SKH=0;
 function sizeSky(){
-  var dpr=Math.min(2,window.devicePixelRatio||1); W=innerWidth; H=innerHeight;
-  cv.width=W*dpr; cv.height=H*dpr; cx.setTransform(dpr,0,0,dpr,0,0);
-  var n=Math.round(W*H/8500); stars=[];
-  for(var i=0;i<n;i++) stars.push({x:Math.random()*W,y:Math.random()*H*.9,r:Math.random()*1.3+.2,p:Math.random()*6.28,s:.4+Math.random()*1.3});
+  var dpr=Math.min(2,window.devicePixelRatio||1); SKW=innerWidth; SKH=innerHeight;
+  cv.width=SKW*dpr; cv.height=SKH*dpr; cx.setTransform(dpr,0,0,dpr,0,0);
+  var n=Math.round(SKW*SKH/8500); stars=[];
+  for(var i=0;i<n;i++) stars.push({x:Math.random()*SKW,y:Math.random()*SKH*.9,r:Math.random()*1.3+.2,p:Math.random()*6.28,s:.4+Math.random()*1.3});
   drawSky(0);
 }
 function drawSky(t){
-  cx.clearRect(0,0,W,H); cx.fillStyle='#eeeaf8';
+  cx.clearRect(0,0,SKW,SKH); cx.fillStyle='#eeeaf8';
   for(var i=0;i<stars.length;i++){var s=stars[i]; cx.globalAlpha=Math.max(.1,.38+.42*Math.sin(t/900*s.s+s.p)); cx.beginPath(); cx.arc(s.x,s.y,s.r,0,6.283); cx.fill();}
   cx.globalAlpha=1;
 }

@@ -220,3 +220,7 @@ Ideas, bug reports and especially **real-guitar test recordings** are welcome. O
 ## Tester build
 
 `dist/fretroad-tester.html` (or `index.html?tester=1`) unlocks every stop and drill, keeps its own save so real progress is untouched, and adds a **Tester** button with a checklist of the features that need a real guitar or device, a mic lab (level, hit light, note, chord) and a copyable report. Build it with `python3 tools/build_standalone.py --tester`.
+
+## Feedback and contributing
+
+fretRoad is free and open source under the MIT licence. The page footer has a **Report a problem or share an idea** form that opens a pre-filled issue in this repository; nothing is sent until you press Submit on GitHub, and no progress or personal data is included. You can also [open an issue](https://github.com/tanmayhc7/FretRoad/issues/new/choose) directly, or send a pull request.
