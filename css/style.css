@@ -324,3 +324,66 @@ body[data-world="jungle"]{--panel:rgba(2,20,12,.88);--haze:#cfe8d6}
 .mwave{transform-box:fill-box;transform-origin:100% 100%;animation:mwave 1.6s ease-in-out infinite}
 @keyframes mwave{0%,100%{transform:rotate(0)}50%{transform:rotate(-24deg)}}
 @media (prefers-reduced-motion:reduce){.mbob,.mwob,.mballoon,.mglow,.mwave{animation:none}}
+
+/* ===== Apple-style refresh: system type, floating glass bar, big centered hero, soft cards ===== */
+:root{--f-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',system-ui,sans-serif;
+  --f-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Segoe UI',system-ui,sans-serif;--ease:cubic-bezier(.2,.8,.2,1)}
+body{font-family:var(--f-body);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+h1,h2,h3{font-weight:700;letter-spacing:-.025em}
+.shell{max-width:1320px;padding-block:14px 72px}
+.top{position:sticky;top:12px;z-index:30;margin:0 auto 8px;max-width:1120px;padding:10px 12px 10px 18px;border-radius:999px;background:rgba(20,22,30,.45);border:1px solid rgba(255,255,255,.14);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);box-shadow:0 10px 40px rgba(0,0,0,.28)}
+.brand svg{width:30px;height:30px}.brand b{font-size:1.15rem;font-weight:700;letter-spacing:-.02em}
+.tools{gap:4px}
+.top .btn{border:0;background:none;padding:8px 14px;border-radius:999px;font-weight:500;font-size:.93rem;color:var(--moon);opacity:.82}
+.top .btn:hover{background:rgba(255,255,255,.12);opacity:1}
+.top #snd{background:#f5f5f7;color:#0a0a0a;font-weight:600;opacity:1}.top #snd:hover{background:#fff}
+.top #snd[aria-pressed="false"]{background:rgba(255,255,255,.14);color:var(--moon)}
+.stat{padding:0 10px;font-size:.85rem}
+.btn{border-radius:999px;transition:background .25s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn.primary{box-shadow:0 6px 22px rgba(0,0,0,.25)}
+/* hero */
+.hero{text-align:center;padding:64px 16px 34px;max-width:900px;margin:0 auto;animation:rise .9s var(--ease) both}
+.eyebrow{margin:0 0 14px;font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--glass)}
+.hero h2{font-size:clamp(2.4rem,6.2vw,4.4rem);line-height:1.04;letter-spacing:-.035em;margin:0 auto}
+.hero .sub{margin:16px auto 26px;max-width:46ch;font-size:clamp(1.02rem,1.9vw,1.3rem);color:var(--haze);line-height:1.45}
+.chtabs{display:inline-flex;gap:2px;padding:4px;margin:0;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);max-width:100%;overflow-x:auto}
+.chtab{height:auto;min-width:0;padding:9px 18px;border:0;background:none;color:var(--moon);font-weight:600;font-size:.92rem;opacity:.72;white-space:nowrap;transition:background .3s var(--ease),color .3s var(--ease),opacity .3s}
+.chtab:hover:not(:disabled){opacity:1;background:rgba(255,255,255,.1)}
+.chtab.on{background:#f5f5f7;color:#0a0a0a;opacity:1;border:0;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.chtab.done:not(.on){color:var(--glass);opacity:.95}
+/* map */
+.map-frame{border-radius:36px;border:1px solid rgba(255,255,255,.14);box-shadow:0 40px 100px -20px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12);animation:rise 1s .08s var(--ease) both}
+/* stop cards in a grid */
+.chapter{display:block;margin-top:36px}
+.stops{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.stop{border-radius:24px;padding:20px 22px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  transition:transform .4s var(--ease),background .3s,border-color .3s,box-shadow .4s var(--ease);animation:rise .8s var(--ease) both}
+.stop:nth-child(2){animation-delay:.05s}.stop:nth-child(3){animation-delay:.1s}.stop:nth-child(4){animation-delay:.15s}.stop:nth-child(5){animation-delay:.2s}
+.stop:hover:not([disabled]){transform:translateY(-3px);background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.26);box-shadow:0 18px 40px -12px rgba(0,0,0,.5)}
+.stop strong{font-weight:600;font-size:1.18rem;letter-spacing:-.015em}
+.stop .n{font-weight:600;font-size:1rem}
+.mod{border-radius:22px;padding:18px 20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);transition:transform .4s var(--ease),background .3s,border-color .3s}
+.mod:hover:not(:disabled){transform:translateY(-3px);background:rgba(255,255,255,.11)}
+.mod strong{font-weight:600;letter-spacing:-.015em}
+.practice{margin-top:64px}.practice h2{font-size:clamp(1.8rem,3.6vw,2.6rem)}
+.foot{margin-top:48px}
+.node .name{font-weight:600;letter-spacing:-.01em}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+@media (max-width:720px){.top{border-radius:28px;padding:8px 10px}.tools{justify-content:flex-end}.hero{padding-top:40px}.stops{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.hero,.map-frame,.stop{animation:none}.stop,.mod{transition:none}}
+
+/* stop cards: stacked layout so they read well at card width */
+.stop{grid-template-columns:auto 1fr;grid-template-areas:"n tag" "t t";gap:10px 12px;align-items:center}
+.stop .n{grid-area:n;width:34px;height:34px;font-size:.95rem}
+.stop .tag{grid-area:tag;justify-self:end}
+.stop>div,.stop>span:not(.n):not(.tag){grid-area:t}
+@media (max-width:720px){
+  .top{flex-wrap:nowrap;gap:6px}.top .stat{display:none}.tools{flex-wrap:nowrap;gap:0}.top .btn{padding:7px 9px;font-size:.82rem}
+  .chtabs{width:100%;justify-content:space-between}.chtab{padding:8px 10px;flex:1;text-align:center}.chtab .w{display:none}
+  .hero h2{font-size:2.3rem}
+}
+@media (max-width:720px){.brand b{display:none}.top{justify-content:space-between}}
+body.has-world .practice{padding:28px 24px;border-radius:32px;background:rgba(4,8,24,.55);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.1)}
+body[data-world="jungle"] .practice{background:rgba(2,18,10,.6)}

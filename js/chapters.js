@@ -17,11 +17,11 @@ var dest=function(id){return (isDone(id)&&!isPassed(id))?'quiz-'+id:'stop-'+id};
 var currentId=function(){for(var i=0;i<LEVELS.length;i++){ if(!isPassed(LEVELS[i].id)&&unlocked(LEVELS[i].id)) return LEVELS[i].id; } return null;};
 function drawChapterHead(){
   var ch=CHAPTERS[viewCh], t=chapterText(ch.id);
-  $('#chH').innerHTML='Chapter '+ch.id+'<br>'+t.h; $('#chSub').textContent=t.sub;
+  $('#chH').textContent=t.h; $('#chSub').textContent=t.sub; $('#chEye').textContent='Chapter '+ch.id+' \u00b7 '+S().name;
   var tabs=$('#chTabs'); tabs.innerHTML='';
   CHAPTERS.forEach(function(c,i){
     var open=chapterOpen(i),b=document.createElement('button'); b.className='chtab'+(i===viewCh?' on':'')+(chapterDone(i)?' done':''); b.disabled=!open;
-    b.textContent=(chapterDone(i)?'✓ ':'')+c.id; b.setAttribute('aria-label','Chapter '+c.id+(open?'':', locked')+(chapterDone(i)?', cleared':'')); b.title=chapterText(c.id).h;
+    b.innerHTML=(chapterDone(i)?'✓ ':'')+'<span class="w">Chapter </span>'+c.id; b.setAttribute('aria-label','Chapter '+c.id+(open?'':', locked')+(chapterDone(i)?', cleared':'')); b.title=chapterText(c.id).h;
     b.addEventListener('click',function(){viewCh=i; drawMap(); showChapterIntroOnce();});
     tabs.appendChild(b);
   });

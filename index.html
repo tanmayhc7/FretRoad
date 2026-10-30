@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Fretroad</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;700&family=Gloock&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body><div id="skybg"><canvas id="sky"></canvas></div>
@@ -40,6 +40,12 @@
 
   <!-- MAP -->
   <section id="v-map">
+    <div class="hero">
+      <p class="eyebrow" id="chEye"></p>
+      <h2 id="chH"></h2>
+      <p class="sub" id="chSub"></p>
+      <div class="chtabs" id="chTabs" role="group" aria-label="Chapters"></div>
+    </div>
     <div class="map-frame"><div class="mapscroll">
 <svg id="mapsvg" viewBox="0 0 1200 520" role="img" aria-label="Night road map with three lamp posts, one for each stop of chapter one">
 <defs>
@@ -81,11 +87,6 @@
     </div></div>
 
     <div class="chapter">
-      <div>
-        <div class="chtabs" id="chTabs" role="group" aria-label="Chapters"></div>
-        <h2 id="chH"></h2>
-        <p class="sub" id="chSub"></p>
-      </div>
       <ol class="stops" id="stoplist"></ol>
     </div>
     <div class="practice">

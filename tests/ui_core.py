@@ -132,7 +132,7 @@ with sync_playwright() as p:
     for _ in range(8):
         if page.locator('#talkOverlay[hidden]').count(): break
         page.locator('#talkNext').click(); page.wait_for_timeout(150)
-    check('chapter 2 opens after chapter 1 with its own intro',page.locator('.chtab:not([disabled])').count()==2 and page.locator('#chH').inner_text().startswith('Chapter 2'))
+    check('chapter 2 opens after chapter 1 with its own intro',page.locator('.chtab:not([disabled])').count()==2 and page.locator('#chEye').inner_text().lower().startswith('chapter 2'))
     page.locator('.chtab').first.click(); page.wait_for_timeout(200)
     check('amp shows three lights',page.locator('#stat .amp i.on').count()==3)
     page.screenshot(path='out/shot_map_done.png',full_page=True)

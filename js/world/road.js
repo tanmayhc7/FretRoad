@@ -15,8 +15,8 @@
     var R=wrng(41);
     wLayer(cam,1000,5,function(g,d){defs(d);
       for(var i=0;i<300;i++){var big=R()<.06; se('circle',{cx:(R()*1700-50).toFixed(0),cy:(R()*560).toFixed(0),r:big?(1.5+R()).toFixed(1):(.5+R()*.8).toFixed(1),fill:R()<.2?'#ffd9a8':'#fff',class:'tw','style':'animation-delay:-'+(R()*5).toFixed(1)+'s;animation-duration:'+(2+R()*4).toFixed(1)+'s'},g);}
-      se('circle',{cx:1050,cy:330,r:240,fill:'url(#rMoon)'},g); se('circle',{cx:1050,cy:330,r:62,fill:'#fbf2e2'},g);
-      [[1030,316,12],[1074,354,9],[1056,300,6]].forEach(function(c){se('circle',{cx:c[0],cy:c[1],r:c[2],fill:'#e3d6c6'},g)});
+      se('circle',{cx:1430,cy:250,r:240,fill:'url(#rMoon)'},g); se('circle',{cx:1430,cy:250,r:62,fill:'#fbf2e2'},g);
+      [[1410,236,12],[1454,274,9],[1436,220,6]].forEach(function(c){se('circle',{cx:c[0],cy:c[1],r:c[2],fill:'#e3d6c6'},g)});
       for(var k=0;k<3;k++) se('line',{x1:600+k*200,y1:60+k*40,x2:500+k*200,y2:100+k*40,stroke:'#fff',class:'shoot','style':'animation-delay:'+(k*6+3)+'s','stroke-width':2,'stroke-linecap':'round'},g);
     });
     wLayer(cam,880,10,function(g){
