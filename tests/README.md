@@ -14,6 +14,7 @@ python3 ui_drills3.py       # sprint, finger gym, triad grips, pentatonic boxes,
 python3 ui_rhythm.py        # strum in time, rhythm reading, odd meters (tap input), scale timing, melody on the neck
 python3 ui_feedback.py      # footer form builds a pre-filled GitHub issue link
 python3 ui_tester.py        # tester build: unlocked, separate save, checklist, mic lab
+python3 ui_ocr.py           # picture import: word boxes -> chords-over-lyrics text (synthetic)
 python3 ui_strum.py         # strum check fed a C chord and a wrong chord
 python3 ui_prefs.py         # daily practice and calendar, sandbox chord shapes, theme, left-handed
 python3 ui_tour.py          # first-visit tour, skip and remember

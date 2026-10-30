@@ -71,6 +71,38 @@ function pdfItemsToText(items){
   return ys.map(function(y){var line='',r=rows[y].sort(function(a,b){return a.transform[4]-b.transform[4]});
     r.forEach(function(it){var col=Math.round(it.transform[4]/cw); while(line.length<col) line+=' '; if(line.length&&!/\s$/.test(line)&&col<=line.length) line+=' '; line+=it.str}); return line.replace(/\s+$/,'');}).join('\n');
 }
+/* OCR: one worker for all pages; words come back with positions, ocr.js rebuilds chords-over-lyrics from them */
+function ocrRun(sources,hint){
+  return loadScriptOnce('https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js').then(function(){
+    return Tesseract.createWorker('eng');
+  }).then(function(worker){
+    var texts=[],i=0;
+    return worker.setParameters({tessedit_pageseg_mode:'6',preserve_interword_spaces:'1'}).then(function(){
+      function next(){
+        if(i>=sources.length) return worker.terminate().then(function(){return texts});
+        hint.textContent=sources.length>1?('Reading page '+(i+1)+' of '+sources.length+'. The first page can take half a minute.'):'Reading the picture. The first time can take half a minute.';
+        return worker.recognize(sources[i++],{},{tsv:true,blocks:true}).then(function(r){
+          var words=ocrWordsFromResult(r.data), t=words?ocrWordsToText(words):String(r.data.text||'');
+          texts.push(t); return next();
+        });
+      }
+      return next();
+    });
+  });
+}
+/* a PDF whose pages are pictures: draw each page to a canvas and read it */
+function ocrPdf(pdf,hint){
+  var pages=[]; for(var p=1;p<=pdf.numPages;p++) pages.push(p);
+  return pages.reduce(function(chain,p){ return chain.then(function(list){
+    return pdf.getPage(p).then(function(pg){
+      var v0=pg.getViewport({scale:1}), sc=Math.min(3,Math.max(1.5,1700/v0.width)), vp=pg.getViewport({scale:sc});
+      var cv=document.createElement('canvas'); cv.width=Math.round(vp.width); cv.height=Math.round(vp.height);
+      return pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise.then(function(){ list.push(cv); return list; });
+    });
+  }); },Promise.resolve([])).then(function(canvases){ return ocrRun(canvases,hint); }).then(function(texts){
+    var t=texts.join('\n\n').trim(); if(t.replace(/\s/g,'').length<10) throw new Error('ocr-empty'); return t;
+  });
+}
 function importFile(f){
   var hint=$('#impHint'), name=(f.name||'').toLowerCase();
   var done=function(text){ $('#impText').value=text; if(!$('#impTitle').value) $('#impTitle').value=f.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' '); impPreview(); hint.textContent='Check the chords below and fix anything the reader got wrong, then save.'; };
@@ -81,15 +113,16 @@ function importFile(f){
       pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
       return f.arrayBuffer().then(function(buf){return pdfjsLib.getDocument({data:buf}).promise});
     }).then(function(pdf){
+      IMP.pdf=pdf;
       var jobs=[]; for(var p=1;p<=pdf.numPages;p++) jobs.push(pdf.getPage(p).then(function(pg){return pg.getTextContent()}).then(function(tc){return pdfItemsToText(tc.items)}));
       return Promise.all(jobs);
-    }).then(function(pages){ var t=pages.join('\n\n'); if(t.replace(/\s/g,'').length<20) hint.textContent='That PDF has no text layer, so it is a scan. Take a clear photo of it instead and I will read the picture.'; else done(t); })
-    .catch(function(){hint.textContent='I could not read that PDF here. If you are offline, paste the text instead.'});
+    }).then(function(pages){ var t=pages.join('\n\n'); if(t.replace(/\s/g,'').length<20){ return ocrPdf(IMP.pdf,hint).then(function(txt){ done(txt); hint.textContent='Read from the page pictures. Check every chord and where it sits over the words, then save.'; }); } else done(t); })
+    .catch(function(e){hint.textContent=(e&&e.message==='ocr-empty')?'I could not find any text in that PDF. Try a clearer or larger copy, or paste the chords.':'I could not read that PDF here. If you are offline, paste the text instead.'});
     return;
   }
   if(/^image\//.test(f.type)||/\.(png|jpe?g|heic|webp)$/.test(name)){
     hint.textContent='Reading the photo. The first time can take half a minute.';
-    loadScriptOnce('https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js').then(function(){return Tesseract.recognize(f,'eng')}).then(function(r){ done(r.data.text); hint.textContent='Photo read. Spacing is often off in photos, so check every chord before saving.'; })
+    ocrRun([f],hint).then(function(texts){ done(texts.join('\n\n')); hint.textContent='Photo read. Spacing is often off in photos, so check every chord and where it sits over the words before saving.'; })
     .catch(function(){hint.textContent='I could not read that photo here. If you are offline, type or paste the chords instead.'});
     return;
   }
