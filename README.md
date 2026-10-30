@@ -210,7 +210,7 @@ Ideas, bug reports and especially **real-guitar test recordings** are welcome. O
 
 ## License
 
-[MIT](LICENSE). Free to use, change and share.
+[AGPL-3.0](LICENSE). Free to use, study, change and share. If you run a modified version for others, including as a website, you must offer them your modified source under the same licence. Versions published up to commit 4837375 were released under the MIT licence and stay available under it.
 
 <div align="center">
 <br>
@@ -223,4 +223,4 @@ Ideas, bug reports and especially **real-guitar test recordings** are welcome. O
 
 ## Feedback and contributing
 
-fretRoad is free and open source under the MIT licence. The page footer has a **Report a problem or share an idea** form that opens a pre-filled issue in this repository; nothing is sent until you press Submit on GitHub, and no progress or personal data is included. You can also [open an issue](https://github.com/tanmayhc7/FretRoad/issues/new/choose) directly, or send a pull request.
+fretRoad is free software under the GNU AGPL-3.0 licence. The page footer has a **Report a problem or share an idea** form that opens a pre-filled issue in this repository; nothing is sent until you press Submit on GitHub, and no progress or personal data is included. You can also [open an issue](https://github.com/tanmayhc7/FretRoad/issues/new/choose) directly, or send a pull request. By contributing you agree your work is licensed under the same AGPL-3.0 terms.
