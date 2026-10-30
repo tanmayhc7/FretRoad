@@ -262,7 +262,7 @@ body[data-world="jungle"] #world{background:radial-gradient(ellipse at 50% 0%,#2
 body[data-world="city"]{background:#03040f;--ink:#03040f;--night:#0a1040;--dusk:#1c1f62;--horizon:#e07a9a;--brass:#ffd27a;--glass:#7fd7ff;--rose:#ff7fa8;--moon:#f4f1ff;--haze:#aeb4e6;--panel:rgba(7,12,46,.8)}
 body[data-world="city"] #world{background:linear-gradient(180deg,#01020c 0%,#080e3a 42%,#2a2570 72%,#8a4a8c 100%)}
 body.has-world .shell{text-shadow:0 1px 3px rgba(0,0,0,.45)}
-body.has-world .panel,body.has-world .mapcard,body.has-world .map-wrap{backdrop-filter:blur(6px)}
+
 .sway{transform-box:fill-box;transform-origin:50% 0;animation:sway 6s ease-in-out infinite}
 .sway2{transform-box:fill-box;transform-origin:50% 100%;animation:sway2 7s ease-in-out infinite}
 @keyframes sway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}

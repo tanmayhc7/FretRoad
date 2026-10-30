@@ -3,6 +3,21 @@ function applyPrefs(){
   var t=save.theme||'dark', light=t==='light'||(t==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches);
   document.documentElement.classList.toggle('light',!!light);
   document.documentElement.classList.toggle('lefty',!!save.lefty);
+  var m=save.motion||'auto', reduced=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var calm=m==='calm'||reduced||(m==='auto'&&!!window.__calmAuto);
+  document.documentElement.classList.toggle('motion-calm',calm);
+  if(typeof WORLD_RT!=='undefined') WORLD_RT.still=calm;
+}
+/* If the scenery cannot keep up on this device, switch to calm mode by itself (unless the player chose Full). */
+function motionProbe(){
+  if(window.__probed||(save.motion&&save.motion!=='auto')) return; window.__probed=true;
+  setTimeout(function(){
+    var n=0,t0=0,last=0,ds=[]; function f(t){ if(document.hidden||(typeof WORLD_RT!=='undefined'&&WORLD_RT.paused)){ requestAnimationFrame(f); last=0; return; }
+      if(last){ ds.push(t-last); } last=t; n++; if(n<22){ requestAnimationFrame(f); return; }
+      ds.sort(function(a,b){return a-b}); var med=ds[Math.floor(ds.length/2)]||16;
+      if(med>30){ window.__calmAuto=true; applyPrefs(); toast('Scenery set to calm so everything stays smooth. You can change this in Settings.'); } }
+    requestAnimationFrame(f);
+  },1200);
 }
 function prefsBuild(){
   if($('#prefOverlay')) return;
@@ -10,6 +25,7 @@ function prefsBuild(){
   o.innerHTML='<div class="storybox"><h2>Settings</h2>'+
     '<div class="prefrow"><b>Theme</b><div class="seg3" id="prefTheme" role="group" aria-label="Theme"></div></div>'+
     '<div class="prefrow"><b>Left-handed</b><label class="chk"><input type="checkbox" id="prefLefty"> Mirror the fretboard and chord diagrams</label></div>'+
+    '<div class="prefrow"><b>Scenery motion</b><select id="prefMotion" aria-label="Scenery motion"><option value="auto">Automatic</option><option value="full">Full</option><option value="calm">Calm (still scenery)</option></select></div>'+
     '<div class="prefrow"><b>Daily reminder</b><div class="remind"><label class="chk"><input type="checkbox" id="remOn"> Remind me to practise</label><label>at <input type="time" id="remTime" value="18:00"></label>'+
       '<p class="jsub" id="remNote"></p><button class="btn" id="remIcs">Add a repeating event to my calendar</button></div></div>'+
     '<div class="row"><button class="btn quiet" id="prefClose">Close</button></div></div>';
@@ -18,13 +34,14 @@ function prefsBuild(){
     var b=document.createElement('button'); b.className='btn'; b.dataset.v=x[0]; b.textContent=x[1];
     b.addEventListener('click',function(){save.theme=x[0]; persist(); applyPrefs(); prefsSync()}); $('#prefTheme').appendChild(b);
   });
+  $('#prefMotion').addEventListener('change',function(){ save.motion=this.value; window.__calmAuto=false; window.__probed=(this.value!=='auto')?true:false; persist(); applyPrefs(); if(this.value==='auto') motionProbe(); });
   $('#remOn').addEventListener('change',function(){ remindSet(this.checked); });
   $('#remTime').addEventListener('change',function(){ var r=save.remind||(save.remind={on:false,time:'18:00'}); r.time=this.value||'18:00'; persist(); });
   $('#remIcs').addEventListener('click',remindIcs);
   $('#prefClose').addEventListener('click',function(){o.hidden=true});
   o.addEventListener('click',function(e){if(e.target===o) o.hidden=true});
 }
-function prefsSync(){ var r=save.remind||{on:false,time:'18:00'}; $('#remOn').checked=!!r.on; $('#remTime').value=r.time||'18:00'; remindNote(); var t=save.theme||'dark'; document.querySelectorAll('#prefTheme .btn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===t); b.classList.toggle('primary',b.dataset.v===t)}); $('#prefLefty').checked=!!save.lefty; }
+function prefsSync(){ $('#prefMotion').value=save.motion||'auto'; var r=save.remind||{on:false,time:'18:00'}; $('#remOn').checked=!!r.on; $('#remTime').value=r.time||'18:00'; remindNote(); var t=save.theme||'dark'; document.querySelectorAll('#prefTheme .btn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===t); b.classList.toggle('primary',b.dataset.v===t)}); $('#prefLefty').checked=!!save.lefty; }
 function openPrefs(){ prefsBuild(); prefsSync(); $('#prefOverlay').hidden=false; }
 applyPrefs();
 if(window.matchMedia) try{ matchMedia('(prefers-color-scheme: light)').addEventListener('change',applyPrefs) }catch(e){}
