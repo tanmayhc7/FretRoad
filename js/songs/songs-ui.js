@@ -22,10 +22,11 @@ function showSongs(){
     var ch=parseChart(s.text,s.title), u=uniqueChords(ch.seq);
     var c=document.createElement('div'); c.className='songcard';
     c.innerHTML='<h3></h3><p class="meta"></p><div class="chips"></div><div class="acts"></div>';
-    c.querySelector('h3').textContent=s.title; c.querySelector('.meta').textContent=(ch.keyGuess?'Key of '+ch.keyGuess+' · ':'')+u.length+' chords · '+ch.seq.length+' changes';
+    c.querySelector('h3').textContent=s.title; c.querySelector('.meta').textContent=(ch.keyGuess?'Key of '+ch.keyGuess+' · ':'')+u.length+' chords · '+ch.seq.length+' changes'+(s.recName?' · has a recording':'');
     var chips=c.querySelector('.chips'); u.slice(0,10).forEach(function(x){var i=document.createElement('i'); i.textContent=x; chips.appendChild(i)});
     var a=c.querySelector('.acts');
     mkBtn(a,'Play along','primary',function(){location.hash='jam-'+s.id});
+    mkBtn(a,s.recName?'Recording':'Add mp3','',function(){location.hash='jam-'+s.id});
     mkBtn(a,'Edit','',function(){openImport(s)});
     mkBtn(a,'Delete','quiet',function(){ if(c.dataset.sure){save.songs=songsList().filter(function(x){return x.id!==s.id}); if(typeof recDelFile==='function') recDelFile(s.id); persist(); showSongs();} else {c.dataset.sure='1'; this.textContent='Press again to delete'; setTimeout(function(){c.dataset.sure=''; showSongs();},3000)} });
     g.appendChild(c);
@@ -44,7 +45,7 @@ function showSongs(){
 /* ---- importer ---- */
 var IMP={editId:null};
 function openImport(song){
-  IMP.editId=song?song.id:null; $('#impTitle').value=song?song.title:''; $('#impText').value=song?song.text:''; $('#impHint').textContent=''; impPreview();
+  IMP.editId=song?song.id:null; IMP.audio=null; $('#impTitle').value=song?song.title:''; $('#impText').value=song?song.text:''; $('#impHint').textContent=''; impPreview();
   $('#songAdd').hidden=false; $('#songAdd').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function impPreview(){
@@ -57,9 +58,11 @@ function impPreview(){
 function impSave(){
   var text=$('#impText').value, ch=parseChart(text,$('#impTitle').value);
   if(!ch.seq.length){$('#impHint').textContent='I could not find any chords in that text.'; return;}
-  var title=$('#impTitle').value.trim()||ch.title, list=songsList();
+  var title=$('#impTitle').value.trim()||ch.title, list=songsList(), sid=IMP.editId;
   if(IMP.editId){var s=list.filter(function(x){return x.id===IMP.editId})[0]; if(s){s.title=title; s.text=text;}}
-  else list.unshift({id:newId(),title:title,text:text});
+  else { sid=newId(); list.unshift({id:sid,title:title,text:text}); }
+  if(IMP.audio&&typeof recPut==='function'){ recPut(sid,IMP.audio); var so=list.filter(function(x){return x.id===sid})[0]; if(so){so.recName=IMP.audio.name; so.marks=[];} }
+  IMP.audio=null;
   persist(); $('#songAdd').hidden=true; $('#impText').value=''; $('#impTitle').value=''; IMP.editId=null; showSongs(); toast('Song saved.');
 }
 function loadScriptOnce(url){return new Promise(function(res,rej){ if(document.querySelector('script[data-src="'+url+'"]')) return res(); var s=document.createElement('script'); s.src=url; s.dataset.src=url; s.onload=res; s.onerror=function(){rej(new Error('offline'))}; document.head.appendChild(s); });}
@@ -106,6 +109,7 @@ function ocrPdf(pdf,hint){
 function importFile(f){
   var hint=$('#impHint'), name=(f.name||'').toLowerCase();
   var done=function(text){ $('#impText').value=text; if(!$('#impTitle').value) $('#impTitle').value=f.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' '); impPreview(); hint.textContent='Check the chords below and fix anything the reader got wrong, then save.'; };
+  if(/^audio\//.test(f.type)||/\.(mp3|m4a|wav|ogg|aac|flac)$/.test(name)){ IMP.audio=f; if(!$('#impTitle').value) $('#impTitle').value=f.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' '); hint.textContent='Got the recording ('+f.name+'). Now paste or drop the chord chart, then save. In Play along you will tap once per chord change and the song will follow the chords.'; return; }
   if(/\.(txt|cho|crd|pro|chordpro|md)$/.test(name)||f.type.indexOf('text')===0){ var r=new FileReader(); r.onload=function(){done(String(r.result))}; r.readAsText(f); return; }
   if(/\.pdf$/.test(name)||f.type==='application/pdf'){
     hint.textContent='Reading the PDF...';
@@ -126,7 +130,7 @@ function importFile(f){
     .catch(function(){hint.textContent='I could not read that photo here. If you are offline, type or paste the chords instead.'});
     return;
   }
-  hint.textContent='I can read .txt, ChordPro, PDF and photo files.';
+  hint.textContent='I can read .txt, ChordPro, PDF and photo files, and take an mp3 to play along with.';
 }
 (function(){
   $('#songsBtn').addEventListener('click',function(){location.hash='songs'});
