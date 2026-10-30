@@ -100,6 +100,17 @@ QX.melodyEar=function(){
     explain:'The melody was degrees '+correct+' of the major scale. Hum the home note first, then ask how far up or down each step is from it. Steps next to each other sound close, jumps sound wide.'};
 };
 
+/* ---- find a heard melody on the neck ---- */
+QX.melodyNeck=function(len,hint){
+  var r=rnd(12),base=48+r,deg=[pick([0,2,4])],i;
+  for(i=1;i<len;i++){ var dd; do{ dd=Math.max(0,Math.min(6,deg[i-1]+pick([-2,-1,-1,1,1,2]))) }while(dd===deg[i-1]); deg.push(dd); }
+  var mid=deg.map(function(x){return base+MAJ_DEG[x]}),seq=mid.map(function(m){return m%12}),names=seq.map(function(p){return NAMES[p]});
+  return {kind:'clicks',seq:seq,prompt:'Listen to the melody, then click its '+len+' notes on the neck, in order. It is in '+NAMES[r]+' major'+(hint?' and starts on '+names[0]+'.':'.'),
+    audio:[{label:'Play the melody',notes:mid,mode:'run'},{label:'Play the key note',notes:[base],mode:'run'}],
+    explain:'The melody was '+names.join(' – ')+'. Any octave counts. Searching by ear works: click a note, compare it with the tune, and move up or down until it matches.'};
+};
+QB.melodyNeck=function(){return QX.melodyNeck(3,true)};
+QB.transcribe=function(){return QX.melodyNeck(5,false)};
 QB.triadSet=function(){return QX.triadSet()};
 QB.pentBox=function(){return QX.pentBox()};
 QB.caged=function(){return QX.caged()};
@@ -122,6 +133,10 @@ function spiderItems(rounds){
 [
  {id:'playstrum',name:'Strum Check',desc:'Strum a whole chord at once and the app names what it hears.',needs:3,kind:'strum',type:'play',tier:'Intermediate',rounds:6,pool:['E','Em','A','Am','D','Dm','G','C'],
   primer:['Build the Chord checks one string at a time. This one listens to a normal strum, the way you would play it in a song.','Strum all the strings together, let the chord ring, and stay still for a moment. The app compares the combined sound with the chord it asked for.','Turn the mic on in a quiet room and sit about an arm\'s length from it. If it hears a different chord, check that no finger is touching a neighbouring string.']},
+ {id:'melodyneck',name:'Melody on the Neck',desc:'Hear a three-note tune and find it on the fretboard.',needs:4,lv:4,rounds:8,tier:'Intermediate',pool:['melodyNeck'],
+  primer:['You hear a short melody in a named key, and the first note is given. Click the notes on the neck, in order. Every click plays the note, so you can search by ear: click, compare with the tune, then move up or down.','Any octave counts. Wrong clicks are allowed, they just mean the question counts as missed.']},
+ {id:'transcribe',name:'Transcribe by Ear',desc:'A five-note phrase, only the key is given. Find every note.',needs:5,lv:5,rounds:6,tier:'Advanced',pool:['transcribe'],
+  primer:['The same idea with more notes and no hint about the start. Hum the key note first, then work out each step: is the next note higher or lower, near or far?','This is how songs are learned from a recording: one note at a time, checking against the neck.']},
  {id:'sprint',name:'Fretboard Sprint',desc:'Fifteen notes against the clock, with a streak counter.',needs:1,lv:1,rounds:15,tier:'Beginner',pool:['findNote'],timed:true,
   primer:['A quick-fire round of note finding. The clock starts when you begin and stops when you answer the last question.','Speed matters less than getting each note right first time. Your score and your fastest clean run are both saved on this device.']},
  {id:'spiderwalk',name:'Finger Gym',desc:'Spider and chromatic walks to build finger independence.',needs:2,kind:'spider',type:'play',tier:'Beginner',rounds:4,

@@ -32,13 +32,15 @@ def answer(page):
         for f in range(13):
             if (OPEN[c['s']]+f)%12==c['pc'] and (c.get('f') is None or c['f']==f): target=f; break
         hit(page,'boardQ',c['s'],target)
+    elif page.evaluate("Q.queue[Q.i].kind")=='clicks':
+        page.evaluate("(()=>{const q=Q.queue[Q.i]; q.seq.forEach(pc=>{let f=0; for(let ff=0;ff<=12;ff++) if(pcOf(2,ff)===pc){f=ff;break} onCellQ(2,f)})})()")
     else: page.locator('#qChoices .choice').nth(st['ok']).click()
     page.wait_for_selector('#qActs .btn.primary')
 with sync_playwright() as p:
     plain=p.chromium.launch(args=['--autoplay-policy=no-user-gesture-required'])
     pg=newpage(plain,mic=False)
     tiers=pg.locator('#mods h3.tier').all_inner_texts(); check('three tiers in order',tiers==['Beginner','Intermediate','Advanced'],tiers)
-    n=pg.locator('#mods .mod').count(); NP=pg.evaluate("window.__FRETROAD_TEST.PRACTICE.length"); check('%d practice cards'%NP,n==NP and NP>=42,n)
+    n=pg.locator('#mods .mod').count(); NP=pg.evaluate("window.__FRETROAD_TEST.PRACTICE.length"); check('%d practice cards'%NP,n==NP and NP>=47,n)
     NH=pg.evaluate("window.__FRETROAD_TEST.PRACTICE.filter(m=>m.needs>5).length"); check('all stop 1-5 drills unlocked after five stops',pg.locator('#mods .mod:disabled').count()==NH)
     pg.screenshot(path=D+'shot_map_tiers.png',full_page=True)
     # metronome

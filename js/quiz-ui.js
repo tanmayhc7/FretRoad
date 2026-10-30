@@ -58,8 +58,8 @@ function renderQ(){
   });
   boardQ.clearOrbs(); boardQ.clearLinks();
   (q.board||[]).forEach(function(o,i){boardQ.orb('q'+i,{s:o.s,f:o.f,kind:o.kind,label:o.label})});
-  $('#boardQ').hidden=!((q.board&&q.board.length)||q.kind==='click');
-  var fb=$('#qFb'); fb.className='fb'; fb.textContent=q.kind==='click'?'Click the fretboard to answer.':'';
+  $('#boardQ').hidden=!((q.board&&q.board.length)||q.kind==='click'||q.kind==='clicks'); if(q.kind==='clicks'){q.k=0;q.bad=false;}
+  var fb=$('#qFb'); fb.className='fb'; fb.textContent=q.kind==='click'?'Click the fretboard to answer.':(q.kind==='clicks'?'Click the notes on the fretboard, in order. Clicking plays the note, so you can search by ear.':'');
   $('#qActs').innerHTML='';
 }
 function playAudio(a){
@@ -80,7 +80,13 @@ function pickChoice(i){
 }
 function onCellQ(s,f){
   pluck(OPEN[s]+f); boardQ.vib(s);
-  var q=Q.queue[Q.i]; if(!q||q.kind!=='click'||Q.answered) return;
+  var q=Q.queue[Q.i]; if(q&&q.kind==='clicks'&&!Q.answered){
+    var want=q.seq[q.k],okc=pcOf(s,f)===want, fbq=$('#qFb');
+    if(okc){ boardQ.orb('c'+q.k,{s:s,f:f,kind:'found',label:NAMES[want]}); boardQ.burst(s,f,'#63d8c3'); q.k++; fbq.className='fb good'; fbq.textContent='Note '+q.k+' of '+q.seq.length+' found.'; if(q.k>=q.seq.length) settle(!q.bad); }
+    else { q.bad=true; boardQ.orb('w'+s+'_'+f,{s:s,f:f,kind:'miss',label:NAMES[pcOf(s,f)]}); fbq.className='fb bad'; fbq.textContent='That was '+NAMES[pcOf(s,f)]+', not the note you heard. Listen again. (This question will count as missed.)'; }
+    return;
+  }
+  if(!q||q.kind!=='click'||Q.answered) return;
   var ok=(s===q.click.s&&pcOf(s,f)===q.click.pc&&(q.click.f===undefined||f===q.click.f));
   boardQ.orb('ans',{s:s,f:f,kind:ok?'found':'miss',label:NAMES[pcOf(s,f)]});
   if(ok) boardQ.burst(s,f,'#63d8c3');

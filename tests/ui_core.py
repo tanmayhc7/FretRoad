@@ -72,7 +72,7 @@ with sync_playwright() as p:
     check('intro overlay dismissed',page.locator('#talkOverlay[hidden]').count()==1)
     check('five stops on the map',page.locator('#stoplist .stop').count()==5)
     NP=page.evaluate("window.__FRETROAD_TEST.PRACTICE.length"); NL=page.evaluate("window.__FRETROAD_TEST.PRACTICE.filter(m=>m.needs>0).length")
-    check('%d practice cards, %d locked at start'%(NP,NL),NP>=42 and page.locator('#mods .mod').count()==NP and page.locator('#mods .mod:disabled').count()==NL)
+    check('%d practice cards, %d locked at start'%(NP,NL),NP>=47 and page.locator('#mods .mod').count()==NP and page.locator('#mods .mod:disabled').count()==NL)
     check('stop 2 locked at start',page.locator('#stoplist .stop').nth(1).is_disabled())
     page.screenshot(path='out/shot_map.png')
     # stop 1

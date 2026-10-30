@@ -155,3 +155,25 @@ body.w-pause .wl{will-change:auto}
 body.w-pause #world::before{display:none}
 body.w-pause .wl-screen{mix-blend-mode:normal}
 .wl.wl-flat{will-change:auto}
+
+/* rhythm drills: slots with a count above each, hit and miss colours */
+.rhseq{display:flex;flex-wrap:wrap;gap:6px}
+.chip.rh{display:inline-flex;flex-direction:column;align-items:center;min-width:42px;padding:4px 8px;line-height:1.1}
+.chip.rh small{font-size:11px;opacity:.65}
+.chip.rh.rest{opacity:.7}
+.chip.rh.miss{background:rgba(242,112,143,.22);border-color:rgba(242,112,143,.6);color:#f2708f}
+
+/* tester build */
+.tst-btn{position:fixed;left:14px;bottom:14px;z-index:9000;padding:8px 14px;border-radius:999px;border:1px solid var(--brass);background:rgba(10,12,34,.92);color:var(--brass);font:600 13px var(--f-body,inherit);cursor:pointer}
+.tst-ov{position:fixed;inset:0;z-index:9500;background:rgba(2,4,16,.72);display:flex;justify-content:center;align-items:flex-start;overflow:auto;padding:24px 12px}
+.tst-ov[hidden]{display:none}
+.tst-panel{width:min(720px,100%);background:#0d1030;color:var(--moon,#eee);border:1px solid var(--line);border-radius:20px;padding:20px 22px 24px}
+.tst-panel h2{margin:0 0 4px}.tst-panel h3{margin:20px 0 6px;color:var(--brass);font-size:1.05rem}
+.tst-sub,.tst-how{font-size:.9rem;opacity:.8;margin:2px 0 6px}
+.tst-item{padding:10px 0;border-top:1px solid var(--line)}
+.tst-top{display:flex;gap:10px;align-items:center;cursor:pointer}
+.tst-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tst-row input[type=text]{flex:1;min-width:160px;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:inherit}
+.tst-lab{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:8px 0;font-variant-numeric:tabular-nums}
+.tst-lab .lvl{width:140px;height:10px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}.tst-lab .lvl i{display:block;height:100%;width:0;background:var(--glass,#63d8c3)}
+.tst-lab .hit{padding:3px 10px;border-radius:999px;border:1px solid var(--line);opacity:.5}.tst-lab .hit.on{background:var(--glass,#63d8c3);color:#04120e;opacity:1}
+.tst-acts{margin-top:18px}

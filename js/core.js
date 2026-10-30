@@ -12,11 +12,15 @@ var rowY=function(s){return 52+s*40};
 var pcOf=function(s,f){return (OPEN[s]+f)%12};
 
 /* ---------- saved progress (per viewer, optional) ---------- */
-var KEY='fretroad-v1', save={done:[],intro:false};
+/* Tester build (?tester=1 or dist/fretroad-tester.html): everything unlocked, saved apart from real progress */
+var TESTER=!!window.__FRETROAD_TESTER||/[?&]tester(=|&|$)/.test(location.search);
+var KEY=TESTER?'fretroad-tester':'fretroad-v1', save={done:[],intro:false};
 try{var raw=localStorage.getItem(KEY); if(raw){var o=JSON.parse(raw); if(o&&o.done) save=o;}}catch(e){}
+if(TESTER&&!save.done.length){ var allIds=[]; for(var ti=1;ti<=19;ti++) allIds.push(ti); save={done:allIds.slice(),passed:allIds.slice(),best:{},intro:true,story:'road',chSeen:[1,2,3,4],tour:1,warm:null}; }
 if(!save.passed) save.passed=[];
 if(!save.best) save.best={};
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}}
+if(TESTER) persist();
 
 function rnd(n){return Math.floor(Math.random()*n)}
 function pick(a){return a[rnd(a.length)]}

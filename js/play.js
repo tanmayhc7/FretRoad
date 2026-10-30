@@ -27,7 +27,7 @@ function renderPrimer(M0,mainEl,resEl,go){
   mkBtn(pa,'Start','primary',function(){mainEl.hidden=false; resEl.hidden=true; go()});
   mkBtn(pa,'Back to the map','',function(){location.hash='map'});
 }
-function leavePlay(){clearInterval(PL.timer); PL.timer=null; PL.state='idle'; if(window.clStop) clStop(); if(Mic.on){micStop(); micUI(false);}}
+function leavePlay(){clearInterval(PL.timer); PL.timer=null; PL.state='idle'; if(window.clStop) clStop(); if(window.rhythmStop) rhythmStop(); if(Mic.on){micStop(); micUI(false);}}
 function scaleRun(root,k,dir){
   var pcs=scpcs(root,k).concat([root]), up=pcs, down=pcs.slice(0,-1).reverse();
   if(dir==='down') return pcs.slice().reverse();
@@ -46,6 +46,9 @@ function cfgScaleUI(){
 function startPlay(){
   var M0=PL.mod; PL.i=0; PL.done=0; PL.clean=0; PL.mistakes=0; PL.items=[];
   $('#pResult').hidden=true; $('#pMain').hidden=false;
+  PL.even=[];
+  if(M0.kind==='rhythm'){ rhythmStart(M0); return; }
+  if(M0.kind==='scale') onsStart();
   if(M0.kind==='tune'){PL.state='tuner'; $('#pStep').textContent='Tuner'; $('#pPrompt').textContent='Pluck a string'; playSetFb(''); typeInto($('#pBubble'),'Pluck one string at a time. The needle shows how far you are from the nearest note. Tune each string to E A D G B E.'); boardP.clearOrbs(); return;}
   if(M0.kind==='note'){var last=-1; for(var i=0;i<M0.rounds;i++){var p; do{p=rnd(12)}while(p===last); last=p; PL.items.push({type:'seq',title:'Play any '+NAMES[p],notes:[p],labels:[NAMES[p]],midi:[48+((p-0+12)%12)]});}}
   else if(M0.kind==='chord'){
@@ -102,11 +105,14 @@ function drawSeq(){
 }
 function advanceSeq(self){
   var it=PL.items[PL.i];
-  if(self){it.k=it.notes.length;} else it.k++;
+  if(self){it.k=it.notes.length;} else { it.k++; if(it.scale){ var nowT=performance.now(); (it.times=it.times||[]).push(nowT-ONS.lastT<350?ONS.lastT:nowT); } }
   if(it.shape&&it.pos&&!self) boardP.burst(it.pos[it.k-1].s,it.pos[it.k-1].f,'#63d8c3');
   drawSeq(); PL.stable=0; PL.wrong=0; PL.wrongPc=-1;
   if(it.k>=it.notes.length){
-    PL.done++; if(!it.bad) PL.clean++; strum([69,76],.07); playSetFb('Round complete.','good'); PL.state='pause';
+    PL.done++; if(!it.bad) PL.clean++; strum([69,76],.07); PL.state='pause';
+    var ev=it.scale&&!self?evenness(it.times||[]):null, evMsg='';
+    if(ev){ PL.even.push(ev.pct); evMsg=' Timing: '+evenLabel(ev.pct)+', notes wander by '+ev.ms+' ms on average ('+ev.pct+'% of the gap, about '+ev.perMin+' notes a minute).'; if(save.evenBest===undefined||ev.pct<save.evenBest){save.evenBest=ev.pct; persist();} }
+    playSetFb('Round complete.'+evMsg,'good');
     setTimeout(nextItem,self?200:900);
   } else {
     var same=it.notes[it.k]===it.notes[it.k-1];
@@ -122,7 +128,7 @@ function showPlayResult(){
   PL.state='done'; $('#pMain').hidden=true; var rv=$('#pResult'); rv.hidden=false;
   var M0=PL.mod,total=PL.items.length,prev=save.best[M0.id],isBest=(prev===undefined||PL.clean>prev);
   if(isBest){save.best[M0.id]=PL.clean; persist();}
-  rv.innerHTML='<h3>'+PL.clean+' of '+total+' clean</h3><p>'+(PL.done-PL.clean>0?(PL.done-PL.clean)+' needed a skip or a wrong note first. ':'')+(isBest?'New best score.':'Best so far: '+prev+' of '+total+'.')+'</p><div class="acts" id="pra"></div>';
+  rv.innerHTML='<h3>'+PL.clean+' of '+total+' clean</h3><p>'+(PL.even&&PL.even.length?'Average timing wobble '+Math.round(PL.even.reduce(function(a,x){return a+x},0)/PL.even.length)+'% of the gap between notes (best ever '+save.evenBest+'%). ':'')+(PL.done-PL.clean>0?(PL.done-PL.clean)+' needed a skip or a wrong note first. ':'')+(isBest?'New best score.':'Best so far: '+prev+' of '+total+'.')+'</p><div class="acts" id="pra"></div>';
   mkBtn($('#pra'),'Go again','primary',function(){startPlay()});
   mkBtn($('#pra'),'Back to the map','',function(){location.hash='map'});
 }

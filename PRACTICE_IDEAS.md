@@ -13,7 +13,7 @@ Status: ✅ built, 🎤 uses the mic, 🔜 planned.
 - ✅ Open Chord Shapes (name the fingering), Triad Spelling
 - ✅ Build the Chord 🎤 (one string at a time, each note verified)
 - ✅ Chord change trainer 🎤 (Songs → play along: change drills with rising tempo, per-change timing stats)
-- 🔜 Strumming patterns, playing version: strum the pattern on muted strings against the click
+- ✅ Strum in Time 🎤 (strum a pattern on muted strings against the click, scored on timing; Tap button or space bar when there is no mic)
 - ✅ Fretboard Sprint (15 notes against the clock, fastest clean run saved)
 - ✅ Finger Gym 🎤 (climb, spider and stretch walks on three strings, pattern drawn on the neck)
 
@@ -27,9 +27,10 @@ Status: ✅ built, 🎤 uses the mic, 🔜 planned.
 - ✅ Circle of Fifths (key signatures, relative minors)
 - ✅ Capo and Shapes (which chord sounds with a capo)
 - ✅ Triads on String Sets (every inversion on four string sets, with the grip played back)
-- 🔜 Rhythm reading: clap back a rhythm, scored against the click
-- 🔜 Timing score for Scale Runner: how close each note lands to the beat
-- ✅ Melody by Ear (four-note tune, name the scale degrees; finding it on the neck is still planned)
+- ✅ Rhythm Reading 🎤 (read a one-bar rhythm, play it back against the click)
+- ✅ Scale Runner timing score 🎤 (how evenly the notes land, shown after every run)
+- ✅ Melody by Ear (four-note tune, name the scale degrees)
+- ✅ Melody on the Neck (three-note tune, first note given, click it on the fretboard)
 
 ## Advanced
 - ✅ The Modes, Every Other Scale, Extended Chords, Minor Key Families (incl. seventh-chord families)
@@ -37,8 +38,9 @@ Status: ✅ built, 🎤 uses the mic, 🔜 planned.
 - ✅ The CAGED System (where each shape sits, the fixed order, barre-position chord names)
 - ✅ Modal vamps (Songs → jam tracks: Dorian, Mixolydian, Lydian, Phrygian with a solo hint)
 - ✅ Chord-Scale Matching (modes over maj7, m7, 7, m7♭5 and a ii–V–I)
-- 🔜 Transcribe by ear: short phrases, find them on the neck
-- ✅ Polyrhythms (grids, meeting points, hemiola); 🔜 odd-meter comping against the click
+- ✅ Transcribe by Ear (five-note phrase, only the key given, find it on the fretboard)
+- ✅ Polyrhythms (grids, meeting points, hemiola)
+- ✅ Odd-Meter Comping 🎤 (5/8, 7/8, 5/4, 9/8: strum the first beat of each group against the click)
 - ✅ Strum Check 🎤 (strum a whole chord, the app names what it hears)
 
 ## Mic and metronome notes

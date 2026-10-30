@@ -72,12 +72,12 @@ Each stop has a lesson, a puzzle and a five-question quiz. Four right on the fir
 </td>
 <td width="50%" valign="top">
 
-### 42 practice drills
+### 47 practice drills
 Three tiers, each unlocked by the stop that teaches it.
 
 - **Beginner:** note hunting, open strings, intervals, open chords, triads, time signatures, tempo and note values, strumming patterns, tuner, a timed fretboard sprint, finger-gym walks
-- **Intermediate:** scale spelling and degrees, chord qualities, chord families, barre shapes, circle of fifths, capo and shapes, triad inversions, arpeggios, strum check, triads on string sets, pentatonic boxes, melody by ear, chord and scale ear training
-- **Advanced:** the seven modes, 19 scales, extended chords, chord-scale matching, minor-key and seventh-chord families, the CAGED system, polyrhythms
+- **Intermediate:** scale spelling and degrees, chord qualities, chord families, barre shapes, circle of fifths, capo and shapes, triad inversions, arpeggios, strum in time, rhythm reading, strum check, triads on string sets, melody on the neck, pentatonic boxes, melody by ear, chord and scale ear training
+- **Advanced:** the seven modes, 19 scales, extended chords, chord-scale matching, minor-key and seventh-chord families, the CAGED system, polyrhythms, odd-meter comping, transcribing by ear
 
 The full list, including what is planned, is in [PRACTICE_IDEAS.md](PRACTICE_IDEAS.md).
 
@@ -183,7 +183,7 @@ js/
   quiz-ui.js          quiz and practice screens
   views.js            map, lessons, puzzles, sandbox
   theory.js           chord and scale theory
-  drills*.js          the 42 practice drills
+  drills*.js          the 47 practice drills
   metronome.js        metronome with time signatures
   mic.js, play.js     microphone pitch detection and play-along drills
   songs/              chord parsing, chart import, diagrams, backing band, chord listener, play-along
@@ -216,3 +216,7 @@ Ideas, bug reports and especially **real-guitar test recordings** are welcome. O
 <br>
 <sub>Made for people who would rather understand the neck than memorise it.</sub>
 </div>
+
+## Tester build
+
+`dist/fretroad-tester.html` (or `index.html?tester=1`) unlocks every stop and drill, keeps its own save so real progress is untouched, and adds a **Tester** button with a checklist of the features that need a real guitar or device, a mic lab (level, hit light, note, chord) and a copyable report. Build it with `python3 tools/build_standalone.py --tester`.
