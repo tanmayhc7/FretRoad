@@ -27,7 +27,7 @@ function showSongs(){
     var a=c.querySelector('.acts');
     mkBtn(a,'Play along','primary',function(){location.hash='jam-'+s.id});
     mkBtn(a,'Edit','',function(){openImport(s)});
-    mkBtn(a,'Delete','quiet',function(){ if(c.dataset.sure){save.songs=songsList().filter(function(x){return x.id!==s.id}); persist(); showSongs();} else {c.dataset.sure='1'; this.textContent='Press again to delete'; setTimeout(function(){c.dataset.sure=''; showSongs();},3000)} });
+    mkBtn(a,'Delete','quiet',function(){ if(c.dataset.sure){save.songs=songsList().filter(function(x){return x.id!==s.id}); if(typeof recDelFile==='function') recDelFile(s.id); persist(); showSongs();} else {c.dataset.sure='1'; this.textContent='Press again to delete'; setTimeout(function(){c.dataset.sure=''; showSongs();},3000)} });
     g.appendChild(c);
   });
   var jl=$('#jamList'); jl.innerHTML='';

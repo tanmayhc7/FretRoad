@@ -192,3 +192,9 @@ body.w-pause .wl-screen{mix-blend-mode:normal}
 .fbbox{max-width:640px}.fbbox .fld{display:block;margin:10px 0 0}.fbbox .fld input,.fbbox .fld select,.fbbox .fld textarea{display:block;width:100%;margin-top:4px;padding:9px 11px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:inherit;font:inherit}
 .fbbox .chk{display:flex;gap:8px;align-items:center;margin:12px 0 6px;font-size:.9rem}
 .fbprev{max-height:140px;overflow:auto;white-space:pre-wrap;font-size:.78rem;opacity:.75;background:rgba(0,0,0,.25);border-radius:10px;padding:8px 10px;margin:6px 0 12px}
+
+/* recording play-along */
+.rec .recrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}.rec input[type=range]{flex:1 1 160px;min-width:120px}.rec .big{width:100%;padding:18px;font-size:20px}
+.seg.now .ly{background:linear-gradient(90deg,rgba(230,185,95,.6) calc(var(--p,0)*100%),transparent 0);border-radius:4px}
+.seg.soon{outline:2px dashed var(--glass);animation:soonpulse .35s ease-in-out infinite alternate}@keyframes soonpulse{to{background:rgba(120,200,255,.28)}}
+@media (prefers-reduced-motion:reduce){.seg.soon{animation:none;background:rgba(120,200,255,.28)}}

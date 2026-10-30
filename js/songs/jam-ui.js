@@ -1,6 +1,6 @@
 /* Play-along view: scrolling chart, now/next chord diagrams with finger tips, backing band, live chord check and change drills. */
 var J={built:false,title:'',chart:null,sym:[],seq:[],snd:[],bpm:80,bpc:4,bpb:4,style:'band',tr:0,capo:0,idx:0,running:false,listening:false,cur:null,log:[],drill:null,raf:0,lastSample:0,count:true,solo:'',orig:null};
-function leaveJam(){ if(!J.built) return; if(J.running) jamStop(); if(J.listening) jamListen(false); cancelAnimationFrame(J.raf); }
+function leaveJam(){ if(!J.built) return; if(typeof recLeave==='function') recLeave(); if(J.running) jamStop(); if(J.listening) jamListen(false); cancelAnimationFrame(J.raf); }
 function jamBuild(){
   if(J.built) return; J.built=true;
   $('#jamRoot').innerHTML=
@@ -77,13 +77,13 @@ function jamShow(i,beat,bpc){
   var info=changeInfo(cur,nxt), same=cur===nxt;
   $('#jTip').innerHTML=same?'Same chord again. Keep it ringing.':'<b>'+(info.moves===null?'':info.moves+(info.moves===1?' finger moves. ':' fingers move. '))+(info.hard?'This one is tricky. ':'')+'</b>'+info.tip;
   var segs=document.querySelectorAll('#jChart .seg'); for(var k=0;k<segs.length;k++) segs[k].classList.toggle('now',+segs[k].dataset.i===(J.drill?-1:i)&&segs[k].dataset.i!==undefined);
-  var now=document.querySelector('#jChart .seg.now'); if(now&&J.running) now.scrollIntoView({block:'center',behavior:'smooth'});
+  var now=document.querySelector('#jChart .seg.now'); if(now&&(J.running||(typeof recPlaying==='function'&&recPlaying()))) now.scrollIntoView({block:'center',behavior:'smooth'});
   var bd=$('#jBeats'), bp=bpc||J.bpc; if(bd.children.length!==bp){bd.innerHTML=''; for(var b=0;b<bp;b++) bd.appendChild(document.createElement('i'));}
   for(var b2=0;b2<bd.children.length;b2++) bd.children[b2].className=(beat!==undefined&&b2<=beat)?(b2===beat?'on cur':'on'):'';
   $('#jIn').textContent=(beat===undefined)?'':('in '+(bp-beat)+(bp-beat===1?' beat':' beats'));
 }
 function jamStart(){
-  if(!J.seq.length) return; J.cur=null; J.log=[]; $('#jLog').innerHTML='';
+  if(!J.seq.length) return; if(typeof recPause==='function') recPause(); J.cur=null; J.log=[]; $('#jLog').innerHTML='';
   var ok=bkStart({bpm:J.bpm,bpc:J.bpc,bpb:J.bpb,style:J.style,seq:J.snd,loop:true,countIn:J.count?1:0,vol:+$('#jVol').value});
   if(!ok){toast('Audio is not available in this browser.'); return;}
   J.running=true; $('#jGo').textContent='Stop'; $('#jGo').classList.remove('primary'); cancelAnimationFrame(J.raf); J.raf=requestAnimationFrame(jamTick);
@@ -152,7 +152,7 @@ function showJam(id){
   showView('jam'); jamBuild();
   var m=/^j:([a-z0-9-]+):(\d+)$/.exec(id);
   if(m){ var j=JAMS.filter(function(x){return x.id===m[1]})[0]; if(!j){location.hash='songs';return;} var key=+m[2];
-    jamSetSong(j.name+' in '+KEYN(key),jamSeq(j,key),null,{bpm:j.bpm,bpc:j.bpc,solo:j.solo(key),sub:j.desc}); return; }
+    jamSetSong(j.name+' in '+KEYN(key),jamSeq(j,key),null,{bpm:j.bpm,bpc:j.bpc,solo:j.solo(key),sub:j.desc}); recOnSong(null); return; }
   var s=songsList().filter(function(x){return x.id===id})[0]; if(!s){location.hash='songs';return;}
-  var ch=parseChart(s.text,s.title); jamSetSong(s.title,ch.seq,ch,{capo:ch.capo,sub:ch.keyGuess?'Key of '+ch.keyGuess:''});
+  var ch=parseChart(s.text,s.title); jamSetSong(s.title,ch.seq,ch,{capo:ch.capo,sub:ch.keyGuess?'Key of '+ch.keyGuess:''}); recOnSong(s.id);
 }
