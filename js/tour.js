@@ -1,6 +1,6 @@
 /* First-visit tour of the page. Skippable, and "don't show again" is remembered in save.tour. */
 var TOUR_STEPS=[
- {t:'Welcome to Fretroad',b:'A free game that teaches you the guitar neck, one stop at a time. This quick tour shows where things are. It takes under a minute.'},
+ {t:'Welcome to FretRoad',b:'A free game that teaches you the guitar neck, one stop at a time. This quick tour shows where things are. It takes under a minute.'},
  {sel:'#chTabs',t:'Chapters and stops',b:'The map is split into chapters. Each stop is a short story scene, a puzzle on the fretboard and a quiz. Clear a stop to unlock the next one.'},
  {sel:'#warmBtn',t:'Daily practice',b:'One short exercise a day with a five-minute timer. A calendar tracks the days you practised and the ones you missed.'},
  {sel:'#songsBtn',t:'Your songs',b:'Import a chord chart and play along with a backing band. The mic listens and tells you how your chord changes are going.'},

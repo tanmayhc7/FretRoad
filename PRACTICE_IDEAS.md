@@ -1,4 +1,4 @@
-# Fretroad practice ideas, beginner to advanced
+# FretRoad practice ideas, beginner to advanced
 
 Status: ✅ built, 🎤 uses the mic, 🔜 planned.
 

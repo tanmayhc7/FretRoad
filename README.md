@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/logo.svg" alt="Fretroad logo: a guitar pick with a winding night road inside it" width="128">
+<img src="assets/logo.svg" alt="FretRoad logo: a guitar pick with a winding night road inside it" width="128">
 
-# Fretroad
+# FretRoad
 
 **Learn the guitar neck by driving down it.**
 A story-driven fretboard game for players who know a few chords and want to understand what they are playing.
@@ -16,7 +16,7 @@ A story-driven fretboard game for players who know a few chords and want to unde
 
 <br>
 
-<img src="docs/map.png" alt="The Fretroad night road map with five lamp-post stops" width="880">
+<img src="docs/map.png" alt="The FretRoad night road map with five lamp-post stops" width="880">
 
 </div>
 
@@ -24,7 +24,7 @@ A story-driven fretboard game for players who know a few chords and want to unde
 
 ## What is this?
 
-Most fretboard apps flash a note name and ask you to find it. Fretroad teaches the neck as a **pattern**: why the fifth is always two frets over and a string up, why a minor chord is one fret away from a major one, why the same shape works in every key.
+Most fretboard apps flash a note name and ask you to find it. FretRoad teaches the neck as a **pattern**: why the fifth is always two frets over and a string up, why a minor chord is one fret away from a major one, why the same shape works in every key.
 
 You walk a road of stops, each one a single idea, with a guide who talks you through it. Pick the story you like: a night road with an old session player, a jungle trail with a bear and a panther, or a toddler's big day across the city. The lessons are identical in every story.
 
@@ -109,7 +109,7 @@ The same lessons, puzzles and quizzes sit under three storylines. Choose on firs
 
 ## It listens to you
 
-Turn on the microphone and Fretroad checks that you are really playing the right notes.
+Turn on the microphone and FretRoad checks that you are really playing the right notes.
 
 - **Chords are built one string at a time**, lowest first. Each note is confirmed before the next, so a buzzing finger shows up straight away instead of hiding in a strum.
 - **Scale Runner** lets you pick any key and any of 19 scales, then play it up, down or both.
