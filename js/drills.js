@@ -41,7 +41,7 @@ var TIER_OLD={hunt:'Beginner',names:'Beginner',fifths:'Beginner',chords:'Beginne
 PRACTICE.forEach(function(m){m.tier=TIER_OLD[m.id]||'Beginner'});
 [
  {id:'tuner',name:'Tuner and Mic Check',desc:'See which note you are playing and how far off it is.',needs:0,kind:'tune',tier:'Beginner',rounds:0,
-  primer:['This checks your microphone and doubles as a tuner. Everything that listens to you in FretRoad uses the same pitch detector.','Sit about an arm\'s length from the mic, pluck one string, and let it ring. The needle turns green when you are within 8 cents of the note.','Nothing is recorded or sent anywhere. The sound is analysed live in this page and thrown away.']},
+  primer:['This checks your microphone and doubles as a tuner. Everything that listens to you in fretRoad uses the same pitch detector.','Sit about an arm\'s length from the mic, pluck one string, and let it ring. The needle turns green when you are within 8 cents of the note.','Nothing is recorded or sent anywhere. The sound is analysed live in this page and thrown away.']},
  {id:'strings',name:'Open Strings',desc:'Know every open string by name and number.',needs:0,lv:1,rounds:10,tier:'Beginner',pool:['strings'],
   primer:['The six open strings are E A D G B E, from the thickest, lowest string up to the thinnest. Many players remember "Eddie Ate Dynamite, Good Bye Eddie".','String 1 is the thinnest (high E) and string 6 is the thickest (low E). It feels backwards until it does not.']},
  {id:'rhythm',name:'Time Signatures',desc:'Beats per bar, strong and weak beats, odd meters, and by ear.',needs:0,lv:1,rounds:10,tier:'Beginner',pool:['timeSig','timeSig','rhythmEar'],

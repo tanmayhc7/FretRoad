@@ -10,7 +10,7 @@ function importProgress(file){
   r.onload=function(){
     var o; try{o=JSON.parse(r.result)}catch(e){return toast('That file is not valid JSON.')}
     var p=o&&o.app==='fretroad'?o.progress:null;
-    if(!p||!Array.isArray(p.done)) return toast('That does not look like a FretRoad progress file.');
+    if(!p||!Array.isArray(p.done)) return toast('That does not look like a fretRoad progress file.');
     p.passed=Array.isArray(p.passed)?p.passed:[]; p.best=p.best&&typeof p.best==='object'?p.best:{}; p.chSeen=Array.isArray(p.chSeen)?p.chSeen:[];
     save=p; save.intro=true; persist(); viewCh=-1;
     if(window.applyStory) applyStory(); drawMap(); updateStat(); toast('Progress loaded: '+save.done.length+' stops cleared.');

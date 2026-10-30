@@ -57,6 +57,7 @@ function warmRender(){
   if(done) mk2.disabled=true;
   if(!done) mkBtn(row,'Try a different one','quiet',function(){W.bump++; warmRender()});
   var metro=document.createElement('p'); metro.className='jsub'; metro.textContent='The click runs at '+bpm+' bpm. Tap "Mark as practised" any time, even if you played without the timer.'; card.appendChild(metro);
+  var rb=mkBtn(card.querySelector('.row'),'Daily reminder','quiet',function(){openPrefs()}); rb.setAttribute('aria-label','Set a daily reminder');
   grid.appendChild(warmCalendar(w));
 }
 function warmMark(ex){ var w=warmData(), tk=dayKey(); if(!w.days.hasOwnProperty(tk)){ w.days[tk]=ex.id; persist(); toast('Practice logged. See you tomorrow.'); } W.bump=0; warmRender(); }

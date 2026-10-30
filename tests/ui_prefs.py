@@ -27,6 +27,18 @@ with sync_playwright() as p:
     pg.locator('#sLefty').uncheck(); check('sandbox toggle turns lefty off',pg.evaluate("!document.documentElement.classList.contains('lefty')&&!save.lefty"))
     pg.locator('#sLefty').check(); check('and on',pg.evaluate("document.documentElement.classList.contains('lefty')"))
     pg.goto(URL+'#songs'); check('songs page has toggle checked',pg.locator('#v-songs .lefty-toggle').is_checked())
+    # daily reminder
+    pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
+    pg.evaluate("window.__notes=[];window.Notification=function(t,o){window.__notes.push([t,o&&o.body])};Notification.permission='granted';Notification.requestPermission=function(){return Promise.resolve('granted')}")
+    pg.locator('#prefBtn').click(); pg.locator('#remOn').check(); pg.fill('#remTime','00:01'); pg.locator('#remTime').dispatch_event('change')
+    check('reminder saved on',pg.evaluate("save.remind.on===true&&save.remind.time==='00:01'"))
+    pg.evaluate("remindDue()"); check('notification fires once when due',pg.evaluate("__notes.length")==1 and pg.evaluate("__notes[0][1]").startswith("Today"),pg.evaluate("__notes"))
+    pg.evaluate("remindDue()"); check('not fired twice in a day',pg.evaluate("__notes.length")==1)
+    pg.evaluate("save.remind.last='';save.warm=save.warm||{};save.warm.days=save.warm.days||{};save.warm.days[ymd(new Date())]='alt'"); pg.evaluate("remindDue()")
+    check('no nudge if already practised',pg.evaluate("__notes.length")==1)
+    with pg.expect_download() as dl: pg.locator('#remIcs').click()
+    path=dl.value.path(); txt=open(path).read(); check('ics has daily repeat and alarm','RRULE:FREQ=DAILY' in txt and 'VALARM' in txt and 'DTSTART:' in txt)
+    pg.evaluate("delete save.warm.days[ymd(new Date())]; persist()"); pg.locator('#prefClose').click()
     pg.goto(URL+'#warmup'); pg.wait_for_selector('#v-warm:not([hidden]) .wcard')
     name=pg.inner_text('.wcard h2'); check('one exercise shown',len(name)>3 and pg.locator('.wcard h2').count()==1,name)
     # ten consecutive days give ten different exercises
@@ -43,7 +55,7 @@ with sync_playwright() as p:
     check('streak is 1',pg.evaluate("warmStreak(save.warm)===1"))
     # seed past days: practised yesterday-2, missed yesterday
     pg.evaluate("(()=>{var d=new Date();d.setDate(d.getDate()-3);save.warm.start=ymd(d);var e=new Date();e.setDate(e.getDate()-3);save.warm.days[ymd(e)]='alt';persist()})()")
-    pg.wait_for_timeout(1500); pg.reload(); pg.wait_for_selector('.calgrid')
+    pg.evaluate('showWarm()'); pg.wait_for_selector('.calgrid')
     ok=pg.locator('.calgrid .day.ok').count(); no=pg.locator('.calgrid .day.no').count(); print('ok',ok,'no',no)
     check('calendar shows practised and missed days',ok>=1 and no>=1 or pg.evaluate("new Date().getDate()<=3"),(ok,no))
     pg.locator('.calhead .btn').first.click(); check('previous month renders',pg.locator('.calgrid .day').count()>=28)

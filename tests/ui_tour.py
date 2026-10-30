@@ -16,7 +16,7 @@ INIT="window.__FRETROAD_TEST={};window.__TOUR_TEST=true; try{if(!localStorage.ge
 with sync_playwright() as p:
     b=p.chromium.launch()
     ctx,pg=page(b,INIT); pg.goto(URL); pg.wait_for_selector('#tour:not([hidden])',timeout=10000)
-    check('tour opens on first visit',True); check('first step is the welcome',pg.inner_text('#tTitle')=='Welcome to FretRoad')
+    check('tour opens on first visit',True); check('first step is the welcome',pg.inner_text('#tTitle')=='Welcome to fretRoad')
     pg.screenshot(path=OUT+'shot_tour1.png')
     pg.locator('#tNext').click(); pg.locator('#tNext').click(); pg.wait_for_timeout(450)
     check('step 3 spotlights Daily practice',pg.inner_text('#tTitle')=='Daily practice')
