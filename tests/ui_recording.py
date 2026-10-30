@@ -22,7 +22,7 @@ with sync_playwright() as p:
     check('recIndexAt',o==[-1,0,1,2,-1],o)
     reach(pg)
     check('card shown for a song',pg.evaluate("!document.getElementById('jRec').hidden"))
-    pg.set_input_files('#jRecFile',OUT+'rec.wav'); pg.wait_for_timeout(600)
+    pg.set_input_files('#jRecFile',OUT+'rec.wav'); pg.wait_for_timeout(300); pg.wait_for_function('!REC.busy',timeout=60000)
     check('player appears',pg.evaluate("!document.getElementById('jRecPlayer').hidden"))
     pg.evaluate("recBeginTap()"); pg.wait_for_timeout(200)
     for tm in (1.0,3.0,5.0,7.0):

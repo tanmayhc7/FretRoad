@@ -25,7 +25,7 @@ function recBuild(){
      '<button class="btn quiet" id="jRecClear">Clear marks</button><label class="btn quiet" for="jRecFile">Change file</label></div>'+
     '<button class="btn primary big" id="jRecTap" hidden>Chord changes NOW</button>'+
    '</div>';
-  var ch=$('#jChart'); ch.parentNode.insertBefore(d,ch);
+  var ch=$('#jChart'); ch.parentNode.insertBefore(d,ch); if(typeof riffBuild==='function') riffBuild(d);
   $('#jRecFile').addEventListener('change',function(){ if(this.files[0]) recAttach(this.files[0],this.files[0].name,true); this.value=''; });
   $('#jRecPlay').addEventListener('click',function(){ REC.audio&&REC.audio.paused?recPlay():recPause(); });
   $('#jRecSeek').addEventListener('input',function(){ if(REC.audio&&REC.audio.duration) REC.audio.currentTime=this.value/1000*REC.audio.duration; recFrame(true); });
@@ -70,7 +70,7 @@ function recRender(){
   $('#jRecPlay').textContent=has&&!REC.audio.paused?'Pause':'Play';
 }
 function recBeginTap(){
-  if(!REC.audio) return; if(J.running) jamStop();
+  if(!REC.audio) return; if(REC.busy){ toast('Still listening to the recording. One moment.'); return; } if(J.running) jamStop();
   REC.marks=[]; REC.tapping=true; REC.audio.currentTime=0; jamShow(0); recPlay(); recRender();
 }
 function recTap(){

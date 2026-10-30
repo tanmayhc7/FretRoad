@@ -198,3 +198,8 @@ body.w-pause .wl-screen{mix-blend-mode:normal}
 .seg.now .ly{background:linear-gradient(90deg,rgba(230,185,95,.6) calc(var(--p,0)*100%),transparent 0);border-radius:4px}
 .seg.soon{outline:2px dashed var(--glass);animation:soonpulse .35s ease-in-out infinite alternate}@keyframes soonpulse{to{background:rgba(120,200,255,.28)}}
 @media (prefers-reduced-motion:reduce){.seg.soon{animation:none;background:rgba(120,200,255,.28)}}
+
+/* riff helper and AI settings */
+.riffbox{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}.riffbox summary{cursor:pointer;font-weight:600}
+.rftab{font:14px/1.35 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.28);border-radius:10px;padding:10px;overflow-x:auto;white-space:pre}
+.rfai{white-space:pre-wrap;background:rgba(0,0,0,.2);border-radius:10px;padding:12px;margin:8px 0}.rfset label{display:block;margin:8px 0}.rfset input,.rfset select{width:100%;max-width:520px}
