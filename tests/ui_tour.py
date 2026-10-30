@@ -28,7 +28,7 @@ with sync_playwright() as p:
         pg.locator('#tNext').click(); pg.wait_for_timeout(100)
     check('finish closes it',pg.locator('#tour[hidden]').count()==1)
     check('remembered after finishing',pg.evaluate("save.tour===1"))
-    pg.reload(); pg.wait_for_timeout(2500); check('does not return',pg.locator('#tour:not([hidden])').count()==0)
+    pg.wait_for_timeout(1500); pg.reload(); pg.wait_for_timeout(2500); check('does not return',pg.locator('#tour:not([hidden])').count()==0)
     pg.locator('#tourBtn').click(); check('can be replayed',pg.locator('#tour:not([hidden])').count()==1)
     pg.keyboard.press('Escape'); check('escape closes',pg.locator('#tour[hidden]').count()==1)
     ctx.close()
@@ -36,7 +36,7 @@ with sync_playwright() as p:
     ctx,pg=page(b,INIT); pg.goto(URL); pg.wait_for_selector('#tour:not([hidden])',timeout=10000)
     pg.locator('#tNever').uncheck(); pg.locator('#tSkip').click(); check('skip closes',pg.locator('#tour[hidden]').count()==1)
     pg.reload(); pg.wait_for_selector('#tour:not([hidden])',timeout=10000); check('not remembered when unchecked',True)
-    pg.locator('#tSkip').click(); pg.reload(); pg.wait_for_timeout(2500); check('skip with box checked is remembered',pg.locator('#tour:not([hidden])').count()==0)
+    pg.locator('#tSkip').click(); pg.wait_for_timeout(1500); pg.reload(); pg.wait_for_timeout(2500); check('skip with box checked is remembered',pg.locator('#tour:not([hidden])').count()==0)
     ctx.close()
     # waits for the story picker on a brand new visit
     ctx,pg=page(b,"window.__FRETROAD_TEST={};window.__TOUR_TEST=true"); pg.goto(URL); pg.wait_for_timeout(2500)
