@@ -21,7 +21,7 @@ function bkBass(t,midi,len,v){
   o.connect(lp); lp.connect(g); g.connect(BK.out); o.start(t); o.stop(t+len+.05);
 }
 function bkStrum(t,sym,down,v){
-  var sh=chordShape(sym); if(!sh) return; var notes=shapeNotes(sh); if(!down) notes=notes.slice().reverse();
+  var sh=chordShape(sym); if(!sh) return; var notes=chordShapeNotes(sh); if(!down) notes=notes.slice().reverse();
   var c=parseChord(sym);
   notes.forEach(function(m,i){ var s=ac.createBufferSource(); s.buffer=pluckBuf(m); var g=ac.createGain(); g.gain.value=(.55*v)*(down?1-i*.03:.7+i*.02);
     var lp=ac.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3400; s.connect(lp); lp.connect(g); g.connect(BK.out); s.start(t+i*.016); });

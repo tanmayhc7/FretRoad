@@ -22,8 +22,8 @@ function parseChord(sym){
   var bass=m[3]?pcFromName(m[3]):null;
   return {sym:sym.trim(),root:root,q:q,bass:bass,tones:CHORD_Q[q].map(function(i){return (root+i)%12}),exact:normQuality(m[2])!==null};
 }
-function chordName(c,flats){var N=flats?FLAT_NAMES:SHARP_NAMES; return N[c.root]+c.q+(c.bass!==null?'/'+N[c.bass]:'');}
-function transposeChord(sym,semis,flats){var c=parseChord(sym); if(!c) return sym; c.root=(c.root+semis+120)%12; if(c.bass!==null) c.bass=(c.bass+semis+120)%12; return chordName(c,flats);}
+function chordSym(c,flats){var N=flats?FLAT_NAMES:SHARP_NAMES; return N[c.root]+c.q+(c.bass!==null?'/'+N[c.bass]:'');}
+function transposeChord(sym,semis,flats){var c=parseChord(sym); if(!c) return sym; c.root=(c.root+semis+120)%12; if(c.bass!==null) c.bass=(c.bass+semis+120)%12; return chordSym(c,flats);}
 /* Open shapes: 6 digits low to high, x = muted */
 var OPEN_SHAPES={
   'C':'x32010','Cmaj7':'x32000','C7':'x32310','Cadd9':'x32030','C6':'x32210',
@@ -61,7 +61,7 @@ function mkShape(frets,c){
   if(c&&c.bass!==null){ /* slash chord: mute strings below the bass note when it is in the shape, else keep */ }
   return {frets:frets,base:Math.max(1,lo>4?lo:1),barre:barre,lo:lo,open:lo===0||frets.indexOf(0)>=0};
 }
-function shapeNotes(sh){var out=[]; sh.frets.forEach(function(f,i){if(f>=0) out.push(LOW_OPEN[i]+f)}); return out;}
+function chordShapeNotes(sh){var out=[]; sh.frets.forEach(function(f,i){if(f>=0) out.push(LOW_OPEN[i]+f)}); return out;}
 /* How hard is the change a -> b?  Counts fingers that must move, and finds a finger that can stay put. */
 function changeInfo(a,b){
   var sa=chordShape(a), sb=chordShape(b); if(!sa||!sb) return {moves:null,anchor:null,hard:false,tip:'No shape on file for one of these chords.'};

@@ -1,7 +1,7 @@
 /* Map, dialogue, lesson/puzzle and sandbox views */
 /* ---------- views ---------- */
-var views={map:$('#v-map'),level:$('#v-level'),quiz:$('#v-quiz'),sand:$('#v-sand'),play:$('#v-play'),songs:$('#v-songs'),jam:$('#v-jam')};
-function showView(n){clearLater(); if(n!=='play') leavePlay(); if(n!=='jam'&&typeof leaveJam==='function') leaveJam(); Object.keys(views).forEach(function(k){views[k].hidden=(k!==n)}); window.scrollTo(0,0);}
+var views={map:$('#v-map'),level:$('#v-level'),quiz:$('#v-quiz'),sand:$('#v-sand'),play:$('#v-play'),songs:$('#v-songs'),jam:$('#v-jam'),warm:$('#v-warm')};
+function showView(n){clearLater(); if(n!=='play') leavePlay(); if(n!=='warm'&&typeof warmStop==='function') warmStop(); if(n!=='jam'&&typeof leaveJam==='function') leaveJam(); Object.keys(views).forEach(function(k){views[k].hidden=(k!==n)}); window.scrollTo(0,0);}
 function updateStat(){
   var n=save.passed.length, ch=CHAPTERS[(typeof viewCh==='number'&&viewCh>=0)?viewCh:currentChapterIx()], m=ch.levels.length;
   var k=ch.levels.filter(isPassed).length, t2=Math.max(2,Math.ceil(m*.6));

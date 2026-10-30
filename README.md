@@ -143,6 +143,20 @@ Open it from the header on any screen.
 </tr>
 </table>
 
+## Your own songs, with a band that listens
+
+Open **Songs** in the header.
+
+- **Import a chord chart**: paste text (chords above the words, `[C]` in brackets, or `| C | G |` bars), drop a `.txt` / `.cho` file, a PDF, or a photo. PDFs and photos are read in your browser (PDF.js and Tesseract, loaded only when you use them). Check the chords it found and fix any slip before saving. Links to Songsterr or Ultimate Guitar cannot be fetched, so copy the chart text instead.
+- **Play along**: a backing band (click, strummed guitar, or drums, bass and guitar) follows the chart. You see the chord now, the chord next, a diagram for each, how many fingers move, and a tip for the change. The tempo, beats per chord, capo and key are adjustable.
+- **It listens**: turn on the mic and it tells you whether you are playing the chord on the chart, and how late your change was. Slow changes collect under "Your chord changes", each with a **Drill** button that loops just that pair, starting slow and speeding up after four clean changes.
+- **Jam tracks** in any key (12-bar blues, pop, folk, minor groove, Andalusian, ii-V-I) for when you just want to solo.
+
+## Daily warm-up, left-handed mode, light theme
+
+- **Warm-up**: five minutes, ten steps (six timed exercises, four quick questions), a different mix every day with a streak counter. "Another mix" reshuffles it.
+- **Settings** (bottom of the map): dark, light or match-the-device theme, and left-handed mode, which mirrors the fretboards and chord diagrams.
+
 ## How it is built
 
 Plain JavaScript, SVG and the Web Audio API. No framework, no build step, and the only network request is for two web fonts. Open `index.html` and it runs.
@@ -150,6 +164,7 @@ Plain JavaScript, SVG and the Web Audio API. No framework, no build step, and th
 ```
 index.html            page shell, loads the files below in order
 css/style.css         all styling
+css/songs.css         songs, play-along, warm-up, settings, light theme
 js/
   core.js             constants, helpers, saved progress
   backup.js           save/load progress to a file (move it between browsers)
@@ -167,6 +182,8 @@ js/
   drills*.js          the 34 practice drills
   metronome.js        metronome with time signatures
   mic.js, play.js     microphone pitch detection and play-along drills
+  songs/              chord parsing, chart import, diagrams, backing band, chord listener, play-along
+  warmup.js, prefs.js daily warm-up; theme and left-handed settings
   main.js             header controls and routing
 tools/build_standalone.py   bundle everything into one html file
 tests/                browser and quiz tests (see tests/README.md)

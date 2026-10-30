@@ -9,6 +9,10 @@ python3 ui_core.py          # chapter 1, quizzes, drills, metronome, mobile layo
 python3 ui_mic.py           # mic: tuner, chords string by string, scale runner
 python3 ui_arpeggio.py      # arpeggio runner fed a C arpeggio
 python3 ui_chapters.py      # every stop of chapters 2 to 4: puzzle, quiz, story switch, unlocking
+python3 ui_songs.py         # import a chart, play along, backing band, chord listening on a synthetic strum
+python3 ui_prefs.py         # warm-up, theme, left-handed
+python3 globals.py          # no two scripts define the same global
+python3 backup.py           # progress export and import
 python3 stress_quizzes.py   # thousands of generated questions per quiz type, plus answer checks
 ```
 

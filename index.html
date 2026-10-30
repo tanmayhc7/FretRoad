@@ -22,6 +22,7 @@
       <div class="stat" id="stat"></div>
       <button class="btn" id="metroBtn" aria-expanded="false" aria-controls="metro">Metronome</button>
       <button class="btn" id="storyBtn">Story</button>
+      <button class="btn" id="warmBtn">Warm-up</button>
       <button class="btn" id="songsBtn">Songs</button>
       <button class="btn" id="goSandbox">Sandbox</button>
       <button class="btn" id="snd" aria-pressed="true">Sound on</button>
@@ -98,6 +99,7 @@
     </div>
     <div class="foot">
       <span>Four chapters so far, with more planned. The mic is used only to listen live and never records.</span>
+      <button class="btn quiet" id="prefBtn">Settings</button>
       <button class="btn quiet" id="replay">Replay intro</button>
       <button class="btn quiet" id="reset">Reset progress</button>
     </div>
@@ -206,6 +208,7 @@
     <p class="jsub">Common progressions in any key, no chart needed.</p>
     <div id="jamList" class="songgrid"></div>
   </section>
+  <section id="v-warm" hidden><div id="warmRoot"></div></section>
   <section id="v-jam" hidden><div id="jamRoot"></div></section>
 
   <!-- SANDBOX -->
@@ -244,6 +247,7 @@
 <div id="toastHost" aria-live="polite"></div>
 
 <script src="js/core.js"></script>
+<script src="js/prefs.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/fretboard.js"></script>
 <script src="js/story-core.js"></script>
@@ -279,6 +283,7 @@
 <script src="js/songs/songs-ui.js"></script>
 <script src="js/songs/jam-ui.js"></script>
 <script src="js/play.js"></script>
+<script src="js/warmup.js"></script>
 <script src="js/backup.js"></script>
 <script src="js/main.js"></script>
 </body>

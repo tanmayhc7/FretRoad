@@ -4,6 +4,8 @@ $('#snd').addEventListener('click',function(){soundOn=!soundOn; this.setAttribut
 $('#home').addEventListener('click',function(){location.hash='map'; route();});
 $('#back').addEventListener('click',function(){location.hash='map'});
 $('#back2').addEventListener('click',function(){location.hash='map'});
+$('#warmBtn').addEventListener('click',function(){location.hash='warmup'});
+$('#prefBtn').addEventListener('click',openPrefs);
 $('#goSandbox').addEventListener('click',function(){location.hash='sandbox'});
 $('#replay').addEventListener('click',function(){startTalk(storyIntro(),null,S().startBtn)});
 $('#storyBtn').addEventListener('click',function(){showStoryPicker(false)});
@@ -19,6 +21,7 @@ function route(){
   var h=location.hash.slice(1);
   if(h==='sandbox') return showSandbox();
   if(h==='songs') return showSongs();
+  if(h==='warmup') return showWarm();
   var mj=/^jam-(.+)$/.exec(h); if(mj) return showJam(mj[1]);
   var m=/^stop-(\d+)$/.exec(h);
   if(m&&unlocked(+m[1])&&LEVELS.some(function(l){return l.id===+m[1]})) return showLevel(+m[1]);
