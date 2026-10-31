@@ -209,3 +209,5 @@ body.w-pause .wl{will-change:auto}
 html.light .storyfab{background:rgba(255,255,255,.92);color:#1c2033;border-color:rgba(0,0,0,.18)}
 @media (max-width:600px){.storyfab{width:46px;height:46px;right:12px}.storyfab svg{width:22px;height:22px}}
 .beta{display:inline-block;margin-left:4px;padding:1px 6px;border:1px solid currentColor;border-radius:999px;font-size:.62em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle;line-height:1.35;opacity:.85}
+
+.rhcount{width:100%;text-align:center;font-size:clamp(4rem,14vw,7rem);font-weight:800;line-height:1;padding:6px 0;color:var(--brass);text-shadow:0 2px 18px rgba(0,0,0,.5)}

@@ -27,6 +27,12 @@ with sync_playwright() as p:
     pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
     # strum in time: on-the-beat taps are clean
     open_drill(pg,'playstrumrh',{'rounds':2,'bars':2,'bpm':170})
+    check('strum drill tells the user about the practice bar beforehand','practice bar' in pg.locator('#pFb').inner_text().lower())
+    pg.get_by_role('button',name='Count me in').click()
+    pg.wait_for_selector('#pSeq .rhcount',timeout=8000); check('3-2-1 countdown shown big',pg.locator('#pSeq .rhcount').inner_text() in ('3','2','1'))
+    pg.wait_for_function("document.querySelector('#pFb').textContent.indexOf('Practice bar')===0",timeout=8000); check('then a practice bar that is not scored','not scored' in pg.locator('#pFb').inner_text())
+    check('practice bar sits before the scored window',pg.evaluate("RH.exp.length>0&&RH.exp[0].t>performance.now()"))
+    pg.evaluate("rhythmStop(); RH.item.fresh=true; rhythmRender()")
     check('pattern slots drawn (8 chips with counts)',pg.locator('#pSeq .chip.rh').count()==8 and pg.locator('#pSeq small').first.inner_text()=='1')
     r=play_round(pg,dev=0); check('on-the-beat taps score clean (%s)'%r,r['clean'] and r['hits']==r['total'] and r['extras']==0)
     pg.wait_for_selector('#pDots i.ok'); 

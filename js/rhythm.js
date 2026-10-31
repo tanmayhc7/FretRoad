@@ -15,14 +15,14 @@ function onsPoll(){
 
 var RH={item:null,exp:[],onsets:[],timer:null,win:[0,0],tp:0,slotMs:0,running:false,res:null};
 /* ---- pattern makers ---- */
-function rhItem(title,slots,o){ /* slots: [{on,label,count}] */ return {title:title,slots:slots,slotMs:o.slotMs,bars:o.bars,click:o.click,beat:o.beat,tip:o.tip,bpm:o.bpm||0,arrows:!!o.arrows,fresh:true}; }
+function rhItem(title,slots,o){ /* slots: [{on,label,count}] */ return {title:title,slots:slots,slotMs:o.slotMs,bars:o.bars,click:o.click,beat:o.beat,tip:o.tip,bpm:o.bpm||0,arrows:!!o.arrows,dummy:!!o.dummy,fresh:true}; }
 function mkStrumItems(M0){
   var pats=shuffle(STRUM).slice(0,M0.rounds),items=[];
   for(var r=0;r<M0.rounds;r++){
     var p=pats[r%pats.length],bpm=(M0.bpm||60)+r*4;
     var slots=p.map(function(x,i){return {on:x!=='_',label:x==='_'?'–':x,count:COUNT8[i]}});
     items.push(rhItem('Strum this pattern in time at '+bpm+' bpm. Hit on the D and U, air-strum the –.',slots,{slotMs:30000/bpm,bars:M0.bars||2,
-      click:p.map(function(_,i){return i===0?2:(i%2===0?0:-1)}),beat:p.map(function(_,i){return i%2===0}),bpm:bpm,arrows:true,tip:'Mute the strings with your fretting hand and strum all six. The mic hears the rhythm, not the chord. Keep the hand moving on the – slots.'}));
+      click:p.map(function(_,i){return i===0?2:(i%2===0?0:-1)}),beat:p.map(function(_,i){return i%2===0}),bpm:bpm,arrows:true,dummy:true,tip:'Mute the strings with your fretting hand and strum all six. The mic hears the rhythm, not the chord. Keep the hand moving on the – slots.'}));
   }
   return items;
 }
@@ -69,7 +69,7 @@ function rhythmRender(){
   mkBtn(acts,'Tap','',function(){rhythmTap()}).id='rhTap';
   if(!it.fresh) mkBtn(acts,'Next','',function(){rhythmNext()});
   mkBtn(acts,'Skip','quiet',function(){PL.mistakes++; rhythmStop2(); rhythmNext()});
-  playSetFb(Mic.on?'Press "Count me in". One bar of clicks, then it listens.':'Turn on the mic, or press the Tap button or the space bar in time.');
+  playSetFb(it.dummy?'Press "Count me in". You hear 3, 2, 1, then one practice bar that is not scored. Start strumming on the bar after that.':Mic.on?'Press "Count me in". One bar of clicks, then it listens.':'Turn on the mic, or press the Tap button or the space bar in time.');
   typeInto($('#pBubble'),it.tip);
 }
 function rhythmTempo(d){
@@ -88,19 +88,29 @@ function rhythmTap(){ if(RH.running) rhOnset(performance.now()); else { initAudi
 function rhOnset(t){ if(RH.running&&t>=RH.win[0]&&t<=RH.win[1]) RH.onsets.push(t); }
 function rhythmGo(){
   var it=RH.item; initAudio(); if(!ac) return; if(ac.state==='suspended') ac.resume();
-  it.fresh=false; var sd=it.slotMs/1000,n=it.slots.length,start=ac.currentTime+.45,tp=start+n*sd,off=performance.now()-ac.currentTime*1000;
+  it.fresh=false; var sd=it.slotMs/1000,n=it.slots.length,start=ac.currentTime+.45,tp=start+n*sd*(it.dummy?2:1),off=performance.now()-ac.currentTime*1000;
   RH.cin=[]; for(var ci=0;ci<n;ci++) if(it.beat[ci]) RH.cin.push((start+ci*sd)*1000+off);
   var lat=((ac.baseLatency||0)+(ac.outputLatency||0))*1000, V=MT.vol;
   /* clicks: a count-in bar on the beats, then the pattern's own click pattern */
   for(var k=0;k<n;k++) if(it.beat[k]) clickAt(start+k*sd,k===0?2:0);
+  if(it.dummy) for(var db=0;db<n;db++){ var dl=it.click[db]; if(dl!==-9) clickAt(start+n*sd+db*sd,dl); }
   for(var b=0;b<it.bars;b++) for(var s=0;s<n;s++){ var lv=it.click[s]; if(lv!==-9) clickAt(tp+(b*n+s)*sd,lv); }
   RH.exp=[]; for(b=0;b<it.bars;b++) for(s=0;s<n;s++) if(it.slots[s].on) RH.exp.push({t:(tp+(b*n+s)*sd)*1000+off+lat,bar:b,slot:s,hit:false,d:null});
   var tpp=tp*1000+off+lat; RH.tp=tpp; RH.slotMs=it.slotMs; RH.win=[tpp-it.slotMs*.5,tpp+it.bars*n*it.slotMs+it.slotMs*.5]; RH.onsets=[]; RH.running=true; RH.res=null;
   ONS.cb=function(t){rhOnset(t)}; $('#pActs').querySelectorAll('.btn').forEach(function(x){ if(x.id!=='rhTap') x.disabled=true; });
-  playSetFb('Count-in…'); clearInterval(RH.timer); RH.timer=setInterval(rhythmTick,40);
+  playSetFb(it.dummy?'Get ready…':'Count-in…'); clearInterval(RH.timer); RH.timer=setInterval(rhythmTick,40);
 }
 function rhythmTick(){
   var it=RH.item; if(!it||!RH.running) return; var now=performance.now(),n=it.slots.length,rel=now-RH.tp;
+  if(it.dummy){
+    var ds=RH.tp-n*it.slotMs;
+    if(now<ds){ var c2=(RH.cin||[]).filter(function(t){return t<=now}).length, nb=(RH.cin||[]).length, num=nb-c2+1;
+      if(c2&&num>=1&&num<=3){ $('#pSeq').innerHTML='<div class="rhcount" aria-live="assertive">'+num+'</div>'; playSetFb('Get ready…'); }
+      else { $('#pSeq').innerHTML=rhSlotsHtml(it,-1); playSetFb('Get ready…'); }
+      return; }
+    if(rel<0){ var di=Math.max(0,Math.min(n-1,Math.floor((now-ds)/it.slotMs))); $('#pSeq').innerHTML=rhSlotsHtml(it,di); playSetFb('Practice bar. Strum along, this one is not scored. Real bars start next.','');
+      return; }
+  }
   if(rel<-it.slotMs*.5){ var cn=(RH.cin||[]).filter(function(t){return t<=now}).length; playSetFb('Count-in: '+(cn?Array.apply(null,Array(cn)).map(function(_,i){return i+1}).join('  '):'get ready')+(cn?'':'…')); $('#pSeq').innerHTML=rhSlotsHtml(it,-1); return; }
   if(now>RH.win[1]){ return rhythmFinish(); }
   var idx=Math.floor(rel/it.slotMs), bar=Math.floor(idx/n), cur=((idx%n)+n)%n, tol=Math.min(150,it.slotMs*.45), marks={};
@@ -159,7 +169,7 @@ function evenLabel(p){return p<=8?'tight':(p<=15?'steady':(p<=25?'a little uneve
 /* ---- registration ---- */
 [
  {id:'playstrumrh',name:'Strum in Time',desc:'Play a strumming pattern against the click and get scored on timing.',needs:3,kind:'rhythm',type:'play',tier:'Intermediate',rounds:4,bars:2,bpm:60,make:mkStrumItems,
-  primer:['Mute the strings with your fretting hand and strum the pattern. The app hears when each strum lands and compares it with the click.','One bar of clicks counts you in, then you play two bars. Strums on the D and U count; the – slots should be silent (keep your hand moving). If there is no mic, use the Tap button or the space bar.','Each round shows how far off the beat you were on average, and whether you rush or drag.']},
+  primer:['Mute the strings with your fretting hand and strum the pattern. The app hears when each strum lands and compares it with the click.','You hear a count of 3, 2, 1, then one practice bar that is not scored (strum along to find the beat), then you play two scored bars. Strums on the D and U count; the – slots should be silent (keep your hand moving). If there is no mic, use the Tap button or the space bar.','Each round shows how far off the beat you were on average, and whether you rush or drag.']},
  {id:'rhythmread',name:'Rhythm Reading',desc:'Read a one-bar rhythm and play it back in time.',needs:3,kind:'rhythm',type:'play',tier:'Intermediate',rounds:6,bars:2,bpm:60,make:mkReadItems,
   primer:['Each bar is eight slots: 1 & 2 & 3 & 4 &. A ● means play, a – means stay silent. Read the bar, count it out loud, then play it with the click.','Hit any open string, or clap near the mic. The slots turn green when you land within a fraction of a beat, and red when you miss one.']},
  {id:'oddcomp',name:'Odd-Meter Comping',desc:'Strum the first beat of each group in 5/8, 7/8, 5/4 and 9/8.',needs:5,kind:'rhythm',type:'play',tier:'Advanced',rounds:6,bars:3,make:mkOddItems,
