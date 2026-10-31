@@ -17,7 +17,7 @@ var dest=function(id){return (isDone(id)&&!isPassed(id))?'quiz-'+id:'stop-'+id};
 var currentId=function(){for(var i=0;i<LEVELS.length;i++){ if(!isPassed(LEVELS[i].id)&&unlocked(LEVELS[i].id)) return LEVELS[i].id; } return null;};
 function drawChapterHead(){
   var ch=CHAPTERS[viewCh], t=chapterText(ch.id);
-  $('#chH').textContent=t.h; $('#chSub').textContent=t.sub; $('#chEye').textContent='Chapter '+ch.id+' \u00b7 '+S().name;
+  $('#chH').textContent=t.h; $('#chSub').textContent=t.sub; $('#chEye').textContent='Chapter '+ch.id+' \u00b7 '+S().name; var hh=document.querySelector('.hero'); if(hh) hh.dataset.n=ch.id;
   var tabs=$('#chTabs'); tabs.innerHTML='';
   CHAPTERS.forEach(function(c,i){
     var open=chapterOpen(i),b=document.createElement('button'); b.className='chtab'+(i===viewCh?' on':'')+(chapterDone(i)?' done':''); b.disabled=!open;

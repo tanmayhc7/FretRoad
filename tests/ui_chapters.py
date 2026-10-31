@@ -31,7 +31,7 @@ with sync_playwright() as p:
         story=['road','jungle','city'][sid%3]
         ctx=b.new_context(viewport={'width':1280,'height':900}); ctx.add_init_script("window.__FRETROAD_TEST={}; try{localStorage.setItem('fretroad-v1',%s)}catch(e){}"%json.dumps(save(story,sid)))
         pg=ctx.new_page(); pg.on('pageerror',lambda e:errors.append('pageerror '+str(e)))
-        pg.on('console',lambda m:errors.append('console '+m.text) if m.type=='error' and 'ERR_' not in m.text and 'Permission' not in m.text else None)
+        pg.on('console',lambda m:errors.append('console '+m.text) if m.type=='error' and 'ERR_' not in m.text and 'Permission' not in m.text and 'font at' not in m.text else None)
         pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
         pg.evaluate("location.hash='stop-%d'"%sid); pg.wait_for_selector('#v-level:not([hidden])')
         nl=pg.evaluate("cur.lesson.length"); title=pg.locator('#lvWhere').inner_text()

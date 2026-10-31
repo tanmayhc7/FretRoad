@@ -12,7 +12,14 @@ def css(m):
     return '<style>\n' + open(os.path.join(root, m.group(1)), encoding='utf-8').read() + '</style>'
 def js(m):
     return '<script>\n' + open(os.path.join(root, m.group(1)), encoding='utf-8').read() + '</script>'
-html = re.sub(r'<link rel="stylesheet" href="(css/[^"]+)">', css, html)
+def fonts(txt):
+    import base64
+    def f(m):
+        data = base64.b64encode(open(os.path.join(root, 'fonts', m.group(1)), 'rb').read()).decode()
+        return 'url(data:font/woff2;base64,' + data + ')'
+    return re.sub(r'url\(\.\./fonts/([^)]+)\)', f, txt)
+html = re.sub(r'<link rel="preload" href="fonts/[^>]+>\n?', '', html)
+html = re.sub(r'<link rel="stylesheet" href="(css/[^"]+)">', lambda m: fonts(css(m)), html)
 html = re.sub(r'<script src="(js/[^"]+)"></script>', js, html)
 icon = open(os.path.join(root, 'assets', 'favicon.svg'), encoding='utf-8').read().strip().replace('"', "'").replace('<', '%3C').replace('>', '%3E').replace('#', '%23')
 html = html.replace('<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">', '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,' + icon + '">')
