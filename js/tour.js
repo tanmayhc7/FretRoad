@@ -33,7 +33,7 @@ function tourShow(keep){
   $('#tBack').hidden=TR.i===0; $('#tNext').textContent=TR.i===n-1?'Finish':'Next';
   $('#tDots').innerHTML=TOUR_STEPS.map(function(_,i){return '<i class="'+(i===TR.i?'on':'')+'"></i>'}).join('');
   var el=s.sel?$(s.sel):null; if(el&&el.offsetParent===null) el=null;
-  if(el&&!keep) el.scrollIntoView({block:'center',behavior:'auto'});
+  if(el&&!keep) el.scrollIntoView({block:'center',behavior:'instant'});
   var place=function(){
     if(!el){ ring.style.cssText='left:50%;top:50%;width:0;height:0'; card.style.cssText='left:50%;top:50%;transform:translate(-50%,-50%)'; return; }
     var r=el.getBoundingClientRect(), pad=8; ring.style.cssText='left:'+(r.left-pad)+'px;top:'+(r.top-pad)+'px;width:'+(r.width+pad*2)+'px;height:'+(r.height+pad*2)+'px';
@@ -44,7 +44,7 @@ function tourShow(keep){
 }
 function tourEnd(){
   if(!TR.on) return; TR.on=false; TR.el.hidden=true; if($('#tNever').checked){ save.tour=1; persist(); }
-  window.scrollTo(0,0);
+  window.scrollTo({top:0,behavior:'instant'});
 }
 /* start on first visit, once any intro or story picker is closed */
 (function(){

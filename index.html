@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>fretRoad</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" href="fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/albert-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/songs.css">
+<link rel="stylesheet" href="css/redesign.css">
 </head>
 <!-- fretRoad. Copyright (C) 2026 Tanmay Chandavarkar. Free software under the GNU AGPL-3.0; source: https://github.com/tanmayhc7/FretRoad -->
 <body><div id="skybg"><canvas id="sky"></canvas></div>
@@ -20,6 +22,7 @@
       <b>fretRoad</b>
     </button>
     <div class="tools">
+      <div class="dawn" id="dawnGauge" aria-hidden="true"><svg viewBox="0 0 64 36"><path d="M4 30 A28 28 0 0 1 60 30" class="dawn-track"/><path d="M4 30 A28 28 0 0 1 60 30" class="dawn-done" id="dawnArc"/><line x1="0" y1="30.5" x2="64" y2="30.5" class="dawn-horizon"/><circle id="dawnSun" cx="4" cy="30" r="4.2" class="dawn-sun"/></svg></div>
       <div class="stat" id="stat"></div>
       <button class="btn" id="metroBtn" aria-expanded="false" aria-controls="metro">Metronome</button>
       <button class="btn" id="aiBtn" aria-haspopup="dialog">AI <span class="beta">beta</span></button>
@@ -282,6 +285,7 @@
 <script src="js/fretboard.js"></script>
 <script src="js/story-core.js"></script>
 <script src="js/world/world-core.js"></script>
+<script src="js/world/dawn.js"></script>
 <script src="js/world/detail.js"></script>
 <script src="js/world/atmos.js"></script>
 <script src="js/world/jungle.js"></script>

@@ -20,6 +20,7 @@ $('#reset').addEventListener('click',function(){
 document.addEventListener('pointerdown',function(){initAudio()},{once:true});
 function route(){
   var h=location.hash.slice(1);
+  if(!document.body.hasAttribute('data-story')&&window.applyStory) applyStory(); /* deep links (#songs, #stop-3) still get the story's world */
   if(h==='sandbox') return showSandbox();
   if(h==='songs') return showSongs();
   if(h==='warmup') return showWarm();
