@@ -33,9 +33,11 @@ function showChapterIntroOnce(){
   }
 }
 
-/* scroll cue under the hero: jumps to the road, and fades once the person has scrolled */
+/* scroll cue: shown only on the map, near the top of the page; jumps to the road */
 (function(){
-  var b=document.getElementById('scrollCue'); if(!b) return;
+  var b=document.getElementById('scrollCue'), v=document.getElementById('v-map'); if(!b||!v) return;
+  function sync(){ b.hidden=v.hidden; b.classList.toggle('gone',window.scrollY>60); }
   b.addEventListener('click',function(){ var m=document.querySelector('.map-frame'); if(m) m.scrollIntoView({behavior:'smooth',block:'start'}); });
-  window.addEventListener('scroll',function(){ b.classList.toggle('gone',window.scrollY>60); },{passive:true});
+  window.addEventListener('scroll',sync,{passive:true});
+  new MutationObserver(sync).observe(v,{attributes:true,attributeFilter:['hidden']}); sync();
 })();
