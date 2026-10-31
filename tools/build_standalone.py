@@ -9,9 +9,9 @@ args = [a for a in sys.argv[1:] if not a.startswith('--')]
 out = args[0] if args else os.path.join(root, 'dist', 'fretroad-tester.html' if tester else 'fretroad.html')
 html = open(os.path.join(root, 'index.html'), encoding='utf-8').read()
 def css(m):
-    return '<style>\n' + open(os.path.join(root, m.group(1)), encoding='utf-8').read() + '</style>'
+    return '<style>\n' + open(os.path.join(root, m.group(1).split('?')[0]), encoding='utf-8').read() + '</style>'
 def js(m):
-    return '<script>\n' + open(os.path.join(root, m.group(1)), encoding='utf-8').read() + '</script>'
+    return '<script>\n' + open(os.path.join(root, m.group(1).split('?')[0]), encoding='utf-8').read() + '</script>'
 def fonts(txt):
     import base64
     def f(m):
