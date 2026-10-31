@@ -152,8 +152,7 @@ body[data-story="jungle"] .mlabel,body[data-story="city"] .mlabel{text-shadow:0 
 
 /* scrolling: once the scenery is paused it becomes one static picture; drop the extra GPU layers so content tiles paint at once */
 body.w-pause .wl{will-change:auto}
-body.w-pause #world::before{display:none}
-body.w-pause .wl-screen{mix-blend-mode:normal}
+/* blend modes stay as they are while paused: switching them mid-scroll made the jungle flash */
 .wl.wl-flat{will-change:auto}
 
 /* rhythm drills: slots with a count above each, hit and miss colours */
