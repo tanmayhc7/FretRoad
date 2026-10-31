@@ -1,5 +1,5 @@
 """Listening to a recording: tempo, time signature and chord matching on synthetic songs (no real music in the repo)."""
-import os, json, wave, numpy as np
+import os, re, json, wave, numpy as np
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE); OUT=HERE+'/out/'; os.makedirs(OUT,exist_ok=True)
 from playwright.sync_api import sync_playwright
 URL='file://'+os.environ.get('FR_PAGE',ROOT+'/index.html')
@@ -49,6 +49,7 @@ with sync_playwright() as p:
     err=np.mean(np.abs(np.array(o['marks'])-np.array(t44))) if len(o['marks'])==16 else 99
     check('16 chord marks within 0.3 s on average',err<0.3,err)
     check('no capo change needed',o['capo']==0,o['capo'])
+    check('says how many chords it hears as written',re.search(r'I hear the written chord on (\d+) of 16',o['info']) and int(re.search(r'on (\d+) of 16',o['info']).group(1))>=13,o['info'])
     check('analysis saved with the song',o['saved'] and o['saved']['bpm'])
     o=run(pg,'an34.wav'); print(o['info'])
     check('3/4 tempo near 90',o['bpm'] and abs(o['bpm']-90)<=3,o['bpm'])
@@ -57,6 +58,13 @@ with sync_playwright() as p:
     check('3/4 marks close',err<0.35,err)
     o=run(pg,'an44up.wav'); print(o['info'])
     check('recording two semitones up suggests capo 2',o['capo']==2,o['capo'])
+    check('capo-shifted recording still agrees with the chart',re.search(r'I hear the written chord on (\d+) of 16',o['info']) and int(re.search(r'on (\d+) of 16',o['info']).group(1))>=13,o['info'])
+    # a chart with a wrong chord: the app should point at it
+    bad=list(PROG); bad[5]='Dm'
+    pg.evaluate("(function(t){var s=songsList()[0]; s.text=t; persist();})(%s)"%json.dumps(chart(bad)))
+    pg.evaluate("location.hash='songs'"); pg.wait_for_timeout(300)
+    o=run(pg,'an44.wav'); print(o['info'])
+    check('flags the wrong chord in the chart','chord 6 is written Dm' in o['info'],o['info'])
     check('no errors',not errs,errs)
     b.close()
 print('ui_analysis:',('ALL PASS' if all(res) else 'FAILURES'))
