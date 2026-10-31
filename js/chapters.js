@@ -32,3 +32,10 @@ function showChapterIntroOnce(){
     save.chSeen=(save.chSeen||[]).concat([c.id]); persist(); startTalk(S().chIntro[c.id]);
   }
 }
+
+/* scroll cue under the hero: jumps to the road, and fades once the person has scrolled */
+(function(){
+  var b=document.getElementById('scrollCue'); if(!b) return;
+  b.addEventListener('click',function(){ var m=document.querySelector('.map-frame'); if(m) m.scrollIntoView({behavior:'smooth',block:'start'}); });
+  window.addEventListener('scroll',function(){ b.classList.toggle('gone',window.scrollY>60); },{passive:true});
+})();
