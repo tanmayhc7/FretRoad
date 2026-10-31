@@ -138,6 +138,8 @@ function recAutoRun(){
    .catch(function(e){ info.textContent='I could not analyse that file here ('+((e&&e.message)||'unknown')+'). You can still mark the changes by tapping.'; })
    .then(function(){ REC.busy=false; btn.disabled=false; recRender(); });
 }
+/* a heard chord name, written back in the chart's own key (undo the capo/key shift) */
+function recTrans(name,shift){ var m=/^([A-G]#?)(.*)$/.exec(name); if(!m) return name; var r=AN_NOTES.indexOf(m[1]); return AN_NOTES[(r-shift+12)%12]+m[2]; }
 function recTempo(f){ if(!REC.an||REC.busy) return; anRetempo(REC.an,REC.an.bpm*f); recAutoMatch(); recRender(); }
 function recAutoMatch(){
   var an=REC.an, info=$('#jRecInfo'); if(!an) return;
@@ -148,8 +150,11 @@ function recAutoMatch(){
   var note='';
   if(m.shift!==(REC.chartCapo||0)){ note=' The recording sounds '+((m.shift-(REC.chartCapo||0)+12)%12)+' semitones above the chart'+(m.shift<=9?', so I set the capo to '+m.shift+'.':'. Use the Key buttons to transpose.'); if(m.shift<=9){ J.capo=m.shift; $('#jCapo').value=String(m.shift); } }
   var conf=m.meanSim>=.62?'good':(m.meanSim>=.5?'fair':'unsure');
-  info.textContent=head+'Chart matched ('+conf+' fit).'+note+(conf==='unsure'?' Check that the chart lists every verse and chorus the way the song plays them, then fix any change by marking again.':'');
+  var heardTxt='';
+  if(m.agreeOf){ heardTxt=' I hear the written chord on '+m.agreeN+' of '+m.agreeOf+' changes.';
+    if(m.diffs.length&&m.diffs.length<=m.agreeOf*.6) heardTxt+=' Worth checking: '+m.diffs.slice(0,4).map(function(d){ return 'chord '+(d.i+1)+' is written '+d.chart+' but sounds like '+recTrans(d.heard,m.shift); }).join('; ')+(m.diffs.length>4?'; and '+(m.diffs.length-4)+' more':'')+'.'; }
+  info.textContent=head+'Chart matched ('+conf+' fit).'+note+heardTxt+(conf==='unsure'?' Check that the chart lists every verse and chorus the way the song plays them, then fix any change by marking again.':'');
   jamRebuildSeq(); renderChartDom(); REC.idx=-2; jamShow(0);
-  var s=recSong(); if(s){ s.marks=m.marks.slice(); s.recName=REC.name; s.an={bpm:bpm,bpb:an.bpb,bpc:m.bpc,capo:J.capo,fit:+m.meanSim.toFixed(2)}; persist(); }
+  var s=recSong(); if(s){ s.marks=m.marks.slice(); s.recName=REC.name; s.an={bpm:bpm,bpb:an.bpb,bpc:m.bpc,capo:J.capo,fit:+m.meanSim.toFixed(2),agree:+m.agree.toFixed(2)}; persist(); }
   $('#jRecHalf').hidden=$('#jRecDouble').hidden=false;
 }

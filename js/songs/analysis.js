@@ -133,10 +133,41 @@ function anRetempo(an,hint){
   var m=anMeter(zs.map(function(v,i){return v+.8*zn[i]}));
   an.bpb=m.bpb; an.phase=m.phase; an.bpm=Math.round(bpm); return an;
 }
+/* ---- chord naming: what chord is sounding on each beat (major, minor and dominant 7th on any root) ---- */
+var AN_NOTES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+var AN_QUAL=[{q:'',iv:[0,4,7],pen:0},{q:'m',iv:[0,3,7],pen:0},{q:'7',iv:[0,4,7,10],pen:.05}];
+function anVocab(){
+  var out=[]; for(var r=0;r<12;r++) AN_QUAL.forEach(function(Q){ var v=new Float32Array(12); Q.iv.forEach(function(s,i){ v[(r+s)%12]+=(i===0?1:(s===10?.5:.8)); }); out.push({root:r,q:Q.q,name:AN_NOTES[r]+Q.q,t:anNorm(v),pen:Q.pen}); });
+  return out;
+}
+/* best chord per beat, smoothed so a chord has to be clearly better to change. Returns [{name,root,q,conf}] per beat */
+function anChords(bc){
+  var V=anVocab(),n=V.length,B=bc.length,CH=.16,sc=[],i,b;
+  for(b=0;b<B;b++){ var row=new Float32Array(n); for(i=0;i<n;i++){ var s=0; for(var k=0;k<12;k++) s+=bc[b][k]*V[i].t[k]; row[i]=s-V[i].pen; } sc.push(row); }
+  if(!B) return [];
+  var dp=[Array.prototype.slice.call(sc[0])],bp=[new Int16Array(n)];
+  for(b=1;b<B;b++){ var prev=dp[b-1],bi=0; for(i=1;i<n;i++) if(prev[i]>prev[bi]) bi=i;
+    var cur=new Array(n),bpb=new Int16Array(n); for(i=0;i<n;i++){ var stay=prev[i],sw=prev[bi]-CH; if(stay>=sw){cur[i]=stay+sc[b][i];bpb[i]=i;} else {cur[i]=sw+sc[b][i];bpb[i]=bi;} } dp.push(cur); bp.push(bpb); }
+  var last=dp[B-1],e=0; for(i=1;i<n;i++) if(last[i]>last[e]) e=i;
+  var path=new Array(B); for(b=B-1;b>=0;b--){ path[b]=e; e=bp[b][e]; }
+  return path.map(function(ix,b){ var v=V[ix]; return {name:v.name,root:v.root,q:v.q,conf:sc[b][ix]}; });
+}
+/* the chord heard most over beats [a,b) */
+function anHeardOver(heard,a,b){
+  var votes={},best=null; for(var i=a;i<b&&i<heard.length;i++){ var h=heard[i]; votes[h.name]=(votes[h.name]||0)+Math.max(.05,h.conf); if(!best||votes[h.name]>votes[best.name]) best=h; }
+  return best;
+}
+/* the plain triad type of a chart chord, for comparing with what was heard: m/m7/dim... count as minor */
+function anChartKind(sym){ var c=typeof parseChord==='function'?parseChord(sym):null; if(!c) return null; return {root:c.root,minor:/^m(?!aj)|^dim/.test(c.q)}; }
 /* line the chart up: returns {marks:[seconds per chord], shift, meanSim, bpc} or null */
 function anMatch(an,syms,expect){
   var a=anBestAlign(an.bc,syms,an.bpb,an.phase,expect||0); if(!a) return null;
   var marks=a.first.map(function(b){return an.beats[b]}), dur=[]; for(var i=0;i+1<a.first.length;i++) dur.push(a.first[i+1]-a.first[i]);
   var med=anMedian(dur)||an.bpb, opts=[2,3,4,6,8], bpc=opts.reduce(function(p,c){return Math.abs(c-med)<Math.abs(p-med)?c:p},4);
-  return {marks:marks,shift:a.shift,meanSim:a.meanSim,margin:a.margin,bpc:bpc};
+  /* does what is heard on each chord's beats agree with the chord written there? */
+  if(!an.heard) an.heard=anChords(an.bc);
+  var agree=0,total=0,diffs=[];
+  a.first.forEach(function(b,i){ var end=i+1<a.first.length?a.first[i+1]:Math.min(an.bc.length,b+bpc), h=anHeardOver(an.heard,b,Math.max(b+1,end)), k=anChartKind(syms[i]); if(!h||!k) return;
+    total++; var ok=((k.root+a.shift)%12===h.root)&&(k.minor===(h.q==='m')); if(ok) agree++; else diffs.push({i:i,chart:syms[i],heard:h.name,t:marks[i]}); });
+  return {marks:marks,shift:a.shift,meanSim:a.meanSim,margin:a.margin,bpc:bpc,agree:total?agree/total:0,agreeN:agree,agreeOf:total,diffs:diffs};
 }
