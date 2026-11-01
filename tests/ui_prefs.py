@@ -39,7 +39,10 @@ with sync_playwright() as p:
     with pg.expect_download() as dl: pg.locator('#remIcs').click()
     path=dl.value.path(); txt=open(path).read(); check('ics has daily repeat and alarm','RRULE:FREQ=DAILY' in txt and 'VALARM' in txt and 'DTSTART:' in txt)
     pg.evaluate("delete save.warm.days[ymd(new Date())]; persist()"); pg.locator('#prefClose').click()
-    pg.goto(URL+'#warmup'); pg.wait_for_selector('#v-warm:not([hidden]) .wcard')
+    pg.goto(URL+'#warmup'); pg.wait_for_selector('#v-warm:not([hidden]) .lvlpick')
+    check('asks for the level first',pg.locator('.lvlbtn').count()==3)
+    pg.locator('.lvlbtn:has-text("Intermediate")').click(); pg.wait_for_selector('#v-warm .wcard')
+    check('level saved',pg.evaluate("save.warm.level")=='intermediate')
     name=pg.inner_text('.wcard h2'); check('one exercise shown',len(name)>3 and pg.locator('.wcard h2').count()==1,name)
     # ten consecutive days give ten different exercises
     ids=pg.evaluate("(()=>{var o=[];for(var i=0;i<10;i++){var d=new Date(2026,0,1+i);o.push(exerciseFor(d,0).id)}return o})()")

@@ -211,3 +211,17 @@ html.light .storyfab{background:rgba(255,255,255,.92);color:#1c2033;border-color
 .beta{display:inline-block;margin-left:4px;padding:1px 6px;border:1px solid currentColor;border-radius:999px;font-size:.62em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle;line-height:1.35;opacity:.85}
 
 .rhcount{width:100%;text-align:center;font-size:clamp(4rem,14vw,7rem);font-weight:800;line-height:1;padding:6px 0;color:var(--brass);text-shadow:0 2px 18px rgba(0,0,0,.5)}
+
+/* chord finder */
+.finder-out{margin-top:14px;max-width:62ch}
+.fnd-name{font:800 clamp(2.4rem,7vw,3.8rem)/1 var(--f-display,inherit);letter-spacing:-.03em;color:var(--brass,#e6b95f);margin:4px 0 8px}
+.fnd-name.fnd-none{font-size:1.5rem;color:var(--haze);letter-spacing:0}
+.fnd-notes,.fnd-alt,.fnd-hint{margin:6px 0;line-height:1.55}
+.fnd-hint{color:var(--haze)}
+
+/* daily finger exercise */
+.wtab{margin:10px 0;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.28);font:500 .9rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-x:auto;white-space:pre}
+.wplan{margin:8px 0 12px;padding-left:1.2em;color:var(--haze);line-height:1.5}
+.lvlpick{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));max-width:900px;margin-top:10px}
+.lvlbtn{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:18px;border-radius:18px;white-space:normal}
+.lvlbtn b{font-size:1.25rem}.lvlbtn span{color:var(--haze);font-weight:400;line-height:1.45}
