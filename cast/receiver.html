@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>fretRoad on TV</title>
+<link rel="stylesheet" href="receiver.css">
+<script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+</head>
+<body>
+<main id="app" aria-live="polite">
+  <section id="lobby" class="screen">
+    <h1>fretRoad</h1>
+    <p class="lead" id="lobbyLead">On your phone, open fretRoad and tap TV. Your players appear here.</p>
+    <div class="players" id="players"></div>
+  </section>
+  <section id="jam" class="screen" hidden>
+    <header class="top"><h2 id="jamTitle"></h2><p id="jamWho"></p></header>
+    <div class="stage">
+      <div class="now"><span class="lab">Now</span><div class="big" id="jamNow">&nbsp;</div><div id="jamNowDia" class="dia"></div></div>
+      <div class="next"><span class="lab">Next</span><div class="mid" id="jamNext">&nbsp;</div><div id="jamNextDia" class="dia"></div></div>
+    </div>
+    <div class="beats" id="jamBeats" aria-hidden="true"></div>
+    <div class="status" id="jamStatus"></div>
+  </section>
+  <section id="daily" class="screen" hidden>
+    <header class="top"><h2 id="dName"></h2><p id="dWho"></p></header>
+    <div class="dgrid"><div><p class="dtext" id="dText"></p><pre class="dtab" id="dTab"></pre><ol class="dplan" id="dPlan"></ol></div>
+    <div class="dclock"><div class="clock" id="dClock">5:00</div><div class="status" id="dStatus"></div></div></div>
+  </section>
+  <footer id="strip" class="strip" aria-hidden="true"></footer>
+</main>
+<script src="../js/songs/chords.js"></script>
+<script>var save={};function persist(){}</script>
+<script src="../js/songs/diagram.js"></script>
+<script src="../js/songs/tunings.js"></script>
+<script src="receiver.js"></script>
+</body>
+</html>
