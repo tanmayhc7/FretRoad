@@ -1,4 +1,4 @@
-/* Daily practice: one exercise a day (a 10-day cycle, reshuffled each cycle, so none repeats within ten days), a five-minute timer, and a calendar of practised and missed days. */
+/* Daily practice: one finger exercise a day for the player's level (a 10-day cycle, reshuffled each cycle, so none repeats within ten days), a five-minute timer, and a calendar of practised and missed days. */
 var W={ex:null,bump:0,timer:0,left:300,month:null};
 function ymd(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
 function dayKey(){return ymd(new Date());}
@@ -23,15 +23,29 @@ function warmData(){
   return w;
 }
 /* the exercise for a date: cycle number picks the shuffle, position in the cycle picks the exercise */
+function warmLevel(){ var l=warmData().level; return FINGER_EX[l]?l:null; }
+function warmFind(id){ var f=null; Object.keys(FINGER_EX).forEach(function(k){ FINGER_EX[k].forEach(function(x){ if(x.id===id) f=x; }); }); return f||WARM_DO.filter(function(x){return x.id===id})[0]||null; }
 function exerciseFor(d,bump){
-  var n=dayIndex(d), cyc=Math.floor(n/10), pos=((n%10)+10)%10, order=sshuffle(WARM_DO.map(function(_,i){return i}),srand(cyc*2654435761+1));
-  var i=order[(pos+(bump||0))%10], x=WARM_DO[i], r=srand(n*97+i+(bump||0)*13);
-  var o={id:x.id,name:x.name,secs:300,text:x.text(r),chords:x.chords};
+  var pool=FINGER_EX[warmLevel()||'beginner'], n=dayIndex(d), cyc=Math.floor(n/10), pos=((n%10)+10)%10, order=sshuffle(pool.map(function(_,i){return i}),srand(cyc*2654435761+1));
+  var i=order[(pos+(bump||0))%10], x=pool[i];
+  var o={id:x.id,name:x.name,secs:300,text:x.text,tab:x.tab,plan:x.plan,bpm:x.bpm};
   if(x.chords){ var pairs=[['G','C'],['C','Am'],['D','G'],['Em','A'],['Am','Dm'],['E','A'],['G','Em'],['D','A']]; o.pair=pairs[Math.floor(r()*pairs.length)]; }
   return o;
 }
 function warmStreak(w){ var d=new Date(), n=0; if(!w.days[ymd(d)]&&w.days[ymd(d)]!=='') d.setDate(d.getDate()-1); while(w.days.hasOwnProperty(ymd(d))){n++; d.setDate(d.getDate()-1);} return n; }
-function showWarm(){ showView('warm'); W.bump=0; W.month=new Date(); W.month.setDate(1); warmRender(); }
+function showWarm(){ showView('warm'); W.bump=0; W.month=new Date(); W.month.setDate(1); if(!warmLevel()) warmAsk(); else warmRender(); }
+/* first time (or when changing): how comfortable are you? Decides which ten exercises you get */
+function warmAsk(){
+  warmStop(); var host=$('#warmRoot'); host.innerHTML='';
+  var head=document.createElement('div'); head.className='jam-head'; head.innerHTML='<button class="btn" id="wBack">Back to the map</button><div><h1>Daily practice</h1><p class="jsub">One finger exercise a day, five minutes. How comfortable are you on guitar?</p></div>';
+  host.appendChild(head); head.querySelector('#wBack').addEventListener('click',function(){ location.hash='map'; });
+  var g=document.createElement('div'); g.className='lvlpick'; host.appendChild(g);
+  Object.keys(FINGER_LEVELS).forEach(function(k){
+    var b=document.createElement('button'); b.className='btn lvlbtn'; b.type='button'; b.innerHTML='<b></b><span></span>'; b.firstChild.textContent=FINGER_LEVELS[k].name; b.lastChild.textContent=FINGER_LEVELS[k].blurb;
+    b.addEventListener('click',function(){ warmData().level=k; persist(); W.bump=0; warmRender(); }); g.appendChild(b);
+  });
+  var cur=warmLevel(); if(cur){ var n=document.createElement('p'); n.className='jsub'; n.textContent='You can change this any time. Your streak and calendar stay.'; host.appendChild(n); }
+}
 function warmStop(){ clearInterval(W.timer); W.timer=0; if(typeof BK!=='undefined'&&BK.on) bkStop(); }
 function warmRender(){
   warmStop(); var host=$('#warmRoot'), w=warmData(), today=new Date(), tk=ymd(today), done=w.days.hasOwnProperty(tk); host.innerHTML='';
@@ -40,23 +54,26 @@ function warmRender(){
   host.appendChild(head); head.querySelector('#wBack').addEventListener('click',function(){warmStop(); location.hash='map'});
   var grid=document.createElement('div'); grid.className='warmgrid'; host.appendChild(grid);
   var card=document.createElement('div'); card.className='gcard wcard'; grid.appendChild(card);
-  var doneEx=done?WARM_DO.filter(function(x){return x.id===w.days[tk]})[0]:null;
-  card.innerHTML='<span class="lab">'+(done?'Done for today':"Today's exercise")+'</span><h2></h2><p class="wtext"></p><div class="wchords"></div><div class="wtimer" id="wTimer"></div><div class="row"></div>';
+  var doneEx=done?warmFind(w.days[tk]):null;
+  card.innerHTML='<span class="lab">'+(done?'Done for today':"Today's exercise")+'</span><h2></h2><p class="wtext"></p><div class="wchords"></div><pre class="wtab" hidden></pre><ol class="wplan" hidden></ol><div class="wtimer" id="wTimer"></div><div class="row"></div>';
   card.querySelector('h2').textContent=(doneEx&&doneEx.name!==ex.name&&!W.bump?doneEx.name:ex.name);
   card.querySelector('.wtext').textContent=ex.text;
+  if(ex.tab){ var tb=card.querySelector('.wtab'); tb.hidden=false; tb.textContent=ex.tab.join('\n'); tb.setAttribute('aria-label','Tab: '+ex.tab.join(', ')); }
+  if(ex.plan){ var pl=card.querySelector('.wplan'); pl.hidden=false; ex.plan.forEach(function(t){ var li=document.createElement('li'); li.textContent=t; pl.appendChild(li); }); }
   if(ex.pair){ var cc=card.querySelector('.wchords'); ex.pair.forEach(function(c){var d=document.createElement('div'); d.innerHTML='<b>'+c+'</b>'+chordDiagram(c,{w:92}); cc.appendChild(d)}); card.querySelector('.wtext').textContent+=' '+changeInfo(ex.pair[0],ex.pair[1]).tip; }
   var tm=card.querySelector('#wTimer'), row=card.querySelector('.row'); W.left=ex.secs;
   function fmt(s){return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2)} tm.textContent=fmt(W.left);
-  var bpm=ex.pair?72:(/\b(\d\d) bpm/.test(ex.text)?+/\b(\d\d) bpm/.exec(ex.text)[1]:70);
+  var bpm=ex.bpm!==undefined?ex.bpm:(ex.pair?72:(/\b(\d\d) bpm/.test(ex.text)?+/\b(\d\d) bpm/.exec(ex.text)[1]:70));
   var go=mkBtn(row,'Start the timer','primary',function(){
     if(W.timer){ warmStop(); go.textContent='Resume'; return; }
-    go.textContent='Pause'; initAudio(); bkStart({bpm:bpm,bpc:4,bpb:4,style:'click',seq:ex.pair||['C'],loop:true,countIn:0,vol:.6});
+    go.textContent='Pause'; initAudio(); if(bpm) bkStart({bpm:bpm,bpc:4,bpb:4,style:'click',seq:ex.pair||['C'],loop:true,countIn:0,vol:.6});
     W.timer=setInterval(function(){ W.left--; tm.textContent=fmt(Math.max(0,W.left)); if(W.left<=0){ warmStop(); tm.textContent='Time'; warmMark(ex); } },1000);
   });
   var mk2=mkBtn(row,done?'Practised today':'Mark as practised','',function(){ warmStop(); warmMark(ex); });
   if(done) mk2.disabled=true;
   if(!done) mkBtn(row,'Try a different one','quiet',function(){W.bump++; warmRender()});
-  var metro=document.createElement('p'); metro.className='jsub'; metro.textContent='The click runs at '+bpm+' bpm. Tap "Mark as practised" any time, even if you played without the timer.'; card.appendChild(metro);
+  var metro=document.createElement('p'); metro.className='jsub'; metro.textContent=(bpm?'The click runs at '+bpm+' bpm. Start slower if it is not clean, and only speed up when it is.':'This one has no click. Go slowly.')+' Tap "Mark as practised" any time, even if you played without the timer.'; card.appendChild(metro);
+  var lv=mkBtn(card.querySelector('.row'),'Level: '+FINGER_LEVELS[warmLevel()].name,'quiet',function(){ warmAsk(); }); lv.setAttribute('aria-label','Change your level');
   var rb=mkBtn(card.querySelector('.row'),'Daily reminder','quiet',function(){openPrefs()}); rb.setAttribute('aria-label','Set a daily reminder');
   grid.appendChild(warmCalendar(w));
 }
@@ -72,10 +89,16 @@ function warmCalendar(w){
   for(var d=1;d<=days;d++){
     var dt=new Date(y,mo,d), k=ymd(dt), e=document.createElement('span'); e.className='day'; e.textContent=d;
     var did=w.days.hasOwnProperty(k), past=k<tk, since=k>=w.start;
-    if(did){e.classList.add('ok'); e.title='Practised'+(w.days[k]?': '+(WARM_DO.filter(function(x){return x.id===w.days[k]})[0]||{name:''}).name:''); practised++;}
+    if(did){e.classList.add('ok'); e.title='Practised'+(w.days[k]?': '+(warmFind(w.days[k])||{name:''}).name:''); practised++;}
     else if(past&&since){e.classList.add('no'); e.title='Missed'; missed++;}
     if(k===tk) e.classList.add('today'); g.appendChild(e);
   }
   c.querySelector('.calsum').textContent=practised+(practised===1?' day':' days')+' practised this month'+(missed?', '+missed+' missed.':'.');
   return c;
 }
+/* a gentle daily prompt: once per visit, on the map, if today's finger exercise is not done yet */
+setTimeout(function(){
+  try{ var w=warmData(); if(!warmLevel()||w.days.hasOwnProperty(dayKey())) return; if(window.__FRETROAD_TEST) return;
+    if(sessionStorage.getItem('fr-fx-prompt')) return; var m=$('#v-map'); if(!m||m.hidden) return; sessionStorage.setItem('fr-fx-prompt','1');
+    toast("Today's 5-minute finger exercise: "+exerciseFor(new Date(),0).name+". Open Daily when you are ready."); }catch(e){}
+},4000);

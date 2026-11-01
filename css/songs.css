@@ -218,3 +218,10 @@ html.light .storyfab{background:rgba(255,255,255,.92);color:#1c2033;border-color
 .fnd-name.fnd-none{font-size:1.5rem;color:var(--haze);letter-spacing:0}
 .fnd-notes,.fnd-alt,.fnd-hint{margin:6px 0;line-height:1.55}
 .fnd-hint{color:var(--haze)}
+
+/* daily finger exercise */
+.wtab{margin:10px 0;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.28);font:500 .9rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-x:auto;white-space:pre}
+.wplan{margin:8px 0 12px;padding-left:1.2em;color:var(--haze);line-height:1.5}
+.lvlpick{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));max-width:900px;margin-top:10px}
+.lvlbtn{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:18px;border-radius:18px;white-space:normal}
+.lvlbtn b{font-size:1.25rem}.lvlbtn span{color:var(--haze);font-weight:400;line-height:1.45}
