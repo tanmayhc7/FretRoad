@@ -213,8 +213,12 @@ var SCALES={'Major':[0,2,4,5,7,9,11],'Natural minor':[0,2,3,5,7,8,10],'Minor pen
   Object.keys(SCALES).forEach(function(n,i){var o=document.createElement('option'); o.value=n; o.textContent=n; if(i===2) o.selected=true; s.appendChild(o);});
 })();
 function drawScale(){
-  var chordMode=$('#sMode').value==='chord';
-  document.querySelectorAll('#v-sand .forScale').forEach(function(e){e.hidden=chordMode; e.style.display=chordMode?'none':''}); document.querySelectorAll('#v-sand .forChord').forEach(function(e){e.hidden=!chordMode; e.style.display=chordMode?'':'none'});
+  var mode=$('#sMode').value, chordMode=mode==='chord', findMode=mode==='find';
+  document.querySelectorAll('#v-sand .forScale').forEach(function(e){var h=chordMode||findMode; e.hidden=h; e.style.display=h?'none':''}); document.querySelectorAll('#v-sand .forChord').forEach(function(e){e.hidden=!chordMode; e.style.display=chordMode?'':'none'});
+  document.querySelectorAll('#v-sand .forFind').forEach(function(e){e.hidden=!findMode; e.style.display=findMode?'':'none'});
+  if(typeof finderLabels==='function') finderLabels(findMode);
+  $('#sKeyLbl').hidden=findMode; $('#sFindOut').hidden=!findMode;
+  if(findMode) return finderDraw();
   if(chordMode) return drawChordShape();
   var root=+$('#sKey').value, sc=SCALES[$('#sScale').value], ints=$('#sShow').value==='ints', tri=$('#sTri').checked;
   var third=sc.indexOf(3)>-1?3:(sc.indexOf(4)>-1?4:-1), tones=[0]; if(third>-1) tones.push(third); if(sc.indexOf(7)>-1) tones.push(7);
@@ -229,6 +233,7 @@ function showSandbox(){
   showView('sand'); updateStat();
   if(!boardS){
     boardS=createBoard($('#boardS'),function(s,f){
+      if($('#sMode').value==='find'){ finderCell(s,f); return; }
       pluck(OPEN[s]+f); boardS.vib(s);
       if($('#sMode').value==='chord') return;
       var root=+$('#sKey').value, sc=SCALES[$('#sScale').value], iv=(pcOf(s,f)-root+12)%12;

@@ -15,6 +15,7 @@ python3 ui_rhythm.py        # strum in time, rhythm reading, odd meters (tap inp
 python3 ui_feedback.py      # footer form builds a pre-filled GitHub issue link
 python3 ui_tester.py        # tester build: unlocked, separate save, checklist, mic lab
 python3 ui_analysis.py      # tempo, time signature, chart matching on synthetic songs
+- `ui_tuning.py`: DADGAD chord shapes, the tuning picker on Songs and in the jam, standard tuning untouched.
 python3 ui_ai.py            # bring-your-own-model plumbing and the riff helper
 python3 ui_recording.py     # play along with an audio file: mark changes, follow, reload
 python3 ui_ocr.py           # picture import: word boxes -> chords-over-lyrics text (synthetic)
