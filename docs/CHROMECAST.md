@@ -24,7 +24,7 @@ This guide covers every step, including the small ones. There are two routes. Pi
 2. A Google account.
 3. A card for the one-time Cast developer fee (about US$5).
 4. The pull request "Player profiles + Chromecast receiver" merged into `main`, and GitHub Pages deployed. Check that this page opens in a browser (it shows a dark screen saying fretRoad / waiting for players):
-   `https://tanmayhc7.github.io/FretRoad/cast/receiver.html`
+   `https://tanmayhc7.github.io/fretRoad/cast/receiver.html`
    If it shows a 404, wait a minute after the merge and refresh.
 
 ### Step 1: Find your Chromecast's serial number
@@ -46,7 +46,7 @@ You need this because an unpublished Cast app only runs on devices you register.
 2. Choose **Custom Receiver**.
 3. Fill in:
    - **Name:** fretRoad
-   - **Receiver Application URL:** `https://tanmayhc7.github.io/FretRoad/cast/receiver.html`
+   - **Receiver Application URL:** `https://tanmayhc7.github.io/fretRoad/cast/receiver.html`
    - Leave Guest Mode off.
 4. Click **Save**.
 5. The application list now shows your app with an **Application ID** (about 8 letters and digits). Copy it. You paste it into fretRoad later.
@@ -60,13 +60,13 @@ You need this because an unpublished Cast app only runs on devices you register.
 6. Publishing the app (Console > your app > Publish) removes the need for step 4 for everyone, but an unpublished app is fine for personal use.
 
 ### Step 5: Tell fretRoad the Application ID
-1. On your phone open Chrome and go to `https://tanmayhc7.github.io/FretRoad/`.
+1. On your phone open Chrome and go to `https://tanmayhc7.github.io/fretRoad/`.
 2. Tap **Settings** in the header.
 3. Find the **TV** row and paste the Application ID.
 4. The page shows a note to reload. Reload it (pull to refresh, or close the tab and open it again).
 5. A **TV** button now appears in the header. If it does not, check you are in Chrome and not another browser or iOS, and that the ID has no spaces.
 
-You can also pass the ID once in the address: `https://tanmayhc7.github.io/FretRoad/?castid=YOURID`.
+You can also pass the ID once in the address: `https://tanmayhc7.github.io/fretRoad/?castid=YOURID`.
 
 ### Step 6: Add the players
 1. Open **Settings > Players**.
@@ -119,7 +119,7 @@ A full-screen app on the TV that runs fretRoad with a remote control, keeps its 
 
 ### Design decisions
 - **Wrapper, not a rewrite.** A native Android app with one full-screen `WebView` that loads the site. Choose one of:
-  1. Load the hosted site `https://tanmayhc7.github.io/FretRoad/` (always up to date, needs internet), or
+  1. Load the hosted site `https://tanmayhc7.github.io/fretRoad/` (always up to date, needs internet), or
   2. Bundle the `dist/` build in `assets/` and load `file:///android_asset/index.html` (works offline; needs a rebuild per release). Recommended: bundle, so it also works without Wi-Fi.
 - **Language:** Kotlin, minSdk 21, targetSdk current. One `MainActivity`.
 - **TV declarations** in `AndroidManifest.xml`: `<uses-feature android:name="android.software.leanback" android:required="false"/>`, `<uses-feature android:name="android.hardware.touchscreen" android:required="false"/>`, a `LEANBACK_LAUNCHER` intent filter on `MainActivity`, `android:banner="@drawable/tv_banner"` (320x180 dp, export 1280x720), `INTERNET` permission.
