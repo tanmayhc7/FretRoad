@@ -73,6 +73,7 @@ function warmRender(){
   if(done) mk2.disabled=true;
   if(!done) mkBtn(row,'Try a different one','quiet',function(){W.bump++; warmRender()});
   var metro=document.createElement('p'); metro.className='jsub'; metro.textContent=(bpm?'The click runs at '+bpm+' bpm. Start slower if it is not clean, and only speed up when it is.':'This one has no click. Go slowly.')+' Tap "Mark as practised" any time, even if you played without the timer.'; card.appendChild(metro);
+  var tvb=mkBtn(card.querySelector('.row'),'Show on TV','quiet',function(){ if(window.castDaily) castDaily(); toast('Sent to the TV. The timer starts in three seconds.'); }); tvb.classList.add('cast-only'); tvb.hidden=!(window.castConnected&&castConnected());
   var lv=mkBtn(card.querySelector('.row'),'Level: '+FINGER_LEVELS[warmLevel()].name,'quiet',function(){ warmAsk(); }); lv.setAttribute('aria-label','Change your level');
   var rb=mkBtn(card.querySelector('.row'),'Daily reminder','quiet',function(){openPrefs()}); rb.setAttribute('aria-label','Set a daily reminder');
   grid.appendChild(warmCalendar(w));

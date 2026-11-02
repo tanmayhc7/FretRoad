@@ -23,6 +23,8 @@ function prefsBuild(){
   if($('#prefOverlay')) return;
   var o=document.createElement('div'); o.className='overlay'; o.id='prefOverlay'; o.hidden=true; o.setAttribute('role','dialog'); o.setAttribute('aria-label','Settings');
   o.innerHTML='<div class="storybox"><h2>Settings</h2>'+
+    '<div class="prefrow"><b>Players</b><div id="prefPlayers"></div></div>'+
+    '<div class="prefrow"><b>TV</b><div class="remind"><p class="jsub">Show a group jam or the daily exercise on a Chromecast, with everyone\'s progress. Paste your Cast Application ID (see docs/CHROMECAST.md), then use the TV button.</p><label>Application ID <input type="text" id="castId" maxlength="16" placeholder="e.g. 1A2B3C4D" autocomplete="off"></label></div></div>'+
     '<div class="prefrow"><b>Theme</b><div class="seg3" id="prefTheme" role="group" aria-label="Theme"></div></div>'+
     '<div class="prefrow"><b>Left-handed</b><label class="chk"><input type="checkbox" id="prefLefty"> Mirror the fretboard and chord diagrams</label></div>'+
     '<div class="prefrow"><b>Scenery motion</b><select id="prefMotion" aria-label="Scenery motion"><option value="auto">Automatic</option><option value="full">Full</option><option value="calm">Calm (still scenery)</option></select></div>'+
@@ -35,13 +37,14 @@ function prefsBuild(){
     b.addEventListener('click',function(){save.theme=x[0]; persist(); applyPrefs(); prefsSync()}); $('#prefTheme').appendChild(b);
   });
   $('#prefMotion').addEventListener('change',function(){ save.motion=this.value; window.__calmAuto=false; window.__probed=(this.value!=='auto')?true:false; persist(); applyPrefs(); if(this.value==='auto') motionProbe(); });
+  $('#castId').addEventListener('change',function(){ var v=this.value.trim().replace(/[^A-Za-z0-9]/g,''); try{ localStorage.setItem('fretroad-cast-appid',v); }catch(e){} toast(v?'Saved. Reload this page to connect to the TV app.':'Cast ID cleared.'); });
   $('#remOn').addEventListener('change',function(){ remindSet(this.checked); });
   $('#remTime').addEventListener('change',function(){ var r=save.remind||(save.remind={on:false,time:'18:00'}); r.time=this.value||'18:00'; persist(); });
   $('#remIcs').addEventListener('click',remindIcs);
   $('#prefClose').addEventListener('click',function(){o.hidden=true});
   o.addEventListener('click',function(e){if(e.target===o) o.hidden=true});
 }
-function prefsSync(){ $('#prefMotion').value=save.motion||'auto'; var r=save.remind||{on:false,time:'18:00'}; $('#remOn').checked=!!r.on; $('#remTime').value=r.time||'18:00'; remindNote(); var t=save.theme||'dark'; document.querySelectorAll('#prefTheme .btn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===t); b.classList.toggle('primary',b.dataset.v===t)}); $('#prefLefty').checked=!!save.lefty; }
+function prefsSync(){ if(typeof profilesRender==='function') profilesRender(); try{ $('#castId').value=localStorage.getItem('fretroad-cast-appid')||''; }catch(e){} $('#prefMotion').value=save.motion||'auto'; var r=save.remind||{on:false,time:'18:00'}; $('#remOn').checked=!!r.on; $('#remTime').value=r.time||'18:00'; remindNote(); var t=save.theme||'dark'; document.querySelectorAll('#prefTheme .btn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===t); b.classList.toggle('primary',b.dataset.v===t)}); $('#prefLefty').checked=!!save.lefty; }
 function openPrefs(){ prefsBuild(); prefsSync(); $('#prefOverlay').hidden=false; }
 applyPrefs();
 if(window.matchMedia) try{ matchMedia('(prefers-color-scheme: light)').addEventListener('change',applyPrefs) }catch(e){}
