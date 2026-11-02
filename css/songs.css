@@ -225,3 +225,11 @@ html.light .storyfab{background:rgba(255,255,255,.92);color:#1c2033;border-color
 .lvlpick{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));max-width:900px;margin-top:10px}
 .lvlbtn{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:18px;border-radius:18px;white-space:normal}
 .lvlbtn b{font-size:1.25rem}.lvlbtn span{color:var(--haze);font-weight:400;line-height:1.45}
+
+/* players and TV */
+#castBtn.on{background:var(--brass,#e6b95f);color:#1a1405}
+.plrow{display:flex;align-items:center;gap:8px;padding:6px 0;flex-wrap:wrap}
+.pldot{width:14px;height:14px;border-radius:50%;flex:none}
+.plname{display:flex;flex-direction:column;flex:1;min-width:120px}.plname small{color:var(--haze)}
+.plactive{color:var(--brass,#e6b95f);font-weight:700;font-size:.85rem}
+.pladd{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.pladd input{flex:1;min-width:140px}

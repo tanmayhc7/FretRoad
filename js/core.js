@@ -14,7 +14,11 @@ var pcOf=function(s,f){return (OPEN[s]+f)%12};
 /* ---------- saved progress (per viewer, optional) ---------- */
 /* Tester build (?tester=1 or dist/fretroad-tester.html): everything unlocked, saved apart from real progress */
 var TESTER=!!window.__FRETROAD_TESTER||/[?&]tester(=|&|$)/.test(location.search);
-var KEY=TESTER?'fretroad-tester':'fretroad-v1', save={done:[],intro:false};
+/* Players: each profile has its own saved progress. The first profile keeps the original key, so existing progress is untouched. */
+var PROFILES=(function(){ var d={active:'p1',list:[{id:'p1',name:'Player 1',color:0}]};
+  try{ var r=JSON.parse(localStorage.getItem('fretroad-profiles')); if(r&&Array.isArray(r.list)&&r.list.length&&r.list.some(function(p){return p.id===r.active})) return r; }catch(e){} return d; })();
+function profileKey(id){ return id==='p1'?'fretroad-v1':'fretroad-v1-'+id; }
+var KEY=TESTER?'fretroad-tester':profileKey(PROFILES.active), save={done:[],intro:false};
 try{var raw=localStorage.getItem(KEY); if(raw){var o=JSON.parse(raw); if(o&&o.done) save=o;}}catch(e){}
 if(TESTER&&!save.done.length){ var allIds=[]; for(var ti=1;ti<=19;ti++) allIds.push(ti); for(var tj=20;tj<=25;tj++) allIds.push(tj); save={done:allIds.slice(),passed:allIds.slice(),best:{},intro:true,story:'road',chSeen:[1,2,3,4],tour:1,warm:null}; }
 if(!save.passed) save.passed=[];

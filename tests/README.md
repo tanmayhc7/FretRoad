@@ -19,6 +19,8 @@ python3 ui_analysis.py      # tempo, time signature, chart matching on synthetic
 python3 ui_fingers.py       # daily finger exercises: level question, ten per level, rotation
 python3 ui_tuning.py        # DADGAD chord shapes and the tuning picker
 python3 ui_finder.py        # sandbox chord finder
+python3 ui_profiles.py      # player profiles in Settings
+python3 ui_cast.py          # Chromecast sender + receiver (fake Cast framework)
 - `ui_tuning.py`: DADGAD chord shapes, the tuning picker on Songs and in the jam, standard tuning untouched.
 python3 ui_ai.py            # bring-your-own-model plumbing and the riff helper
 python3 ui_recording.py     # play along with an audio file: mark changes, follow, reload

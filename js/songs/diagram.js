@@ -1,6 +1,6 @@
 /* Chord diagram as an SVG string. Strings run low to high left to right (mirrored for left-handed players). */
 function chordDiagram(sym,opt){
-  opt=opt||{}; var sh=chordShape(sym), W=opt.w||120, H=Math.round(W*1.22), lefty=!!save.lefty;
+  opt=opt||{}; var rawSym=sym; sym=String(sym==null?'':sym).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); var sh=chordShape(rawSym), W=opt.w||120, H=Math.round(W*1.22), lefty=!!save.lefty;
   if(!sh) return '<svg class="cdia" viewBox="0 0 120 146" role="img" aria-label="'+sym+', no diagram"><text x="60" y="78" text-anchor="middle" class="cd-sym">'+sym+'</text></svg>';
   var lo=sh.lo, base=lo>3?lo:1, left=24, top=34, gx=(120-left-12)/5, gy=19, rows=5, svg='';
   var xs=function(i){return left+(lefty?5-i:i)*gx}, fy=function(f){return top+(f-base+.5)*gy};
