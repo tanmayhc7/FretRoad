@@ -110,28 +110,57 @@ Automated tests: `python3 tests/ui_cast.py` and `python3 tests/ui_profiles.py`.
 
 ---
 
-## Route B: Android TV app (APK) — planned
+## Route B: Android TV app (APK), build plan
 
-Only works on a **Chromecast with Google TV** (or another Android TV). The plain Chromecast dongle cannot install apps.
+Only works on a **Chromecast with Google TV** (or another Android TV). The plain Chromecast dongle cannot install apps. This section is the plan to hand to a new Claude Code session; nothing here is built yet.
 
-### What will be built
-1. A TV-friendly layout and remote (D-pad) navigation in the web app.
-2. A small Android project (`android/`) that wraps the site in a full-screen WebView with a TV launcher banner.
-3. A GitHub Actions workflow that builds `fretRoad.apk` so you can download it from the repo's Actions or Releases page. No Android tooling is needed on your machine.
-4. A profile picker on the TV (profiles stored on the TV), with a phone able to act as the microphone later.
+### Goal
+A full-screen app on the TV that runs fretRoad with a remote control, keeps its own player profiles, and can be installed by sideloading (free) or from the Play Store (US$25).
 
-### Sideload the APK on a Chromecast with Google TV (once the APK exists)
+### Design decisions
+- **Wrapper, not a rewrite.** A native Android app with one full-screen `WebView` that loads the site. Choose one of:
+  1. Load the hosted site `https://tanmayhc7.github.io/FretRoad/` (always up to date, needs internet), or
+  2. Bundle the `dist/` build in `assets/` and load `file:///android_asset/index.html` (works offline; needs a rebuild per release). Recommended: bundle, so it also works without Wi-Fi.
+- **Language:** Kotlin, minSdk 21, targetSdk current. One `MainActivity`.
+- **TV declarations** in `AndroidManifest.xml`: `<uses-feature android:name="android.software.leanback" android:required="false"/>`, `<uses-feature android:name="android.hardware.touchscreen" android:required="false"/>`, a `LEANBACK_LAUNCHER` intent filter on `MainActivity`, `android:banner="@drawable/tv_banner"` (320x180 dp, export 1280x720), `INTERNET` permission.
+- **WebView settings:** JavaScript on, DOM storage on (progress is stored in `localStorage`), IndexedDB on, `mediaPlaybackRequiresUserGesture=false` so audio can start, keep the screen on (`FLAG_KEEP_SCREEN_ON`), hardware acceleration on.
+- **Profiles on the TV** reuse the web profiles (Settings > Players); no native code. The profile picker is the first screen when more than one profile exists.
+- **Microphone:** a TV remote mic cannot hear a guitar, so the TV app shows "Use phone as mic" (later) and disables scoring when no input device exists. Request `RECORD_AUDIO` only if a USB or Bluetooth mic is present.
+
+### Work breakdown (do in this order, one PR each)
+1. **TV layout and D-pad navigation in the web app** (`css/tv.css`, `js/tv.js`):
+   - Detect TV with `navigator.userAgent` containing "Android" and "TV"/"AFTT"/"Chromecast", or `?tv=1`; add `class="tv"` to `<html>`.
+   - 10-foot sizes: base font 24px+, targets at least 64px, large focus ring (3px, 4.5:1 contrast), 5% safe-area padding for overscan.
+   - Make every control focusable with `tabindex` in a sensible order; handle arrow keys with a spatial-navigation helper that moves focus to the nearest focusable in that direction; Enter/DPAD_CENTER activates; Back (`Escape`/`BrowserBack`) goes up one screen or closes overlays.
+   - Hide touch-only controls (drag, pinch) or give them button equivalents. The fretboard puzzle needs a cursor: arrows move a highlighted fret/string, Enter plays or selects.
+   - Add `tests/ui_tv.py` (Playwright keyboard-only run: can reach the map, open a stop, answer a quiz, open Settings > Players, and go back).
+2. **Android project** in `android/` (Gradle Kotlin DSL): `app/src/main/java/.../MainActivity.kt`, manifest as above, `res/drawable/tv_banner.png`, launcher icons from `assets/logo.svg`, a Gradle task `copyWeb` that copies `dist/` into `app/src/main/assets/`. Handle the Back key by calling `webView.goBack()` when possible, else `finish()`; pass remote keys through to the page.
+3. **GitHub Actions workflow** `.github/workflows/android.yml`:
+   - Trigger on tag `v*` and on manual dispatch.
+   - Steps: checkout, `python3 tools/build_standalone.py`, set up JDK 17, set up Android SDK (`android-actions/setup-android`), `./gradlew assembleRelease`, sign with a keystore from repository secrets (`ANDROID_KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`; for first tests use `assembleDebug`, which needs no secrets), upload `fretRoad.apk` as an artifact and attach it to the GitHub Release.
+4. **Microphone via phone** (optional, later): the phone opens fretRoad in listen-only mode, shares detected notes to the TV over the same Cast-style message channel or a short pairing code.
+5. **Play Store** (optional): add an AAB build (`bundleRelease`), TV banner and screenshots, privacy note (progress stays on the device), then submit.
+
+### Test checklist on the real device
+- App appears on the home screen row and in Settings > Apps.
+- Remote can reach and activate every control; Back never traps you.
+- Text readable from the couch; nothing cut off at the edges.
+- Progress survives closing and reopening the app.
+- Sound plays without tapping first.
+- Switching profiles works and keeps each player's progress.
+
+### Install the finished APK (sideload)
 1. On the Chromecast home screen go to **Settings > System > About** and click **Android TV OS build** seven times until it says you are a developer.
-2. Go to **Settings > System > Developer options** and turn on **USB debugging** (or **Network debugging / ADB debugging**).
-3. Install the **Downloader** app from the Play Store on the TV, then in Settings > Apps > Security & restrictions > **Unknown sources** allow Downloader.
-4. Open Downloader, enter the APK download link from the GitHub release, and install.
-5. Alternative with a computer: on the TV note its IP address (Settings > Network), then run `adb connect <tv-ip>:5555` and `adb install fretRoad.apk`.
-6. Find fretRoad in **Settings > Apps > See all apps**, or on the home screen row.
+2. Go to **Settings > System > Developer options** and turn on **USB debugging** (some builds call it **ADB debugging**).
+3. Install **Downloader** from the Play Store on the TV. In **Settings > Apps > Security & restrictions > Unknown sources**, allow Downloader.
+4. Open Downloader, type the APK link from the GitHub Release, download and install.
+5. Alternative with a computer: find the TV's IP in Settings > Network, then run `adb connect <tv-ip>:5555` and `adb install fretRoad.apk`.
+6. Open fretRoad from **Settings > Apps > See all apps**, or from the home screen.
 
-### Play Store (optional)
+### Play Store route
 1. Create a Google Play developer account (US$25 one time, identity verification).
-2. Create the app, upload a signed AAB, add TV banner (1280x720), screenshots and a privacy note (the app stores progress on the device only).
-3. Pass the TV app quality checks (D-pad navigation, no touch-only controls) and submit for review.
+2. Create the app, upload a signed AAB, add the TV banner (1280x720), screenshots and a privacy note.
+3. Pass the TV quality checks (D-pad navigation everywhere, no touch-only controls) and submit for review.
 
 ### Known limitation
-A TV remote's microphone cannot hear a guitar. Listening and scoring needs a phone as the mic or a USB/Bluetooth microphone.
+A TV remote's microphone cannot hear a guitar. Listening and scoring needs a phone as the mic or a USB or Bluetooth microphone.

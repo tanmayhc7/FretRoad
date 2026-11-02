@@ -44,6 +44,6 @@ Playwright (Python) suites in `tests/`, run **sequentially**: ui_core, ui_songs,
 Merged: #7 redesign, #8/#9 scroll cue, #10 cache-busting, #11 Strum in Time countdown, #12 chord naming in mp3 analysis, #13 DADGAD + chord finder + daily exercises. **Open: #14 profiles + Chromecast receiver + these docs.**
 
 ## Next up
-1. T registers the Cast app (US$5) and tests Route A on a real Chromecast; fix what real hardware reveals.
-2. **Route B, Android TV APK:** TV layout and D-pad navigation in the web app; `android/` WebView wrapper with TV banner; GitHub Actions workflow that builds the APK; TV profile picker; phone as optional microphone. Then sideload steps (in `docs/CHROMECAST.md`) and optionally the Play Store ($25).
-3. Final playtest list for T after each batch.
+1. T registers the Cast app (US$5) and tests Route A on a real Chromecast; fix what real hardware reveals. Steps: `docs/CHROMECAST.md` (Route A).
+2. **Route B, Android TV APK:** the full plan, order of work, manifest settings, CI workflow, sideload and Play Store steps are in `docs/CHROMECAST.md` (Route B). Summary: (a) TV layout and D-pad navigation in the web app plus `tests/ui_tv.py`; (b) `android/` WebView wrapper bundling `dist/`; (c) GitHub Actions workflow that builds `fretRoad.apk`; (d) optional phone-as-microphone; (e) optional Play Store. One PR per step, branch from `main`.
+3. Final playtest list for T after each batch (profiles, Cast, Strum in Time countdown, mp3 chord line, DADGAD, chord finder, daily exercises).
