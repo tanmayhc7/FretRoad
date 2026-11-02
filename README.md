@@ -7,7 +7,7 @@
 **Learn the guitar neck by driving down it.**
 A story-driven fretboard game for players who know a few chords and want to understand what they are playing.
 
-[**▶ Play it in your browser**](https://tanmayhc7.github.io/FretRoad/) · [Practice drills](PRACTICE_IDEAS.md)
+[**▶ Play it in your browser**](https://tanmayhc7.github.io/fretRoad/) · [Practice drills](PRACTICE_IDEAS.md)
 
 ![runs in the browser](https://img.shields.io/badge/runs%20in-any%20browser-63d8c3?style=flat-square)
 ![no install](https://img.shields.io/badge/install-none-e6b95f?style=flat-square)
@@ -45,7 +45,7 @@ It is built for intermediate players: you can already play, but the neck still f
 
 ## Try it
 
-The quickest way is the [live version](https://tanmayhc7.github.io/FretRoad/). To run it locally instead, there is no build and no dependencies:
+The quickest way is the [live version](https://tanmayhc7.github.io/fretRoad/). To run it locally instead, there is no build and no dependencies:
 
 ```bash
 git clone https://github.com/tanmayhc7/FretRoad.git
