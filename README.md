@@ -61,9 +61,10 @@ Use Chrome or Edge for the best sound and microphone support. Click anywhere on 
 <tr>
 <td width="50%" valign="top">
 
-### Four chapters, 19 stops
+### First steps plus four chapters, 25 stops
 | Chapter | Stops |
 |---|---|
+| **Basics: First Steps** | The six strings and how to hold the guitar, frets and finger numbers, the musical alphabet, tuning by ear and with the tuner, reading chord boxes and tab with E minor, A minor and the open chord set. Optional: chapter 1 is open without it |
 | **1. The Quiet Road** | Find every A, the fifth above, a major chord, minor, octave shapes |
 | **2. Boxed In** | The pentatonic box, the job of each note, box two, the blue note, major pentatonic |
 | **3. Same Notes, New Home** | Natural minor, Dorian, Mixolydian, Lydian, Phrygian |
@@ -180,8 +181,10 @@ js/
   stories/            one file per storyline (road, jungle, city)
   level-tools.js      helpers for writing levels
   levels-ch1..4.js    the stops: lessons, puzzles, quiz lists
+  levels-basics.js    the First Steps chapter (stops 20 to 25), optional and always open
   chapters.js         chapters, unlocking, map tabs
   quiz-bank*.js       quiz question generators for the stops
+  quiz-basics.js      quiz generators for First Steps
   quiz-ui.js          quiz and practice screens
   views.js            map, lessons, puzzles, sandbox
   theory.js           chord and scale theory

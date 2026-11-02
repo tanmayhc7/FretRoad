@@ -54,14 +54,15 @@ with sync_playwright() as p:
     # story switch, chapter tabs, unlock logic
     ctx=b.new_context(viewport={'width':1280,'height':900}); ctx.add_init_script("window.__FRETROAD_TEST={}; localStorage.setItem('fretroad-v1',%s)"%json.dumps(save('road',1)))
     pg=ctx.new_page(); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
-    check('only chapter tab 1 enabled at start',pg.locator('.chtab:not([disabled])').count()==1)
+    check('only the Basics and chapter 1 tabs are enabled at start',pg.locator('.chtab:not([disabled])').count()==2)
     pg.locator('#storyBtn').click(); pg.locator('.storycard').nth(2).click(); pg.wait_for_timeout(300)
     check('story switch applies city scene',pg.evaluate("document.body.dataset.story")=='city' and 'Pip' in pg.locator('#v-map').inner_text() or pg.evaluate("document.body.dataset.story")=='city')
+    pg.locator('.chtab').nth(1).click(); pg.wait_for_timeout(200)
     check('stop names follow story',pg.locator('#stoplist .stop strong').first.inner_text()=='The Park Gate',pg.locator('#stoplist .stop strong').first.inner_text())
     check('mentor name updates',pg.evaluate("document.querySelector('.mentor').textContent")=='Dot')
     pg.evaluate("save.passed=[1,2,3,4,5];save.done=[1,2,3,4,5];viewCh=-1;showMap()"); pg.wait_for_timeout(300)
     pg.locator('#talkOverlay:not([hidden]) #talkNext').click(timeout=3000) if pg.locator('#talkOverlay:not([hidden])').count() else None
-    check('chapter 2 tab unlocks after chapter 1',pg.locator('.chtab:not([disabled])').count()==2)
+    check('chapter 2 tab unlocks after chapter 1',pg.locator('.chtab:not([disabled])').count()==3)
     check('stop 6 is unlocked, 7 locked',pg.evaluate("unlocked(6)&&!unlocked(7)"))
     ctx.close(); b.close()
 print('ERRORS:',errors if errors else 'none'); print(sum(res),'of',len(res),'checks passed')

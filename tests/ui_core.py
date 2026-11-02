@@ -70,6 +70,8 @@ with sync_playwright() as p:
         if page.locator('#talkOverlay[hidden]').count(): break
         page.locator('#talkNext').click()
     check('intro overlay dismissed',page.locator('#talkOverlay[hidden]').count()==1)
+    check('a new player starts on First Steps (six stops)',page.locator('#stoplist .stop').count()==6 and page.locator('#chEye').inner_text().lower().startswith('first steps'))
+    page.locator('.chtab').nth(1).click(); page.wait_for_timeout(150)
     check('five stops on the map',page.locator('#stoplist .stop').count()==5)
     NP=page.evaluate("window.__FRETROAD_TEST.PRACTICE.length"); NL=page.evaluate("window.__FRETROAD_TEST.PRACTICE.filter(m=>m.needs>0).length")
     check('%d practice cards, %d locked at start'%(NP,NL),NP>=47 and page.locator('#mods .mod').count()==NP and page.locator('#mods .mod:disabled').count()==NL)
@@ -134,8 +136,8 @@ with sync_playwright() as p:
     for _ in range(8):
         if page.locator('#talkOverlay[hidden]').count(): break
         page.locator('#talkNext').click(); page.wait_for_timeout(150)
-    check('chapter 2 opens after chapter 1 with its own intro',page.locator('.chtab:not([disabled])').count()==2 and page.locator('#chEye').inner_text().lower().startswith('chapter 2'))
-    page.locator('.chtab').first.click(); page.wait_for_timeout(200)
+    check('chapter 2 opens after chapter 1 with its own intro',page.locator('.chtab:not([disabled])').count()==3 and page.locator('#chEye').inner_text().lower().startswith('chapter 2'))
+    page.locator('.chtab').nth(1).click(); page.wait_for_timeout(200)
     check('amp shows three lights',page.locator('#stat .amp i.on').count()==3)
     page.screenshot(path='out/shot_map_done.png',full_page=True)
     # every practice module
