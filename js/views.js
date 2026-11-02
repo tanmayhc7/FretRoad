@@ -94,7 +94,7 @@ function showLevel(id){
   cur=LEVELS.filter(function(l){return l.id===id})[0]; found={}; levelDone=false;
   total=targetsOf(cur).length;
   showView('level'); updateStat();
-  $('#lvWhere').textContent='Chapter '+CHAPTERS[chapterIxOf(cur.id)].id+' · Stop '+(CHAPTERS[chapterIxOf(cur.id)].levels.indexOf(cur.id)+1)+' · '+placeName(cur.id); $('#lvTitle').textContent=cur.title;
+  $('#lvWhere').textContent=chapterTag(CHAPTERS[chapterIxOf(cur.id)])+' · Stop '+(CHAPTERS[chapterIxOf(cur.id)].levels.indexOf(cur.id)+1)+' · '+placeName(cur.id); $('#lvTitle').textContent=cur.title;
   $('#goalLbl').textContent=cur.unit; $('#reveal').hidden=true; $('#reveal').innerHTML='';
   setFb('');
   if(!boardL) boardL=createBoard($('#boardL'),onCellLevel);
@@ -168,7 +168,7 @@ function finishLevel(){
   var nxt=LEVELS.filter(function(l){return l.id===cur.id+1})[0];
   var acts='<div class="acts" id="ra"></div>';
   if(cur.reveal){
-    rv.innerHTML='<h3>'+cur.reveal.title+'</h3><p>'+cur.reveal.text+'</p>'+acts;
+    rv.innerHTML='<h3>'+cur.reveal.title+'</h3><p>'+cur.reveal.text+'</p>'+(cur.reveal.html?cur.reveal.html():'')+acts;
   } else if(cur.id===1){
     rv.innerHTML='<h3>Stop cleared</h3><p>The A on the open A string, the A on fret 12 of that string, and five more. Notice how few of them share a fret.</p>'+acts;
   } else if(cur.id===2){

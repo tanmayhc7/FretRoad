@@ -17,7 +17,7 @@ with sync_playwright() as p:
     check('tester button present',pg.locator('.tst-btn').count()==1)
     check('all drills unlocked',pg.evaluate("document.querySelectorAll('#mods .mod:disabled').length")==0)
     check('real progress untouched (1 stop)',pg.evaluate("JSON.parse(localStorage.getItem('fretroad-v1')).passed.length")==1)
-    check('tester save is separate and complete',pg.evaluate("JSON.parse(localStorage.getItem('fretroad-tester')||'{}').passed?.length")==19)
+    check('tester save is separate and complete',pg.evaluate("JSON.parse(localStorage.getItem('fretroad-tester')||'{}').passed?.length")==25)
     pg.locator('.tst-btn').click(); pg.wait_for_selector('.tst-panel')
     n=pg.locator('.tst-item').count(); check('checklist has %d items'%n,n>=18)
     pg.locator('.tst-item').first.locator('input[type=checkbox]').check(); pg.locator('.tst-item').first.locator('input[type=text]').fill('slots stayed grey')

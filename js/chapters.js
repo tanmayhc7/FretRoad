@@ -1,5 +1,6 @@
 /* Chapters: which stops belong together, which are unlocked, and the chapter tabs on the map */
 var CHAPTERS=[
+  {id:0,levels:[20,21,22,23,24,25],optional:true},   /* First Steps: the very basics. Optional, so it never locks chapter 1. */
   {id:1,levels:[1,2,3,4,5]},
   {id:2,levels:[6,7,8,9,10]},
   {id:3,levels:[11,12,13,14,15]},
@@ -10,18 +11,37 @@ var T_CH1=[.11,.36,.6,.78,.9];
 function stopT(ch,i){ if(ch.id===1) return T_CH1[i]; var n=ch.levels.length; return .13+.77*i/(n-1); }
 function chapterIxOf(id){for(var i=0;i<CHAPTERS.length;i++){ if(CHAPTERS[i].levels.indexOf(id)>-1) return i; } return 0;}
 function chapterDone(ix){return CHAPTERS[ix].levels.every(isPassed)}
-function chapterOpen(ix){return ix===0||chapterDone(ix-1)}
-function currentChapterIx(){for(var i=0;i<CHAPTERS.length;i++){ if(!chapterDone(i)) return i; } return CHAPTERS.length-1;}
+/* an optional chapter is always open and never gates the next one; every other chapter opens when the previous required one is cleared */
+function chapterOpen(ix){
+  if(CHAPTERS[ix].optional) return true;
+  for(var j=ix-1;j>=0;j--){ if(!CHAPTERS[j].optional) return chapterDone(j); }
+  return true;
+}
+function coreStarted(){return CHAPTERS.some(function(c){return !c.optional&&c.levels.some(isPassed)})}
+/* a new player starts in First Steps; anyone who has already cleared a stop in chapter 1 or later skips it */
+function currentChapterIx(){
+  for(var i=0;i<CHAPTERS.length;i++){
+    if(chapterDone(i)||(CHAPTERS[i].optional&&coreStarted())) continue;
+    return i;
+  }
+  return CHAPTERS.length-1;
+}
+function chapterTag(c){return c.id===0?'First steps':'Chapter '+c.id}
 var unlocked=function(id){var ix=chapterIxOf(id),ch=CHAPTERS[ix],i=ch.levels.indexOf(id); return chapterOpen(ix)&&(i===0||isPassed(ch.levels[i-1]));};
 var dest=function(id){return (isDone(id)&&!isPassed(id))?'quiz-'+id:'stop-'+id};
-var currentId=function(){for(var i=0;i<LEVELS.length;i++){ if(!isPassed(LEVELS[i].id)&&unlocked(LEVELS[i].id)) return LEVELS[i].id; } return null;};
+var currentId=function(){
+  var ix=(typeof viewCh==='number'&&viewCh>=0&&viewCh<CHAPTERS.length)?viewCh:currentChapterIx(), order=[ix];
+  for(var k=0;k<CHAPTERS.length;k++) if(k!==ix&&!CHAPTERS[k].optional) order.push(k);
+  for(var a=0;a<order.length;a++){ var ls=CHAPTERS[order[a]].levels; for(var i=0;i<ls.length;i++){ if(!isPassed(ls[i])&&unlocked(ls[i])) return ls[i]; } }
+  return null;
+};
 function drawChapterHead(){
   var ch=CHAPTERS[viewCh], t=chapterText(ch.id);
-  $('#chH').textContent=t.h; $('#chSub').textContent=t.sub; $('#chEye').textContent='Chapter '+ch.id+' \u00b7 '+S().name; var hh=document.querySelector('.hero'); if(hh) hh.dataset.n=ch.id;
+  $('#chH').textContent=t.h; $('#chSub').textContent=t.sub; $('#chEye').textContent=chapterTag(ch)+' \u00b7 '+S().name; var hh=document.querySelector('.hero'); if(hh) hh.dataset.n=ch.id||'';
   var tabs=$('#chTabs'); tabs.innerHTML='';
   CHAPTERS.forEach(function(c,i){
     var open=chapterOpen(i),b=document.createElement('button'); b.className='chtab'+(i===viewCh?' on':'')+(chapterDone(i)?' done':''); b.disabled=!open;
-    b.innerHTML=(chapterDone(i)?'✓ ':'')+'<span class="w">Chapter </span>'+c.id; b.setAttribute('aria-label','Chapter '+c.id+(open?'':', locked')+(chapterDone(i)?', cleared':'')); b.title=chapterText(c.id).h;
+    b.innerHTML=(chapterDone(i)?'✓ ':'')+(c.id===0?'Basics':'<span class="w">Chapter </span>'+c.id); b.setAttribute('aria-label',chapterTag(c)+(open?'':', locked')+(chapterDone(i)?', cleared':'')); b.title=chapterText(c.id).h;
     b.addEventListener('click',function(){viewCh=i; drawMap(); showChapterIntroOnce();});
     tabs.appendChild(b);
   });

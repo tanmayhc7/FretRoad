@@ -16,7 +16,7 @@ function showQuiz(id){
   if(Q.active&&Q.resume&&Q.mode==='stop'&&Q.level&&Q.level.id===id){Q.resume=false; renderQ(); return;}
   Q.mode='stop'; Q.level=L; Q.mod=null; Q.lv=id; Q.resume=false; Q.active=true; Q.streak=0;
   Q.queue=shuffle(L.quiz).map(build); Q.i=0; Q.first=0; Q.total=Q.queue.length; Q.marks=[];
-  $('#qWhere').textContent='Chapter '+CHAPTERS[chapterIxOf(id)].id+' · Stop '+(CHAPTERS[chapterIxOf(id)].levels.indexOf(id)+1)+' · '+placeName(id); $('#qTitle').textContent=L.title+': quiz';
+  $('#qWhere').textContent=chapterTag(CHAPTERS[chapterIxOf(id)])+' · Stop '+(CHAPTERS[chapterIxOf(id)].levels.indexOf(id)+1)+' · '+placeName(id); $('#qTitle').textContent=L.title+': quiz';
   typeInto($('#qBubble'),S().quizIntro);
   renderQ();
 }
