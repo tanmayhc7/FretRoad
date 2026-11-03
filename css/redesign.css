@@ -176,3 +176,6 @@ html.light .faq{background:rgba(255,255,255,.7);border-color:rgba(28,32,51,.14)}
 body[data-world="valley"]{background:#03101a}
 
 body[data-world="delhi"]{background:#0a0418}
+
+.fbfoot .dedication{flex-basis:100%;margin:6px 0 0;text-align:center;font-size:.95rem;color:var(--haze,#a9a8cf)}
+.fbfoot .dedication span{color:#ff6b81;margin-left:2px}
