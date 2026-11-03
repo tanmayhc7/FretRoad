@@ -56,7 +56,7 @@ button{font:inherit;color:inherit}
 .node:hover .lamp{fill:#f4cc7a}
 .node.soon,.node.locked{cursor:default}
 .node.soon:hover .lamp,.node.locked:hover .lamp{fill:#3b4180}
-#van{transition:transform 1.1s cubic-bezier(.5,.1,.2,1)}
+#van{transition:none}
 .chapter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:28px;margin-top:30px;align-items:start}
 .chapter h2{font-size:2.1rem}
 .chapter .sub{color:var(--haze);margin-top:10px;max-width:44ch}
