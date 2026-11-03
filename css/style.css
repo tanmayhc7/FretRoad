@@ -248,7 +248,7 @@ select option{background:#111945;color:var(--moon)}
 .steam{animation:steam 4.5s ease-out infinite;opacity:0}
 @keyframes steam{0%{opacity:.0;transform:translate(0,0) scale(.6)}20%{opacity:.5}100%{opacity:0;transform:translate(10px,-70px) scale(2.2)}}
 @media (prefers-reduced-motion:reduce){.ffly,.steam{animation:none}.ffly{opacity:.8}}
-body[data-story="jungle"] .node .name,body[data-story="city"] .node .name{paint-order:stroke;stroke:#050816;stroke-width:5px;stroke-linejoin:round}
+body[data-story="jordan"] .node .name,body[data-story="heer"] .node .name{paint-order:stroke;stroke:#050816;stroke-width:5px;stroke-linejoin:round}
 
 /* ===== full-page worlds (3D parallax backdrops) ===== */
 #world{position:fixed;inset:0;z-index:0;overflow:hidden;perspective:800px;perspective-origin:50% 50%;pointer-events:none}
@@ -257,10 +257,6 @@ body[data-story="jungle"] .node .name,body[data-story="city"] .node .name{paint-
 .wl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .wl-screen{mix-blend-mode:screen}
 body.has-world #skybg{display:none}
-body[data-world="jungle"]{background:#04140c;--ink:#04140c;--night:#08281a;--dusk:#0f3d28;--horizon:#2f7a47;--brass:#e8c25a;--glass:#86e8a8;--rose:#e89a5a;--moon:#effbe6;--haze:#a8d4b4;--panel:rgba(5,32,20,.8);--line:rgba(200,255,214,.2)}
-body[data-world="jungle"] #world{background:radial-gradient(ellipse at 50% 0%,#2f8a52 0%,#0d4a2e 45%,#041a10 100%)}
-body[data-world="city"]{background:#03040f;--ink:#03040f;--night:#0a1040;--dusk:#1c1f62;--horizon:#e07a9a;--brass:#ffd27a;--glass:#7fd7ff;--rose:#ff7fa8;--moon:#f4f1ff;--haze:#aeb4e6;--panel:rgba(7,12,46,.8)}
-body[data-world="city"] #world{background:linear-gradient(180deg,#01020c 0%,#080e3a 42%,#2a2570 72%,#8a4a8c 100%)}
 body.has-world .shell{text-shadow:0 1px 3px rgba(0,0,0,.45)}
 
 .sway{transform-box:fill-box;transform-origin:50% 0;animation:sway 6s ease-in-out infinite}
@@ -294,8 +290,6 @@ body.has-world .map-frame{background:transparent!important;box-shadow:none;borde
 body.has-world #mapsvg>rect:first-of-type,body.has-world #mapsvg #artBack,body.has-world #mapsvg #artFront,body.has-world #mapsvg #silo,body.has-world #mapsvg #mstars,body.has-world #mapsvg #moon,body.has-world #mapsvg #h1,body.has-world #mapsvg #h2,body.has-world #mapsvg #h3{display:none}
 body.has-world #mapsvg use:nth-of-type(1){filter:drop-shadow(0 6px 10px rgba(0,0,0,.55))}
 
-body[data-world="road"]{background:#05061c}
-body[data-world="road"] #world{background:linear-gradient(180deg,#05061a 0%,#131a52 45%,#3a2a78 75%,#a0507a 100%)}
 .lbeam{animation:lbeam 12s ease-in-out infinite alternate;opacity:.55}
 @keyframes lbeam{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
 .car{animation:car 28s linear infinite}
@@ -311,7 +305,6 @@ body.has-world .shell{text-shadow:0 0 3px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.
 body.has-world .node .name{paint-order:stroke;stroke:#02030a;stroke-width:6px;stroke-linejoin:round;font-weight:700;fill:#fff}
 body.has-world .node.locked .name{fill:#e6e8f6;opacity:1}
 body.has-world{--panel:rgba(3,6,24,.88);--haze:#d2d6f0}
-body[data-world="jungle"]{--panel:rgba(2,20,12,.88);--haze:#cfe8d6}
 
 /* map characters */
 .mbob{animation:mbob 1.1s ease-in-out infinite}
@@ -386,4 +379,3 @@ h1,h2,h3{font-weight:700;letter-spacing:-.025em}
 }
 @media (max-width:720px){.brand b{display:none}.top{justify-content:space-between}}
 body.has-world .practice{padding:28px 24px;border-radius:32px;background:rgba(4,8,24,.55);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.1)}
-body[data-world="jungle"] .practice{background:rgba(2,18,10,.6)}

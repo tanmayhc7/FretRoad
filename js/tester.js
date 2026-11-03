@@ -24,7 +24,7 @@ if(TESTER){ (function(){
     ['sprint','Fretboard Sprint','#practice-sprint','Is the timer and fastest-run message right?'],
     ['vamps','Modal vamps','#jam-j:dorian:2','Dorian, Mixolydian, Lydian, Phrygian: do the solo hints sound right over the backing?']]],
    ['Look and feel',[
-    ['world','Scenery on your devices','#map','Try all three stories. Safari: are map names sharp? Brave: do cards fill instantly when scrolling? Jungle on a slow device? Settings → Scenery motion → Calm should fix any lag.'],
+    ['world','Scenery on your devices','#map','Try both stories. Safari: are map names sharp? Brave: do cards fill instantly when scrolling? The valley on a slow device? Settings → Scenery motion → Calm should fix any lag.'],
     ['rem','Daily reminder','','Settings → Daily reminder. Does the notification appear? Does the .ics download open in your calendar?'],
     ['tour','First-visit tour','','Use "Take the tour". Does every step point at the right thing, on phone width too?'],
     ['import','Song import: PDF and photo','#songs','Needs internet (loads PDF.js and Tesseract). Try a chord-chart PDF and a photo. Are the chords read correctly?'],

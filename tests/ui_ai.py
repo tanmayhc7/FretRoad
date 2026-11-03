@@ -13,7 +13,7 @@ for m,d in seq:
     v=sum(np.sin(2*np.pi*f*h*t)/h for h in (1,2,3))*np.exp(-t*4)*.4; s=int(t0*sr); y[s:s+n]+=v; t0+=d
 w=wave.open(OUT+'riff.wav','wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr); w.writeframes((y/np.abs(y).max()*.8*32767).astype('<i2').tobytes()); w.close()
 CHART="Invented Tune\n\n[Verse]\nAm\nla la la la\nG\nla la\n"
-save={'done':[1,2,3,4,5],'passed':[1,2,3,4,5],'best':{},'intro':True,'story':'road','chSeen':[1,2,3,4],'tour':1,'songs':[{'id':'s1','title':'Invented Tune','text':CHART}]}
+save={'done':[1,2,3,4,5],'passed':[1,2,3,4,5],'best':{},'intro':True,'story':'jordan','chSeen':[1,2,3,4],'tour':1,'songs':[{'id':'s1','title':'Invented Tune','text':CHART}]}
 with sync_playwright() as p:
     b=p.chromium.launch(args=['--autoplay-policy=no-user-gesture-required']); ctx=b.new_context(viewport={'width':1200,'height':900})
     ctx.add_init_script("window.__FRETROAD_TEST={}; try{ if(!localStorage.getItem('fretroad-v1')) localStorage.setItem('fretroad-v1',%s)}catch(e){}"%json.dumps(json.dumps(save)))

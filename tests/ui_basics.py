@@ -64,18 +64,18 @@ with sync_playwright() as p:
     check('hero numeral is blank for First Steps',pg.evaluate("(()=>{viewCh=0;drawMap();return document.querySelector('.hero').dataset.n===''})()"))
     ctx.close()
     # a player with chapter 1 progress is not dragged back to the basics
-    ctx,pg=ctxpage(b,'road',[1,2]); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
+    ctx,pg=ctxpage(b,'jordan',[1,2]); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
     check('player with progress lands on chapter 1',pg.locator('#chEye').inner_text().lower().startswith('chapter 1'),pg.locator('#chEye').inner_text())
     check('dawn for core progress still counts 2 of 19',abs(pg.evaluate("dawnValue()")-2/19)<1e-9,pg.evaluate("dawnValue()"))
     check('chapter 2 gate ignores the optional chapter',pg.evaluate("!chapterOpen(2)"))
     ctx.close()
-    ctx,pg=ctxpage(b,'road',[1,2,3,4,5]); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
+    ctx,pg=ctxpage(b,'jordan',[1,2,3,4,5]); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
     check('chapter 2 opens after chapter 1 even if First Steps is untouched',pg.evaluate("chapterOpen(2)&&unlocked(6)&&!isPassed(20)"))
     ctx.close()
     # every stop in turn, in all three stories
     passed=[]
     for sid in range(20,26):
-        story=['road','jungle','city'][sid%3]
+        story=['jordan','heer'][sid%2]
         ctx,pg=ctxpage(b,story,list(range(20,sid)))
         pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
         check('stop %d has a story place name (%s)'%(sid,story),pg.evaluate("placeName(%d)"%sid)!='Stop %d'%sid,pg.evaluate("placeName(%d)"%sid))
@@ -129,7 +129,7 @@ with sync_playwright() as p:
         check('stop %d result offers %s'%(sid,'the next stop' if sid<25 else 'the sandbox'),pg.locator('#qResult .btn',has_text='Next stop' if sid<25 else 'Open the sandbox').count()==1)
         ctx.close()
     # stress the generators: thousands of questions, each with exactly one right answer and distinct labels
-    ctx,pg=ctxpage(b,'road',[]); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
+    ctx,pg=ctxpage(b,'jordan',[]); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
     bad=pg.evaluate("""(()=>{var out=[],keys=Object.keys(QB).filter(k=>/^b[A-Z]/.test(k));
       for(var k of keys){ for(var n=0;n<400;n++){ var q=QB[k](20); if(!q.prompt||!q.explain||!q.lesson){out.push(k+': missing field');break}
         if(q.choices){ var ok=q.choices.filter(c=>c.ok).length; if(ok!==1){out.push(k+': '+ok+' correct in '+q.prompt);break}
@@ -143,7 +143,7 @@ with sync_playwright() as p:
     check('every quiz key in the six stops exists',not used,used)
     ctx.close()
     # small screen: the new chapter fits the phone layout
-    ctx,pg=ctxpage(b,'road',[],mobile=True); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
+    ctx,pg=ctxpage(b,'jordan',[],mobile=True); pg.goto(URL); pg.wait_for_selector('#v-map:not([hidden])')
     ov=pg.evaluate("document.documentElement.scrollWidth<=window.innerWidth+1")
     check('phone: map has no horizontal scroll with five chapter tabs',ov)
     ctx.close(); b.close()

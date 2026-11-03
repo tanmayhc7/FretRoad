@@ -3,7 +3,7 @@
    To add a story, copy js/stories/road.js, change the text, and add a <script> tag in index.html. */
 var STORIES={}, STORY_ORDER=[];
 function registerStory(s){STORIES[s.id]=s; STORY_ORDER.push(s.id)}
-function storyId(){return STORIES[save.story]?save.story:'road'}
+function storyId(){return STORIES[save.story]?save.story:STORY_ORDER[0]}
 function S(){return STORIES[storyId()]}
 function placeName(id){var p=S().places[id]; if(p) return p; var l=LEVELS.filter(function(x){return x.id===id})[0]; return l?l.stop:('Stop '+id)}
 function clearText(id){return S().clear[id]||'Stop cleared.'}

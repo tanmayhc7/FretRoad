@@ -2,7 +2,7 @@
 import json,os,tempfile
 from playwright.sync_api import sync_playwright
 PAGE=os.environ.get('FR_PAGE','file:///tmp/fr/repo/index.html')
-S=json.dumps({'done':[1,2,3],'passed':[1,2,3],'best':{'1':4},'intro':True,'story':'jungle','chSeen':[1]})
+S=json.dumps({'done':[1,2,3],'passed':[1,2,3],'best':{'1':4},'intro':True,'story':'heer','chSeen':[1]})
 with sync_playwright() as p:
     b=p.chromium.launch(); ok=True
     c1=b.new_context(accept_downloads=True); c1.add_init_script("window.__FRETROAD_TEST={}; localStorage.getItem('fretroad-v1')||localStorage.setItem('fretroad-v1',%s)"%json.dumps(S))
@@ -14,7 +14,7 @@ with sync_playwright() as p:
     n=c2.new_page(); n.goto(PAGE); n.wait_for_selector('#v-map:not([hidden])')
     n.set_input_files('#bkFile',path); n.wait_for_timeout(400)
     st=json.loads(n.evaluate("localStorage.getItem('fretroad-v1')"))
-    ok&=st['done']==[1,2,3] and st['story']=='jungle' and n.evaluate("document.body.dataset.story")=='jungle'
+    ok&=st['done']==[1,2,3] and st['story']=='heer' and n.evaluate("document.body.dataset.story")=='heer'
     bad=os.path.join(os.path.dirname(path),'bad.json'); open(bad,'w').write('{"x":1}')
     n.set_input_files('#bkFile',bad); n.wait_for_timeout(300)
     ok&=json.loads(n.evaluate("localStorage.getItem('fretroad-v1')"))['done']==[1,2,3]
