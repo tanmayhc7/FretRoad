@@ -9,9 +9,9 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/albert-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20261102b">
-<link rel="stylesheet" href="css/songs.css?v=20261102b">
-<link rel="stylesheet" href="css/redesign.css?v=20261102b">
+<link rel="stylesheet" href="css/style.css?v=20261102c">
+<link rel="stylesheet" href="css/songs.css?v=20261102c">
+<link rel="stylesheet" href="css/redesign.css?v=20261102c">
 </head>
 <!-- fretRoad. Copyright (C) 2026 Tanmay Chandavarkar. Free software under the GNU AGPL-3.0; source: https://github.com/tanmayhc7/FretRoad -->
 <body><a class="skip" href="#stoplist">Skip to the stops</a><div id="skybg"><canvas id="sky"></canvas></div>
@@ -103,7 +103,7 @@
     <section class="tagline" aria-label="About fretRoad"><p data-reveal>Learn the neck one stop at a time. Every stop you clear brings the morning closer.</p></section>
     <div class="practice">
       <h2>Practice</h2>
-      <p style="color:var(--haze);margin-top:6px">Drills from first steps to advanced theory. Each opens when you clear the stop that teaches it. Cards marked with the mic listen to you play.</p>
+      <p style="color:var(--haze);margin-top:6px">Drills from first steps to advanced theory. Most open when you clear the stop that teaches them. Cards tagged no guitar needed are open from the start. Cards marked with the mic listen to you play.</p>
       <div id="mods"></div>
     </div>
     <section class="faq" id="faq" aria-labelledby="faqH">
@@ -112,7 +112,8 @@
       <details><summary>Do I need an account?</summary><p>No. Progress is saved on your device. Players each get their own save, and you can back up to a file from Settings.</p></details>
       <details><summary>Does it record me?</summary><p>No. The mic only listens live and never records.</p></details>
       <details><summary>I am a beginner. Where do I start?</summary><p>Start with the First Steps chapter. It covers strings, frets, note names, tuning and your first chords before Chapter 1.</p></details>
-      <details><summary>Can I learn if I do not have a guitar yet?</summary><p>Yes. Every stop, puzzle and quiz runs on the on-screen fretboard, so you can learn the string names, note names, the octave and fifth patterns and the chord shapes without an instrument. The practice cards that ask you to name or find notes, the ear training, the metronome and the Sandbox work the same way. Only the cards marked with the mic, and the finger exercises, need a guitar, and you can come back to those once you have one.</p></details>
+      <details><summary>Can I learn if I do not have a guitar yet?</summary><p>Yes. Every stop, puzzle and quiz runs on the on-screen fretboard, so you can learn the string names, note names, the octave and fifth patterns and the chord shapes without an instrument. In Practice, the Beginner cards tagged "no guitar needed" are built for this: Parts of the Guitar, String Names by Rhyme, Read a Chord Box, Read the Tab, First Ear Training and The Note Alphabet. Only the cards that use the mic, and the finger exercises, need a guitar, and you can come back to those once you have one.</p></details>
+      <details><summary>Which chapters should I do if I have no guitar yet?</summary><p>Start with First Steps (the Basics tab): it explains the parts of the guitar, the strings, the frets, note names, tuning, chord boxes and tab, and the quizzes work with no instrument. Then do the no-guitar cards in Practice. Chapter 1 teaches the neck itself and works fine on screen, so move on to it next. Chapters 2 to 4 (the pentatonic box, the seven-note scales and sliding chord shapes) are easier once you can try the shapes on a real guitar, but you can still pass them on the screen. Save the mic cards for when you have a guitar.</p></details>
       <details><summary>Which tunings work?</summary><p>Standard tuning and DADGAD.</p></details>
       <details><summary>What are the two stories?</summary><p>Jordan, a restless guitarist walking you from a college canteen to a big stage, and Heer, a bold guide taking you around a valley lake as the sun comes up. Both are unofficial tributes to the film Rockstar. The fretboard lessons are the same in each.</p></details>
     </section>
@@ -298,63 +299,64 @@
 </div>
 <div id="toastHost" aria-live="polite"></div>
 
-<script src="js/core.js?v=20261102b"></script>
-<script src="js/prefs.js?v=20261102b"></script>
-<script src="js/audio.js?v=20261102b"></script>
-<script src="js/fretboard.js?v=20261102b"></script>
-<script src="js/story-core.js?v=20261102b"></script>
-<script src="js/world/world-core.js?v=20261102b"></script>
-<script src="js/world/dawn.js?v=20261102b"></script>
-<script src="js/world/detail.js?v=20261102b"></script>
-<script src="js/world/atmos.js?v=20261102b"></script>
-<script src="js/world/delhi.js?v=20261102b"></script>
-<script src="js/world/valley.js?v=20261102b"></script>
-<script src="js/stories/jordan.js?v=20261102b"></script>
-<script src="js/stories/heer.js?v=20261102b"></script>
-<script src="js/levels-ch1.js?v=20261102b"></script>
-<script src="js/level-tools.js?v=20261102b"></script>
-<script src="js/levels-ch2.js?v=20261102b"></script>
-<script src="js/levels-ch3.js?v=20261102b"></script>
-<script src="js/levels-ch4.js?v=20261102b"></script>
-<script src="js/levels-basics.js?v=20261102b"></script>
-<script src="js/chapters.js?v=20261102b"></script>
-<script src="js/quiz-bank.js?v=20261102b"></script>
-<script src="js/quiz-bank-2.js?v=20261102b"></script>
-<script src="js/quiz-ui.js?v=20261102b"></script>
-<script src="js/views.js?v=20261102b"></script>
-<script src="js/theory.js?v=20261102b"></script>
-<script src="js/quiz-basics.js?v=20261102b"></script>
-<script src="js/drills.js?v=20261102b"></script>
-<script src="js/drills-more.js?v=20261102b"></script>
-<script src="js/drills-extra.js?v=20261102b"></script>
-<script src="js/rhythm.js?v=20261102b"></script>
-<script src="js/metronome.js?v=20261102b"></script>
-<script src="js/mic.js?v=20261102b"></script>
-<script src="js/songs/chords.js?v=20261102b"></script>
-<script src="js/songs/chart.js?v=20261102b"></script>
-<script src="js/songs/ocr.js?v=20261102b"></script>
-<script src="js/songs/diagram.js?v=20261102b"></script>
-<script src="js/songs/backing.js?v=20261102b"></script>
-<script src="js/songs/listen.js?v=20261102b"></script>
-<script src="js/songs/songs-ui.js?v=20261102b"></script>
-<script src="js/songs/jam-ui.js?v=20261102b"></script>
-<script src="js/songs/analysis.js?v=20261102b"></script>
-<script src="js/songs/recording.js?v=20261102b"></script>
-<script src="js/ai/ai.js?v=20261102b"></script>
-<script src="js/ai/riff.js?v=20261102b"></script>
-<script src="js/finder.js?v=20261102b"></script>
-<script src="js/songs/tunings.js?v=20261102b"></script>
-<script src="js/ai/ai-ui.js?v=20261102b"></script>
-<script src="js/play.js?v=20261102b"></script>
-<script src="js/finger-ex.js?v=20261102b"></script>
-<script src="js/profiles.js?v=20261102b"></script>
-<script src="js/warmup.js?v=20261102b"></script>
-<script src="js/tour.js?v=20261102b"></script>
-<script src="js/tester.js?v=20261102b"></script>
-<script src="js/feedback.js?v=20261102b"></script>
-<script src="js/backup.js?v=20261102b"></script>
-<script src="js/cast.js?v=20261102b"></script>
-<script src="js/landing.js?v=20261102b"></script>
-<script src="js/main.js?v=20261102b"></script>
+<script src="js/core.js?v=20261102c"></script>
+<script src="js/prefs.js?v=20261102c"></script>
+<script src="js/audio.js?v=20261102c"></script>
+<script src="js/fretboard.js?v=20261102c"></script>
+<script src="js/story-core.js?v=20261102c"></script>
+<script src="js/world/world-core.js?v=20261102c"></script>
+<script src="js/world/dawn.js?v=20261102c"></script>
+<script src="js/world/detail.js?v=20261102c"></script>
+<script src="js/world/atmos.js?v=20261102c"></script>
+<script src="js/world/delhi.js?v=20261102c"></script>
+<script src="js/world/valley.js?v=20261102c"></script>
+<script src="js/stories/jordan.js?v=20261102c"></script>
+<script src="js/stories/heer.js?v=20261102c"></script>
+<script src="js/levels-ch1.js?v=20261102c"></script>
+<script src="js/level-tools.js?v=20261102c"></script>
+<script src="js/levels-ch2.js?v=20261102c"></script>
+<script src="js/levels-ch3.js?v=20261102c"></script>
+<script src="js/levels-ch4.js?v=20261102c"></script>
+<script src="js/levels-basics.js?v=20261102c"></script>
+<script src="js/chapters.js?v=20261102c"></script>
+<script src="js/quiz-bank.js?v=20261102c"></script>
+<script src="js/quiz-bank-2.js?v=20261102c"></script>
+<script src="js/quiz-ui.js?v=20261102c"></script>
+<script src="js/views.js?v=20261102c"></script>
+<script src="js/theory.js?v=20261102c"></script>
+<script src="js/quiz-basics.js?v=20261102c"></script>
+<script src="js/drills.js?v=20261102c"></script>
+<script src="js/drills-more.js?v=20261102c"></script>
+<script src="js/drills-extra.js?v=20261102c"></script>
+<script src="js/drills-noguitar.js?v=20261102c"></script>
+<script src="js/rhythm.js?v=20261102c"></script>
+<script src="js/metronome.js?v=20261102c"></script>
+<script src="js/mic.js?v=20261102c"></script>
+<script src="js/songs/chords.js?v=20261102c"></script>
+<script src="js/songs/chart.js?v=20261102c"></script>
+<script src="js/songs/ocr.js?v=20261102c"></script>
+<script src="js/songs/diagram.js?v=20261102c"></script>
+<script src="js/songs/backing.js?v=20261102c"></script>
+<script src="js/songs/listen.js?v=20261102c"></script>
+<script src="js/songs/songs-ui.js?v=20261102c"></script>
+<script src="js/songs/jam-ui.js?v=20261102c"></script>
+<script src="js/songs/analysis.js?v=20261102c"></script>
+<script src="js/songs/recording.js?v=20261102c"></script>
+<script src="js/ai/ai.js?v=20261102c"></script>
+<script src="js/ai/riff.js?v=20261102c"></script>
+<script src="js/finder.js?v=20261102c"></script>
+<script src="js/songs/tunings.js?v=20261102c"></script>
+<script src="js/ai/ai-ui.js?v=20261102c"></script>
+<script src="js/play.js?v=20261102c"></script>
+<script src="js/finger-ex.js?v=20261102c"></script>
+<script src="js/profiles.js?v=20261102c"></script>
+<script src="js/warmup.js?v=20261102c"></script>
+<script src="js/tour.js?v=20261102c"></script>
+<script src="js/tester.js?v=20261102c"></script>
+<script src="js/feedback.js?v=20261102c"></script>
+<script src="js/backup.js?v=20261102c"></script>
+<script src="js/cast.js?v=20261102c"></script>
+<script src="js/landing.js?v=20261102c"></script>
+<script src="js/main.js?v=20261102c"></script>
 </body>
 </html>
