@@ -151,7 +151,7 @@ function drawMods(){
     PRACTICE.map(function(m,i){return [m,i]}).filter(function(a){return a[0].tier===tier}).sort(function(a,b){return (a[0].needs-b[0].needs)||(a[1]-b[1])}).map(function(a){return a[0]}).forEach(function(M){
       var open=practiceOpen(M),best=save.best?save.best[M.id]:undefined,play=(M.type==='play'||M.kind==='tune');
       var b=document.createElement('button'); b.className='mod'+(open?'':' locked'); b.disabled=!open; b.dataset.id=M.id;
-      var tag=!open?('Clear stop '+M.needs+' to unlock'):(M.kind==='tune'?'Uses the mic':(best!==undefined?'Best '+best+' of '+M.rounds:(play?'Uses the mic':M.rounds+' questions')));
+      var tag=!open?('Clear stop '+M.needs+' to unlock'):(M.kind==='tune'?'Uses the mic':(best!==undefined?'Best '+best+' of '+M.rounds:(play?'Uses the mic':M.rounds+' questions'))+(play||M.kind==='tune'?'':' · no guitar needed'));
       b.innerHTML='<strong>'+M.name+'</strong><span class="d">'+M.desc+'</span><span class="tag'+(play&&open?' mic':'')+'">'+tag+'</span>';
       b.addEventListener('click',function(){location.hash='practice-'+M.id});
       grid.appendChild(b);
