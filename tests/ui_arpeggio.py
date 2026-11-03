@@ -7,7 +7,7 @@ import json
 from playwright.sync_api import sync_playwright
 import os
 URL='file://'+os.environ.get('FR_PAGE',ROOT+'/index.html')
-SAVE=json.dumps({'done':[1,2,3,4,5],'passed':[1,2,3,4,5],'best':{},'intro':True,'story':'road','chSeen':[1,2,3,4]})
+SAVE=json.dumps({'done':[1,2,3,4,5],'passed':[1,2,3,4,5],'best':{},'intro':True,'story':'jordan','chSeen':[1,2,3,4]})
 INIT="window.__FRETROAD_TEST={}; Math.random=function(){return 0}; try{localStorage.setItem('fretroad-v1',%s)}catch(e){}"%json.dumps(SAVE)
 errs=[]
 with sync_playwright() as p:

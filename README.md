@@ -26,7 +26,7 @@ A story-driven fretboard game for players who know a few chords and want to unde
 
 Most fretboard apps flash a note name and ask you to find it. fretRoad teaches the neck as a **pattern**: why the fifth is always two frets over and a string up, why a minor chord is one fret away from a major one, why the same shape works in every key.
 
-You walk a road of stops, each one a single idea, with a guide who talks you through it. Pick the story you like: a night road with an old session player, a jungle trail with a bear and a panther, or a toddler's big day across the city. The lessons are identical in every story.
+You walk a road of stops, each one a single idea, with a guide who talks you through it. Pick the story you like: Jordan, a restless guitarist walking you from a college canteen to a big stage, or Heer, a bold guide taking you around a valley lake as the sun comes up. The lessons are identical in both stories.
 
 Each stop on the road is one idea:
 
@@ -38,7 +38,7 @@ Each stop on the road is one idea:
 It is built for intermediate players: you can already play, but the neck still feels like a pile of memorised shapes.
 
 <div align="center">
-<img src="docs/lesson.png" alt="A lesson with Marlow explaining the shape on the fretboard" width="860">
+<img src="docs/lesson.png" alt="A lesson explaining the shape on the fretboard" width="860">
 </div>
 
 - **Riff helper and your own AI model.** Work out a single-note riff from a recording, and optionally plug in your own model for an explanation. See [docs/BRING_YOUR_OWN_MODEL.md](docs/BRING_YOUR_OWN_MODEL.md).
@@ -99,15 +99,16 @@ Progress is stored in your browser. Use **Save progress to file** and **Load pro
 The same lessons, puzzles and quizzes sit under three storylines. Choose on first launch, or switch any time from the **Story** button without losing progress. Each story changes the narrator, the place names, the dialogue and the map scenery.
 
 <div align="center">
-<img src="docs/stories.png" alt="The story picker with three cards: The Night Road, The Jungle Walk and Pip's Big Day Out" width="860">
+<img src="docs/stories.png" alt="The story picker with two cards: Jordan and Heer" width="860">
 </div>
 
-- **The Night Road:** a broken-down van and an old session player called Marlow.
-- **The Jungle Walk:** Baloo the bear and Bagheera the panther, drawn from Kipling's public-domain *Jungle Book*.
-- **Pip's Big Day Out:** you are Pip, a toddler crawling across the city, with a patient busker called Dot. An original story.
+- **Jordan:** a warm night skyline from old Delhi to Prague, with a restless guitarist as your guide.
+- **Heer:** a Kashmir valley lake from dusk to dawn, with a bold, teasing guide.
+
+Both are unofficial fan tributes to the film *Rockstar* (2011), with original text and original drawings. They are not affiliated with or endorsed by the film's makers, and use no lines, lyrics or likenesses from it.
 
 <div align="center">
-<img src="docs/lesson-barre.png" alt="A barre chord lesson in the jungle story with Baloo explaining the A shape" width="860">
+<img src="docs/lesson-barre.png" alt="A barre chord lesson explaining the A shape" width="860">
 </div>
 
 ## It listens to you
@@ -178,7 +179,7 @@ js/
   audio.js            plucked-string synthesiser (Karplus-Strong)
   fretboard.js        the SVG fretboard
   story-core.js       storyline engine and the story picker
-  stories/            one file per storyline (road, jungle, city)
+  stories/            one file per storyline (jordan, heer)
   level-tools.js      helpers for writing levels
   levels-ch1..4.js    the stops: lessons, puzzles, quiz lists
   levels-basics.js    the First Steps chapter (stops 20 to 25), optional and always open

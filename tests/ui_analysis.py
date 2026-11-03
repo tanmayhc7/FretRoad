@@ -30,7 +30,7 @@ t44=song('an44.wav',100,4,PROG,0)
 t34=song('an34.wav',90,3,PROG,0)
 tup=song('an44up.wav',100,4,PROG,2)
 def chart(ch): return "Invented Tune\n\n[Verse]\n"+"\n".join("%s\nla la la la"%c for c in ch)
-save={'done':[1,2,3,4,5],'passed':[1,2,3,4,5],'best':{},'intro':True,'story':'road','chSeen':[1,2,3,4],'tour':1,'songs':[{'id':'s1','title':'Invented Tune','text':chart(PROG)}]}
+save={'done':[1,2,3,4,5],'passed':[1,2,3,4,5],'best':{},'intro':True,'story':'jordan','chSeen':[1,2,3,4],'tour':1,'songs':[{'id':'s1','title':'Invented Tune','text':chart(PROG)}]}
 def run(pg,fname):
     pg.goto(URL+'#jam-s1'); pg.wait_for_timeout(500)
     pg.evaluate("recDetach(); REC.an=null;"); pg.evaluate("(function(){var s=songsList()[0]; delete s.marks; delete s.an; persist();})()")

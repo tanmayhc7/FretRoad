@@ -63,7 +63,7 @@ with sync_playwright() as p:
     page.on('pageerror',lambda e:errors.append('pageerror: '+str(e)+' '+str(e.stack)[:400]))
     page.on('console',lambda m:errors.append('console.error: '+m.text) if m.type=='error' and 'fonts' not in m.text.lower() and 'ERR_' not in m.text else None)
     page.goto(URL); page.wait_for_selector('#storyOverlay:not([hidden])')
-    check('story picker shows on first load',page.locator('.storycard').count()==3)
+    check('story picker shows on first load',page.locator('.storycard').count()==2)
     page.locator('.storycard').first.click(); page.wait_for_selector('#talkOverlay:not([hidden])')
     check('intro overlay shows after choosing a story',True)
     for _ in range(14):

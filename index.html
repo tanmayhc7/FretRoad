@@ -9,9 +9,9 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/albert-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=20261102a">
-<link rel="stylesheet" href="css/songs.css?v=20261102a">
-<link rel="stylesheet" href="css/redesign.css?v=20261102a">
+<link rel="stylesheet" href="css/style.css?v=20261102b">
+<link rel="stylesheet" href="css/songs.css?v=20261102b">
+<link rel="stylesheet" href="css/redesign.css?v=20261102b">
 </head>
 <!-- fretRoad. Copyright (C) 2026 Tanmay Chandavarkar. Free software under the GNU AGPL-3.0; source: https://github.com/tanmayhc7/FretRoad -->
 <body><a class="skip" href="#stoplist">Skip to the stops</a><div id="skybg"><canvas id="sky"></canvas></div>
@@ -112,8 +112,9 @@
       <details><summary>Do I need an account?</summary><p>No. Progress is saved on your device. Players each get their own save, and you can back up to a file from Settings.</p></details>
       <details><summary>Does it record me?</summary><p>No. The mic only listens live and never records.</p></details>
       <details><summary>I am a beginner. Where do I start?</summary><p>Start with the First Steps chapter. It covers strings, frets, note names, tuning and your first chords before Chapter 1.</p></details>
+      <details><summary>Can I learn if I do not have a guitar yet?</summary><p>Yes. Every stop, puzzle and quiz runs on the on-screen fretboard, so you can learn the string names, note names, the octave and fifth patterns and the chord shapes without an instrument. The practice cards that ask you to name or find notes, the ear training, the metronome and the Sandbox work the same way. Only the cards marked with the mic, and the finger exercises, need a guitar, and you can come back to those once you have one.</p></details>
       <details><summary>Which tunings work?</summary><p>Standard tuning and DADGAD.</p></details>
-      <details><summary>What are the three stories?</summary><p>The Night Road with Marlow, The Jungle Walk with Baloo and Bagheera, and Pip's Big Day Out with Dot. The fretboard lessons are the same in each.</p></details>
+      <details><summary>What are the two stories?</summary><p>Jordan, a restless guitarist walking you from a college canteen to a big stage, and Heer, a bold guide taking you around a valley lake as the sun comes up. Both are unofficial tributes to the film Rockstar. The fretboard lessons are the same in each.</p></details>
     </section>
     <div class="foot">
       <span>Four chapters so far, with more planned. The mic is used only to listen live and never records.</span>
@@ -135,7 +136,7 @@
     <div class="lv-top">
       <div class="talk">
         <svg class="avatar" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#1b2358" stroke="rgba(230,185,95,.5)"/><path d="M10 56 Q32 40 54 56 V64 H10Z" fill="#c9607e"/><circle cx="32" cy="32" r="11.5" fill="#e3b58f"/><path d="M21 38 Q32 52 43 38 Q32 43 21 38Z" fill="#d9d5ea"/><ellipse cx="32" cy="25" rx="19" ry="4.2" fill="#2a2152"/><path d="M22 25 Q23 11 32 11 Q41 11 42 25Z" fill="#3a2f70"/><rect x="22" y="21" width="20" height="3" fill="#e6b95f"/><circle cx="28" cy="32" r="1.3" fill="#2a1a06"/><circle cx="36" cy="32" r="1.3" fill="#2a1a06"/></svg>
-        <div class="bubble"><div class="who mentor">Marlow</div><p id="bubble"></p></div>
+        <div class="bubble"><div class="who mentor">Jordan</div><p id="bubble"></p></div>
       </div>
       <div>
         <div id="goalbox" hidden>
@@ -166,7 +167,7 @@
     <h1 id="qTitle" style="margin-bottom:18px"></h1>
     <div id="qMain">
       <div class="lv-top">
-        <div class="talk" id="qTalk"><div class="bubble"><div class="who mentor">Marlow</div><p id="qBubble"></p></div></div>
+        <div class="talk" id="qTalk"><div class="bubble"><div class="who mentor">Jordan</div><p id="qBubble"></p></div></div>
         <div>
           <div class="lesson-meta"><span id="qStep"></span><span class="dots" id="qDots"></span></div>
           <h2 class="ltitle" id="qPrompt"></h2>
@@ -187,7 +188,7 @@
     <h1 id="pTitle" style="margin-bottom:18px"></h1>
     <div id="pMain">
       <div class="lv-top">
-        <div class="talk"><div class="bubble"><div class="who mentor">Marlow</div><p id="pBubble"></p></div></div>
+        <div class="talk"><div class="bubble"><div class="who mentor">Jordan</div><p id="pBubble"></p></div></div>
         <div>
           <div class="micbar"><button class="btn primary" id="micBtn">Turn on the mic</button><span id="micState"></span></div>
           <div class="meter" aria-hidden="true"><i id="micLevel"></i></div>
@@ -297,67 +298,63 @@
 </div>
 <div id="toastHost" aria-live="polite"></div>
 
-<script src="js/core.js?v=20261102a"></script>
-<script src="js/prefs.js?v=20261102a"></script>
-<script src="js/audio.js?v=20261102a"></script>
-<script src="js/fretboard.js?v=20261102a"></script>
-<script src="js/story-core.js?v=20261102a"></script>
-<script src="js/world/world-core.js?v=20261102a"></script>
-<script src="js/world/dawn.js?v=20261102a"></script>
-<script src="js/world/detail.js?v=20261102a"></script>
-<script src="js/world/atmos.js?v=20261102a"></script>
-<script src="js/world/jungle.js?v=20261102a"></script>
-<script src="js/world/city.js?v=20261102a"></script>
-<script src="js/world/road.js?v=20261102a"></script>
-<script src="js/scenes/jungle.js?v=20261102a"></script>
-<script src="js/scenes/city.js?v=20261102a"></script>
-<script src="js/stories/road.js?v=20261102a"></script>
-<script src="js/stories/jungle.js?v=20261102a"></script>
-<script src="js/stories/city.js?v=20261102a"></script>
-<script src="js/levels-ch1.js?v=20261102a"></script>
-<script src="js/level-tools.js?v=20261102a"></script>
-<script src="js/levels-ch2.js?v=20261102a"></script>
-<script src="js/levels-ch3.js?v=20261102a"></script>
-<script src="js/levels-ch4.js?v=20261102a"></script>
-<script src="js/levels-basics.js?v=20261102a"></script>
-<script src="js/chapters.js?v=20261102a"></script>
-<script src="js/quiz-bank.js?v=20261102a"></script>
-<script src="js/quiz-bank-2.js?v=20261102a"></script>
-<script src="js/quiz-ui.js?v=20261102a"></script>
-<script src="js/views.js?v=20261102a"></script>
-<script src="js/theory.js?v=20261102a"></script>
-<script src="js/quiz-basics.js?v=20261102a"></script>
-<script src="js/drills.js?v=20261102a"></script>
-<script src="js/drills-more.js?v=20261102a"></script>
-<script src="js/drills-extra.js?v=20261102a"></script>
-<script src="js/rhythm.js?v=20261102a"></script>
-<script src="js/metronome.js?v=20261102a"></script>
-<script src="js/mic.js?v=20261102a"></script>
-<script src="js/songs/chords.js?v=20261102a"></script>
-<script src="js/songs/chart.js?v=20261102a"></script>
-<script src="js/songs/ocr.js?v=20261102a"></script>
-<script src="js/songs/diagram.js?v=20261102a"></script>
-<script src="js/songs/backing.js?v=20261102a"></script>
-<script src="js/songs/listen.js?v=20261102a"></script>
-<script src="js/songs/songs-ui.js?v=20261102a"></script>
-<script src="js/songs/jam-ui.js?v=20261102a"></script>
-<script src="js/songs/analysis.js?v=20261102a"></script>
-<script src="js/songs/recording.js?v=20261102a"></script>
-<script src="js/ai/ai.js?v=20261102a"></script>
-<script src="js/ai/riff.js?v=20261102a"></script>
-<script src="js/finder.js?v=20261102a"></script>
-<script src="js/songs/tunings.js?v=20261102a"></script>
-<script src="js/ai/ai-ui.js?v=20261102a"></script>
-<script src="js/play.js?v=20261102a"></script>
-<script src="js/finger-ex.js?v=20261102a"></script>
-<script src="js/profiles.js?v=20261102a"></script>
-<script src="js/warmup.js?v=20261102a"></script>
-<script src="js/tour.js?v=20261102a"></script>
-<script src="js/tester.js?v=20261102a"></script>
-<script src="js/feedback.js?v=20261102a"></script>
-<script src="js/backup.js?v=20261102a"></script>
-<script src="js/cast.js?v=20261102a"></script>
-<script src="js/landing.js?v=20261102a"></script>
-<script src="js/main.js?v=20261102a"></script>
+<script src="js/core.js?v=20261102b"></script>
+<script src="js/prefs.js?v=20261102b"></script>
+<script src="js/audio.js?v=20261102b"></script>
+<script src="js/fretboard.js?v=20261102b"></script>
+<script src="js/story-core.js?v=20261102b"></script>
+<script src="js/world/world-core.js?v=20261102b"></script>
+<script src="js/world/dawn.js?v=20261102b"></script>
+<script src="js/world/detail.js?v=20261102b"></script>
+<script src="js/world/atmos.js?v=20261102b"></script>
+<script src="js/world/delhi.js?v=20261102b"></script>
+<script src="js/world/valley.js?v=20261102b"></script>
+<script src="js/stories/jordan.js?v=20261102b"></script>
+<script src="js/stories/heer.js?v=20261102b"></script>
+<script src="js/levels-ch1.js?v=20261102b"></script>
+<script src="js/level-tools.js?v=20261102b"></script>
+<script src="js/levels-ch2.js?v=20261102b"></script>
+<script src="js/levels-ch3.js?v=20261102b"></script>
+<script src="js/levels-ch4.js?v=20261102b"></script>
+<script src="js/levels-basics.js?v=20261102b"></script>
+<script src="js/chapters.js?v=20261102b"></script>
+<script src="js/quiz-bank.js?v=20261102b"></script>
+<script src="js/quiz-bank-2.js?v=20261102b"></script>
+<script src="js/quiz-ui.js?v=20261102b"></script>
+<script src="js/views.js?v=20261102b"></script>
+<script src="js/theory.js?v=20261102b"></script>
+<script src="js/quiz-basics.js?v=20261102b"></script>
+<script src="js/drills.js?v=20261102b"></script>
+<script src="js/drills-more.js?v=20261102b"></script>
+<script src="js/drills-extra.js?v=20261102b"></script>
+<script src="js/rhythm.js?v=20261102b"></script>
+<script src="js/metronome.js?v=20261102b"></script>
+<script src="js/mic.js?v=20261102b"></script>
+<script src="js/songs/chords.js?v=20261102b"></script>
+<script src="js/songs/chart.js?v=20261102b"></script>
+<script src="js/songs/ocr.js?v=20261102b"></script>
+<script src="js/songs/diagram.js?v=20261102b"></script>
+<script src="js/songs/backing.js?v=20261102b"></script>
+<script src="js/songs/listen.js?v=20261102b"></script>
+<script src="js/songs/songs-ui.js?v=20261102b"></script>
+<script src="js/songs/jam-ui.js?v=20261102b"></script>
+<script src="js/songs/analysis.js?v=20261102b"></script>
+<script src="js/songs/recording.js?v=20261102b"></script>
+<script src="js/ai/ai.js?v=20261102b"></script>
+<script src="js/ai/riff.js?v=20261102b"></script>
+<script src="js/finder.js?v=20261102b"></script>
+<script src="js/songs/tunings.js?v=20261102b"></script>
+<script src="js/ai/ai-ui.js?v=20261102b"></script>
+<script src="js/play.js?v=20261102b"></script>
+<script src="js/finger-ex.js?v=20261102b"></script>
+<script src="js/profiles.js?v=20261102b"></script>
+<script src="js/warmup.js?v=20261102b"></script>
+<script src="js/tour.js?v=20261102b"></script>
+<script src="js/tester.js?v=20261102b"></script>
+<script src="js/feedback.js?v=20261102b"></script>
+<script src="js/backup.js?v=20261102b"></script>
+<script src="js/cast.js?v=20261102b"></script>
+<script src="js/landing.js?v=20261102b"></script>
+<script src="js/main.js?v=20261102b"></script>
 </body>
 </html>

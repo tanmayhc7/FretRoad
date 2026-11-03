@@ -95,25 +95,11 @@ html.light #tour .tcard{background:#fffdf7}
 @media(prefers-reduced-motion:reduce){#tour .tring,#tour .tcard{transition:none}}
 
 /* ---- world atmosphere: richer skies, vignette, film grain and a quiet zone behind the hero ---- */
-body[data-world="road"]{background:#000002}
-body[data-world="road"] #world{background:
-  radial-gradient(circle at 86% 24%,rgba(170,195,255,.20),transparent 34%),
-  radial-gradient(ellipse 80% 22% at 50% 82%,rgba(60,110,220,.18),transparent 70%),
-  linear-gradient(180deg,#000001 0%,#000108 30%,#010412 52%,#030a26 72%,#06134a 90%,#0a1c5e 100%)}
-body[data-world="city"] #world{background:
-  radial-gradient(ellipse 80% 40% at 50% 100%,rgba(255,140,90,.28),transparent 70%),
-  linear-gradient(180deg,#010208 0%,#060b2e 34%,#17185a 58%,#4d2a78 80%,#a24a7e 100%)}
-body[data-world="jungle"] #world{background:
-  radial-gradient(ellipse 60% 50% at 50% 12%,rgba(255,244,170,.30),transparent 70%),
-  radial-gradient(ellipse at 50% 0%,#38985c 0%,#0f5233 45%,#031a0f 100%)}
 #world::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;
   background:
    radial-gradient(ellipse 52% 26% at 50% 25%,rgba(2,4,18,.50),transparent 72%),
    radial-gradient(ellipse 120% 95% at 50% 45%,transparent 55%,rgba(0,0,0,.52) 100%);
   mix-blend-mode:normal;opacity:1}
-body[data-world="jungle"] #world::after{background:
-   radial-gradient(ellipse 52% 26% at 50% 25%,rgba(1,18,8,.50),transparent 72%),
-   radial-gradient(ellipse 120% 95% at 50% 45%,transparent 55%,rgba(0,10,4,.55) 100%)}
 .wl-fog{pointer-events:none}
 html.light #world::after{background:radial-gradient(ellipse 120% 95% at 50% 45%,transparent 60%,rgba(255,255,255,.35) 100%)}
 
@@ -121,10 +107,7 @@ html.light #world::after{background:radial-gradient(ellipse 120% 95% at 50% 45%,
 .stop,.mod,.gcard,body.has-world .practice{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 .stop,.mod{background:rgba(14,18,48,.78)}
 .gcard{background:rgba(12,16,44,.84)}
-body[data-world="jungle"] .stop,body[data-world="jungle"] .mod{background:rgba(4,28,16,.82)}
-body[data-world="jungle"] .gcard{background:rgba(4,26,14,.86)}
 body.has-world .practice{background:rgba(5,8,26,.8)}
-body[data-world="jungle"].has-world .practice{background:rgba(3,22,12,.84)}
 html.light .stop,html.light .mod{background:rgba(255,255,255,.9)}html.light .gcard{background:rgba(255,255,255,.9)}html.light body.has-world .practice{background:rgba(255,255,255,.88)}
 .wl svg .tw{animation:none}
 .wl-twinkle{animation:wltw 5s ease-in-out infinite}
@@ -148,11 +131,11 @@ html.motion-calm .wl{filter:none!important}
 .mlabel{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-family:var(--f-display);font-size:calc(19px*var(--ms));line-height:1;color:var(--moon);
   text-shadow:0 0 calc(4px*var(--ms)) rgba(10,15,43,.9),0 0 calc(2px*var(--ms)) rgba(10,15,43,.9),0 calc(1px*var(--ms)) calc(2px*var(--ms)) rgba(10,15,43,.8);-webkit-font-smoothing:antialiased}
 .mlabel.locked{color:var(--haze);opacity:.75}
-body[data-story="jungle"] .mlabel,body[data-story="city"] .mlabel{text-shadow:0 0 calc(5px*var(--ms)) #050816,0 0 calc(2px*var(--ms)) #050816}
+body[data-story="jordan"] .mlabel,body[data-story="heer"] .mlabel{text-shadow:0 0 calc(5px*var(--ms)) #050816,0 0 calc(2px*var(--ms)) #050816}
 
 /* scrolling: once the scenery is paused it becomes one static picture; drop the extra GPU layers so content tiles paint at once */
 body.w-pause .wl{will-change:auto}
-/* blend modes stay as they are while paused: switching them mid-scroll made the jungle flash */
+/* blend modes stay as they are while paused: switching them mid-scroll made the scenery flash */
 .wl.wl-flat{will-change:auto}
 
 /* rhythm drills: slots with a count above each, hit and miss colours */
