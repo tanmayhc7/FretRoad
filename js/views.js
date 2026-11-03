@@ -20,6 +20,22 @@ function mk(name,attrs,parent){var e=document.createElementNS(NS,name); for(var 
 function sizeMapLabels(){ var b=document.getElementById('mapbox'); if(b) b.style.setProperty('--ms',(b.clientWidth/1200).toFixed(4)); }
 window.addEventListener('resize',sizeMapLabels);
 if(window.ResizeObserver){ document.addEventListener('DOMContentLoaded',function(){ var b=document.getElementById('mapbox'); if(b) new ResizeObserver(sizeMapLabels).observe(b); }); }
+/* the van drives along the road from where it last stood to the next open stop (it jumps, with no drive, on first load, on a chapter change or with reduced motion) */
+var vanT=null,vanCh=-1,vanRaf=0,vanWait=0;
+function vanPlace(road,L,t){ var p=road.getPointAtLength(L*t); var v=$('#van'); v.style.transition='none'; v.style.transform='translate('+p.x+'px,'+(p.y+4)+'px)'; }
+function driveVan(road,L,to){
+  cancelAnimationFrame(vanRaf); clearTimeout(vanWait);
+  var from=(vanCh===viewCh&&vanT!==null)?vanT:to; vanCh=viewCh;
+  if(RM||Math.abs(to-from)<.005){ vanT=to; vanPlace(road,L,to); return; }
+  vanPlace(road,L,from);
+  var ms=1400+Math.abs(to-from)*3200, t0=0;
+  function step(now){
+    if(!t0) t0=now; var k=Math.min(1,(now-t0)/ms), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    vanT=from+(to-from)*e; vanPlace(road,L,vanT);
+    if(k<1) vanRaf=requestAnimationFrame(step); else { vanT=to; }
+  }
+  vanWait=setTimeout(function(){ vanRaf=requestAnimationFrame(step); },450);
+}
 function drawMap(){ sizeMapLabels();
   if(typeof viewCh!=='number'||viewCh<0||viewCh>=CHAPTERS.length) viewCh=currentChapterIx();
   var road=$('#road'),L=road.getTotalLength(),g=$('#stops'); g.innerHTML=''; $('#maplabels').innerHTML='';
@@ -43,8 +59,7 @@ function drawMap(){ sizeMapLabels();
   var trail=$('#trail'); trail.style.strokeDasharray=(L*furthest)+' '+(L*2);
   var next=stops.filter(function(s){return !isPassed(s.id)&&unlocked(s.id)})[0];
   var vt=next?Math.max(.02,next.t-.04):(stops.every(function(s){return isPassed(s.id)})?.93:.02);
-  var vp=road.getPointAtLength(L*vt);
-  $('#van').style.transform='translate('+vp.x+'px,'+(vp.y+4)+'px)';
+  driveVan(road,L,vt);
   var ol=$('#stoplist'); ol.innerHTML='';
   ch.levels.forEach(function(id,i){
     var l=LEVELS.filter(function(x){return x.id===id})[0];

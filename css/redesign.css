@@ -153,3 +153,31 @@ html.light .top .btn{background:none}
 html.light .scrollcue{color:#10142a;text-shadow:0 0 10px rgba(255,255,255,.9),0 0 22px rgba(255,255,255,.7)}
 html.light .scrollcue svg{filter:drop-shadow(0 0 6px rgba(255,255,255,.9))}
 @media (prefers-reduced-motion:reduce){.scrollcue svg{animation:none}}
+
+/* ---- front door: start button, tagline, FAQ ---- */
+.hero h2{font-weight:700;letter-spacing:-.04em;font-size:clamp(3rem,6.4vw,4.5rem);background:linear-gradient(180deg,#fff,#a8a8b8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;padding-bottom:.08em;filter:drop-shadow(0 2px 14px rgba(0,0,0,.45))}
+html.light .hero h2{background:linear-gradient(180deg,#000,#666);-webkit-background-clip:text;background-clip:text;filter:none}
+.hero .eyebrow{display:none}
+.hero-cta{order:3;display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin:0 0 28px;position:relative}
+.hero-cta .btn.primary{padding:12px 24px;min-height:48px;font-size:1.05rem;font-weight:600;border-radius:999px}
+.hero-cta small{color:#d6d8ee;font-size:.95rem}
+html.light .hero-cta small{color:#3a3f5c}
+.tagline,.faq{max-width:1120px;margin:56px auto 0;padding:56px 4px;border-top:1px solid rgba(255,255,255,.12)}
+html.light .tagline,html.light .faq{border-top-color:rgba(28,32,51,.14)}
+.tagline p{margin:0;max-width:22ch;font-family:var(--f-display);font-weight:700;font-size:clamp(1.9rem,4.4vw,3.1rem);line-height:1.12;letter-spacing:-.03em;text-wrap:balance}
+.tagline .w{opacity:.3;transition:opacity .6s cubic-bezier(.22,1,.36,1)}
+.tagline .w.on{opacity:1}
+.faq h2{font-size:clamp(1.6rem,3.4vw,2.2rem);letter-spacing:-.03em;margin:0 0 20px}
+.faq details{border-bottom:1px solid rgba(255,255,255,.12);padding:16px 0}
+html.light .faq details{border-bottom-color:rgba(28,32,51,.14)}
+.faq summary{cursor:pointer;font-weight:600;font-size:1.08rem;min-height:32px}
+.faq summary:focus-visible{outline:2px solid var(--brass,#f2c14e);outline-offset:3px;border-radius:6px}
+.faq details p{margin:10px 0 0;max-width:62ch;color:var(--haze,#a9a8cf);line-height:1.55}
+.skip{position:absolute;left:12px;top:-60px;z-index:100;background:#fff;color:#0a0f2b;padding:10px 16px;border-radius:8px;font-weight:600}
+.skip:focus{top:12px}
+/* the scroll cue no longer floats over dialogs */
+body:has(.overlay:not([hidden])) .scrollcue{opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.tagline .w{transition:none;opacity:1}}
+.faq{margin-top:48px;padding:36px clamp(18px,4vw,44px);border:1px solid rgba(255,255,255,.12);border-radius:28px;background:rgba(10,15,43,.6);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+html.light .faq{background:rgba(255,255,255,.7);border-color:rgba(28,32,51,.14)}
+.faq details:last-child{border-bottom:0}
