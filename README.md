@@ -40,9 +40,11 @@ It is made for **intermediate players**, people who can already play but still f
 ## 🎬 See it in 24 seconds
 
 <div align="center">
-<video src="docs/brag.mp4" poster="docs/brag.jpg" controls muted playsinline width="860"></video>
+<a href="https://tanmayhc7.github.io/fretRoad/docs/brag.mp4">
+<img src="docs/brag.gif" alt="A 24-second walkthrough of fretRoad: lesson, puzzle, quiz and drills" width="860">
+</a>
 <br>
-<sub>Can't see the video? <a href="docs/brag.mp4">Watch it directly</a>.</sub>
+<sub>Click for the full-quality video.</sub>
 </div>
 
 <br>
