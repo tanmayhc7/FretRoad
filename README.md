@@ -1,220 +1,289 @@
 <div align="center">
 
-<img src="assets/logo.svg" alt="fretRoad logo: a guitar pick with a winding night road inside it" width="128">
+<img src="assets/logo.svg" alt="fretRoad logo: a guitar pick with a winding night road inside it" width="120">
 
 # fretRoad
 
-**Learn the guitar neck by driving down it.**
-A story-driven fretboard game for players who know a few chords and want to understand what they are playing.
+### Learn the guitar neck by driving down it.
 
-[**▶ Play it in your browser**](https://tanmayhc7.github.io/fretRoad/) · [Practice drills](PRACTICE_IDEAS.md)
-
-![runs in the browser](https://img.shields.io/badge/runs%20in-any%20browser-63d8c3?style=flat-square)
-![no install](https://img.shields.io/badge/install-none-e6b95f?style=flat-square)
-![free](https://img.shields.io/badge/cost-free-f2708f?style=flat-square)
-![status](https://img.shields.io/badge/status-prototype-a9a8cf?style=flat-square)
+A free, story-driven game that turns the fretboard from a pile of memorised shapes<br>into a map you actually know. No sign-up, no ads, no install. Just you, a guitar and the road ahead.
 
 <br>
 
-<img src="docs/map.png" alt="The fretRoad night road map with five lamp-post stops" width="880">
+[**▶ &nbsp;Play fretRoad**](https://tanmayhc7.github.io/fretRoad/)
+
+<br>
+
+![Runs in any browser](https://img.shields.io/badge/runs%20in-any%20browser-63d8c3?style=for-the-badge)
+![No install](https://img.shields.io/badge/install-none-e6b95f?style=for-the-badge)
+![Free](https://img.shields.io/badge/cost-free-f2708f?style=for-the-badge)
+![Open source](https://img.shields.io/badge/open%20source-AGPL--3.0-a9a8cf?style=for-the-badge)
+
+<br>
+
+<img src="docs/screens/hero-jordan.jpg" alt="fretRoad's opening screen: a night skyline, a moon and a button that says Continue" width="900">
 
 </div>
 
----
+<br>
 
-## What is this?
+## 🌙 What is this?
 
-Most fretboard apps flash a note name and ask you to find it. fretRoad teaches the neck as a **pattern**: why the fifth is always two frets over and a string up, why a minor chord is one fret away from a major one, why the same shape works in every key.
+Most fretboard apps flash a note name and ask you to hunt for it. fretRoad teaches the neck as a **pattern**: why the fifth is always two frets over and a string up, why a minor chord sits one fret from a major one, why the same shape works in every key.
 
-You walk a road of stops, each one a single idea, with a guide who talks you through it. Pick the story you like: Jordan, a restless guitarist walking you from a college canteen to a big stage, or Heer, a bold guide taking you around a valley lake as the sun comes up. The lessons are identical in both stories.
+You travel a road of stops. Each stop is a single idea, explained by a guide who talks you through it, and the world around you **wakes up as you learn**: lamps light, stage lights come up, the scenery fills in.
 
-Each stop on the road is one idea:
+It is made for **intermediate players**, people who can already play but still feel lost above the fifth fret. A gentle **First Steps** chapter is there too, for anyone picking up a guitar for the very first time.
 
-1. **Lesson** first, with the idea shown on a live fretboard you can click and hear.
-2. **Puzzle** that makes you find it yourself.
-3. **Quiz** that has to be passed before the next stop opens.
-4. **Practice drills** unlock afterwards, from beginner to advanced.
+<br>
 
-It is built for intermediate players: you can already play, but the neck still feels like a pile of memorised shapes.
-
-<div align="center">
-<img src="docs/lesson.png" alt="A lesson explaining the shape on the fretboard" width="860">
-</div>
-
-- **Riff helper and your own AI model.** Work out a single-note riff from a recording, and optionally plug in your own model for an explanation. See [docs/BRING_YOUR_OWN_MODEL.md](docs/BRING_YOUR_OWN_MODEL.md).
-
-## Try it
-
-The quickest way is the [live version](https://tanmayhc7.github.io/fretRoad/). To run it locally instead, there is no build and no dependencies:
-
-```bash
-git clone https://github.com/tanmayhc7/FretRoad.git
-cd fretRoad
-open index.html        # macOS. On Linux: xdg-open. On Windows: start
-```
-
-Use Chrome or Edge for the best sound and microphone support. Click anywhere on the page once so the browser allows audio.
-
-## What is in it
+## 🧭 How a stop works
 
 <table>
 <tr>
-<td width="50%" valign="top">
+<td width="25%" valign="top" align="center">
 
-### First steps plus four chapters, 25 stops
-| Chapter | Stops |
-|---|---|
-| **Basics: First Steps** | The six strings and how to hold the guitar, frets and finger numbers, the musical alphabet, tuning by ear and with the tuner, reading chord boxes and tab with E minor, A minor and the open chord set. Optional: chapter 1 is open without it |
-| **1. The Quiet Road** | Find every A, the fifth above, a major chord, minor, octave shapes |
-| **2. Boxed In** | The pentatonic box, the job of each note, box two, the blue note, major pentatonic |
-| **3. Same Notes, New Home** | Natural minor, Dorian, Mixolydian, Lydian, Phrygian |
-| **4. Up the Neck** | The E-shape and A-shape barre chords, major to minor, two homes for every chord |
+### 📖
+**Lesson**
 
-Each stop has a lesson, a puzzle and a five-question quiz. Four right on the first try opens the next stop. A chapter opens once the one before it is cleared.
+The idea, shown on a live fretboard you can click and hear.
 
 </td>
-<td width="50%" valign="top">
+<td width="25%" valign="top" align="center">
 
-### 47 practice drills
-Three tiers, each unlocked by the stop that teaches it.
+### 🧩
+**Puzzle**
 
-- **Beginner:** note hunting, open strings, intervals, open chords, triads, time signatures, tempo and note values, strumming patterns, tuner, a timed fretboard sprint, finger-gym walks
-- **Intermediate:** scale spelling and degrees, chord qualities, chord families, barre shapes, circle of fifths, capo and shapes, triad inversions, arpeggios, strum in time, rhythm reading, strum check, triads on string sets, melody on the neck, pentatonic boxes, melody by ear, chord and scale ear training
-- **Advanced:** the seven modes, 19 scales, extended chords, chord-scale matching, minor-key and seventh-chord families, the CAGED system, polyrhythms, odd-meter comping, transcribing by ear
+Now find it yourself, right there on the neck.
 
-The full list, including what is planned, is in [PRACTICE_IDEAS.md](PRACTICE_IDEAS.md).
+</td>
+<td width="25%" valign="top" align="center">
+
+### ✅
+**Quiz**
+
+Five questions. Pass it and the next stop opens.
+
+</td>
+<td width="25%" valign="top" align="center">
+
+### 🔁
+**Drills**
+
+Practice unlocks afterwards, from beginner to advanced.
 
 </td>
 </tr>
 </table>
 
 <div align="center">
-<img src="docs/quiz.png" alt="A chord-qualities quiz question with feedback" width="860">
+<img src="docs/screens/lesson.jpg" alt="A lesson showing the three notes of an A major chord on the low E string" width="860">
 </div>
 
-## Pick your story
+<br>
 
-Progress is stored in your browser. Use **Save progress to file** and **Load progress from file** at the bottom of the map to move it to another browser or device.
+## 🎭 Pick your story
 
-The same lessons, puzzles and quizzes sit under three storylines. Choose on first launch, or switch any time from the **Story** button without losing progress. Each story changes the narrator, the place names, the dialogue and the map scenery.
-
-<div align="center">
-<img src="docs/stories.png" alt="The story picker with two cards: Jordan and Heer" width="860">
-</div>
-
-- **Jordan:** a warm night skyline from old Delhi to Prague, with a restless guitarist as your guide.
-- **Heer:** a Kashmir valley lake from dusk to dawn, with a bold, teasing guide.
-
-Both are unofficial fan tributes to the film *Rockstar* (2011), with original text and original drawings. They are not affiliated with or endorsed by the film's makers, and use no lines, lyrics or likenesses from it.
-
-<div align="center">
-<img src="docs/lesson-barre.png" alt="A barre chord lesson explaining the A shape" width="860">
-</div>
-
-## It listens to you
-
-Turn on the microphone and fretRoad checks that you are really playing the right notes.
-
-- **Chords are built one string at a time**, lowest first. Each note is confirmed before the next, so a buzzing finger shows up straight away instead of hiding in a strum.
-- **Scale Runner** lets you pick any key and any of 19 scales, then play it up, down or both.
-- **Tuner and mic check** shows the note you are playing and how many cents off it is.
-- Pitch comes from the YIN algorithm, with a noise gate calibrated to your room. Echo cancellation and auto-gain are switched off so an acoustic guitar is not "cleaned up" out of existence.
-
-> **Privacy:** audio is analysed live in your browser and discarded. Nothing is recorded, stored or sent anywhere.
-
-<div align="center">
-<img src="docs/mic-chord.png" alt="Building a C chord string by string, with each note turning green as it is heard" width="860">
-</div>
-
-## A metronome that follows you around
-
-Open it from the header on any screen.
+The lessons are identical in every story. Only the guide, the places and the scenery change, and you can switch any time without losing progress.
 
 <table>
+<tr>
+<td width="50%" valign="top">
+
+<img src="docs/screens/hero-jordan.jpg" alt="Jordan's story: a warm night skyline" width="100%">
+
+**Jordan**<br>
+A college canteen, a battered guitar and a restless guitarist who wants to be a star. A warm night skyline, from old Delhi to Prague.
+
+</td>
+<td width="50%" valign="top">
+
+<img src="docs/screens/hero-heer.jpg" alt="Heer's story: a valley lake with lanterns" width="100%">
+
+**Heer**<br>
+A valley, a lake and a bold, teasing guide who laughs at your careful playing. Dusk to dawn, one lantern per stop.
+
+</td>
+</tr>
+</table>
+
+<sub>Both stories are unofficial fan tributes to the film *Rockstar* (2011), with original text and original drawings. They are not affiliated with or endorsed by the film's makers, and use no lines, lyrics or likenesses from it.</sub>
+
+<br>
+
+## ✨ Everything it can do
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🎤 It listens to you
+Turn on the mic and fretRoad checks you are really playing the right notes. **Chords are built one string at a time**, so a buzzing finger shows up straight away. A built-in tuner shows how many cents off you are.
+
+</td>
+<td width="50%" valign="top">
+
+### 🎶 Your own songs, with a band
+Import a chord chart from text, a PDF or even a **photo**, then play along with a backing band that follows the chart. It tells you how late your chord changes were and drills the slow ones.
+
+</td>
+</tr>
 <tr>
 <td valign="top">
 
-- 30 to 240 bpm, with tap tempo
-- 2/4, 3/4, 4/4, 5/4, 5/8, 6/8, 7/8 (grouped 2+2+3), 9/8, 12/8
-- Subdivisions: eighths, triplets, sixteenths
-- Accent on beat one, with beats lit in time
-- Compound meters count the big beats, so 6/8 feels like two
+### 🎧 Hear what you played
+Record yourself and fretRoad listens back: it names the chords it hears and flags the spots where they differ from the chart.
 
 </td>
-<td width="340" valign="top">
-<img src="docs/metronome.png" alt="The metronome panel set to 6/8" width="340">
+<td valign="top">
+
+### 🥁 Timing that holds up
+**Strum in Time** gives you a 3-2-1 countdown, a free practice bar, then scored bars. A metronome rides along on every screen, with odd meters like 5/8 and 7/8.
+
+</td>
+</tr>
+<tr>
+<td valign="top">
+
+### 🖐️ Daily finger workouts
+Ten exercises, one a day, five minutes each, with a level for beginners, intermediates and advanced players. A calendar and streak keep you honest.
+
+</td>
+<td valign="top">
+
+### 🔍 Explore the neck
+The **sandbox** shows any scale or chord shape in any key, and the **chord finder** names whatever you tap on the fretboard. Switch to **DADGAD** tuning and everything follows.
+
+</td>
+</tr>
+<tr>
+<td valign="top">
+
+### 🌱 Starting from zero
+No guitar yet? **First Steps** covers the strings, holding the guitar, frets and finger numbers, tuning, chord boxes and tab, and your first chords. Never in your way if you already know it.
+
+</td>
+<td valign="top">
+
+### 👥 One device, many players
+Add several players on the same device. Everyone gets their own profile and their own progress.
+
 </td>
 </tr>
 </table>
 
-## Your own songs, with a band that listens
+Plus **left-handed mode**, a light theme, a daily reminder, backup and restore of your progress to a file, a first-visit tour, and an optional **riff helper** that can plug into your own AI model ([how](docs/BRING_YOUR_OWN_MODEL.md)).
 
-Open **Songs** in the header.
+<br>
 
-- **Import a chord chart**: paste text (chords above the words, `[C]` in brackets, or `| C | G |` bars), drop a `.txt` / `.cho` file, a PDF, or a photo. PDFs and photos are read in your browser (PDF.js and Tesseract, loaded only when you use them). Check the chords it found and fix any slip before saving. Links to Songsterr or Ultimate Guitar cannot be fetched, so copy the chart text instead.
-- **Play along**: a backing band (click, strummed guitar, or drums, bass and guitar) follows the chart. You see the chord now, the chord next, a diagram for each, how many fingers move, and a tip for the change. The tempo, beats per chord, capo and key are adjustable.
-- **It listens**: turn on the mic and it tells you whether you are playing the chord on the chart, and how late your change was. Slow changes collect under "Your chord changes", each with a **Drill** button that loops just that pair, starting slow and speeding up after four clean changes.
-- **Jam tracks** in any key (12-bar blues, pop, folk, minor groove, Andalusian, ii-V-I, and Dorian, Mixolydian, Lydian and Phrygian vamps with a solo hint) for when you just want to solo.
+## 🗺️ What you will learn
 
-## Daily practice, left-handed mode, light theme, tour
+<details open>
+<summary><b>Five chapters, 25 stops</b></summary>
 
-- **Daily practice**: one exercise a day with a five-minute timer and click. The ten exercises rotate in a shuffled 10-day cycle, so none repeats within ten days. A calendar shows the days you practised and the ones you missed, plus your streak.
-- **Sandbox** shows scales or chord shapes (open and barre) in any key.
-- **Left-handed mode** mirrors the fretboards and chord diagrams. It is switchable in Settings, the Sandbox, Songs and the play-along.
-- **Theme**: dark, light or match the device (Settings, bottom of the map).
-- **Reminder**: Settings can send a daily notification at a time you choose. A web page cannot wake itself up, so it only appears while a fretRoad tab is open; the same screen downloads a repeating calendar event (.ics) for a reminder when it is closed.
-- **Tour**: a short first-visit walkthrough with "Skip tour" and "Don't show this again" (remembered). Replay it from Settings.
+<br>
 
-## How it is built
+| Chapter | Stops |
+|---|---|
+| **Basics: First Steps** | The six strings and how to hold the guitar, frets and finger numbers, the musical alphabet, tuning by ear and with the tuner, reading chord boxes and tab with E minor, A minor and the open chord set. Optional: chapter 1 is open without it |
+| **1. First stretches of the neck** | Find every A, the fifth above, a major chord, minor, octave shapes |
+| **2. The pentatonic box** | The pentatonic box, the job of each note, box two, the blue note, major pentatonic |
+| **3. Seven notes, five moods** | Natural minor, Dorian, Mixolydian, Lydian, Phrygian |
+| **4. Shapes that slide** | The E-shape and A-shape barre chords, major to minor, two homes for every chord |
 
-Plain JavaScript, SVG and the Web Audio API. No framework, no build step, and the only network request is for two web fonts. Open `index.html` and it runs.
+Each chapter has its own name in each story (Jordan's chapter 1 is *Campus Noise*, Heer's is *The Lake Road*). Four right on the first try opens the next stop, and a chapter opens once the one before it is cleared.
+
+</details>
+
+<details>
+<summary><b>Practice drills, in three tiers</b></summary>
+
+<br>
+
+Each drill unlocks when the stop that teaches it is cleared.
+
+- **Beginner:** note hunting, open strings, intervals, open chords, triads, time signatures, tempo and note values, strumming patterns, tuner, a timed fretboard sprint, finger-gym walks
+- **Intermediate:** scale spelling and degrees, chord qualities and families, barre shapes, circle of fifths, capo and shapes, triad inversions, arpeggios, strum in time, rhythm reading, pentatonic boxes, melody by ear, chord and scale ear training
+- **Advanced:** the seven modes, 19 scales, extended chords, chord-scale matching, the CAGED system, polyrhythms, odd-meter comping, transcribing by ear
+- **No guitar nearby?** There are drills for that too.
+
+The full list, including what is planned, is in [PRACTICE_IDEAS.md](PRACTICE_IDEAS.md).
+
+</details>
+
+<br>
+
+## 🚀 Start in ten seconds
+
+**[Open fretRoad in your browser](https://tanmayhc7.github.io/fretRoad/)** and press the big yellow button. That is the whole setup.
+
+- Use Chrome or Edge for the best sound and microphone support.
+- Your progress lives in your browser. To move it to another device, use **Save progress to file** at the bottom of the map.
+- 🔒 **Privacy:** audio is analysed live in your browser and thrown away. Nothing is recorded, stored or sent anywhere.
+
+<br>
+
+## 💛 Help it find its way
+
+fretRoad is a free, non-commercial labour of love, kept by one person. If it helped you get around the neck:
+
+- ⭐ **Star the repo** so other guitarists can find it
+- 🎸 **Tell a friend** who has been stuck in the first position
+- 💬 **Tell me what worked and what didn't**: the footer of the game has a *Report a problem or share an idea* link that opens a pre-filled GitHub issue (nothing is sent until you press Submit), or [open an issue](https://github.com/tanmayhc7/FretRoad/issues/new/choose) directly
+
+> **Honest note:** fretRoad has **not yet been tested with a real acoustic guitar**, so the note detector's tolerances are tuned on synthetic tones. If it misreads your playing, that is exactly the feedback this project needs.
+
+<br>
+
+<details>
+<summary><b>🛠️ For tinkerers: run it, hack on it, add a story</b></summary>
+
+<br>
+
+fretRoad is plain HTML, CSS and JavaScript, built on SVG and the Web Audio API. **No framework, no build step, no dependencies**, and the only network request is for two web fonts. Scripts are classic `<script>` tags in `index.html`, so load order matters.
+
+**Run it locally**
+
+```bash
+git clone https://github.com/tanmayhc7/FretRoad.git
+cd FretRoad
+python3 -m http.server 8000     # then open http://localhost:8000
+```
+
+Opening `index.html` directly also works for most things, but serving it over `localhost` is the safest way to get microphone access.
+
+**Layout**
 
 ```
-index.html            page shell, loads the files below in order
-css/style.css         all styling
-css/songs.css         songs, play-along, warm-up, settings, light theme
-js/
-  core.js             constants, helpers, saved progress
-  backup.js           save/load progress to a file (move it between browsers)
-  audio.js            plucked-string synthesiser (Karplus-Strong)
-  fretboard.js        the SVG fretboard
-  story-core.js       storyline engine and the story picker
-  stories/            one file per storyline (jordan, heer)
-  level-tools.js      helpers for writing levels
-  levels-ch1..4.js    the stops: lessons, puzzles, quiz lists
-  levels-basics.js    the First Steps chapter (stops 20 to 25), optional and always open
-  chapters.js         chapters, unlocking, map tabs
-  quiz-bank*.js       quiz question generators for the stops
-  quiz-basics.js      quiz generators for First Steps
-  quiz-ui.js          quiz and practice screens
-  views.js            map, lessons, puzzles, sandbox
-  theory.js           chord and scale theory
-  drills*.js          the 47 practice drills
-  metronome.js        metronome with time signatures
-  mic.js, play.js     microphone pitch detection and play-along drills
-  songs/              chord parsing, chart import, diagrams, backing band, chord listener, play-along
-  warmup.js, prefs.js, tour.js  daily practice and calendar; theme and left-handed settings; first-visit tour
-  main.js             header controls and routing
-tools/build_standalone.py   bundle everything into one html file
-tests/                browser and quiz tests (see tests/README.md)
+index.html            page shell, loads everything in order
+css/                  style.css, redesign.css, songs.css
+js/                   core, lessons and levels, quizzes, drills, audio, mic,
+                      metronome, rhythm, finger exercises, chord finder,
+                      profiles, Chromecast sender, backup, tour, tester
+js/songs/             chart parsing, OCR import, chord diagrams, backing band,
+                      chord listening, recording and analysis, tunings
+js/stories/           one file per storyline (jordan, heer)
+js/world/             the animated backdrops
+js/ai/                the bring-your-own-model riff helper
+cast/                 the Chromecast TV receiver
+docs/  tools/  tests/
 ```
 
-- A plucked-string synthesizer makes every sound, so the fretboard is audible with no audio files.
-- Question generators build each quiz and drill from music theory rules, so answers are correct by construction. They are stress-tested over thousands of generated questions per type.
-- Pitch detection was tested on generated guitar-like tones from E2 to E5.
-- The whole game is driven end to end in a headless browser, including a fake guitar signal fed through the microphone.
+**Add a storyline:** copy a file in `js/stories/`, change the text, add a `<script>` line in `index.html`. **Add a stop:** write it with `makeLevel` in a `levels-ch*.js` file, add its id to `CHAPTERS` in `chapters.js`, and give each story a place name and a line for it.
 
-**Add a storyline:** copy `js/stories/road.js`, change the text, add a `<script>` line in `index.html`. **Add a stop:** write it with `makeLevel` in a `levels-ch*.js` file, add its id to `CHAPTERS` in `chapters.js`, and give each story a place name and a clear line for it.
+**Tests** drive the real page in headless Chromium with Playwright. Run the suites one at a time, for example `python3 tests/ui_core.py`; `python3 tests/globals.py` checks that no two scripts define the same global. See [tests/README.md](tests/README.md).
 
-Progress and your story choice are saved in your browser's local storage and never leave your device.
+**Tester build:** `index.html?tester=1`, or `python3 tools/build_standalone.py --tester`, unlocks every stop and drill, keeps its own save, and adds a checklist and a mic lab for real-guitar testing.
 
-> It has **not yet been tested with a real acoustic guitar**, so the detector's tolerances are tuned on synthetic tones. If it misreads your playing, that is exactly the feedback this project needs.
+**Chromecast (experimental):** a TV receiver for the lobby, group jams and the daily exercise is included in `cast/`. It needs a Cast Application ID of your own, entered in Settings. Setup notes are in [docs/CHROMECAST.md](docs/CHROMECAST.md).
 
-## Contributing
+**Contributing:** pull requests are welcome, but the maintainer decides what is merged, so please open an issue first for anything large. Contributions come in under the same AGPL-3.0 terms with a `Signed-off-by` line and no contributor agreement. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Ideas, bug reports and especially **real-guitar test recordings** are welcome. Open an issue, or try a drill and tell us where the lesson confused you.
+</details>
 
-## License
+<br>
+
+## 📜 License
 
 [AGPL-3.0](LICENSE). Free to use, study, change and share. If you run a modified version for others, including as a website, you must offer them your modified source under the same licence. Versions published up to commit 4837375 were released under the MIT licence and stay available under it.
 
@@ -222,11 +291,3 @@ Ideas, bug reports and especially **real-guitar test recordings** are welcome. O
 <br>
 <sub>Made for people who would rather understand the neck than memorise it.</sub>
 </div>
-
-## Tester build
-
-`dist/fretroad-tester.html` (or `index.html?tester=1`) unlocks every stop and drill, keeps its own save so real progress is untouched, and adds a **Tester** button with a checklist of the features that need a real guitar or device, a mic lab (level, hit light, note, chord) and a copyable report. Build it with `python3 tools/build_standalone.py --tester`.
-
-## Feedback and contributing
-
-fretRoad is free software under the GNU AGPL-3.0 licence. The page footer has a **Report a problem or share an idea** form that opens a pre-filled issue in this repository; nothing is sent until you press Submit on GitHub, and no progress or personal data is included. You can also [open an issue](https://github.com/tanmayhc7/FretRoad/issues/new/choose) directly, or send a pull request. See [CONTRIBUTING.md](CONTRIBUTING.md): feedback is the most useful thing, pull requests are welcome but the maintainer decides what is merged, and contributions come in under the same AGPL-3.0 terms with a `Signed-off-by` line, no contributor agreement.
