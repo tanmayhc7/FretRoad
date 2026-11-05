@@ -37,6 +37,16 @@ It is made for **intermediate players**, people who can already play but still f
 
 <br>
 
+## 🎬 See it in 24 seconds
+
+<div align="center">
+<video src="docs/brag.mp4" poster="docs/brag.jpg" controls muted playsinline width="860"></video>
+<br>
+<sub>Can't see the video? <a href="docs/brag.mp4">Watch it directly</a>.</sub>
+</div>
+
+<br>
+
 ## 🧭 How a stop works
 
 <table>
